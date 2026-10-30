@@ -3,7 +3,7 @@ name: master-workflow
 description: Route requests through Management, selected skills, memory recall, preflight, departments and independent QA before returning reviewed reports.
 ---
 
-# Master workflow v0.3
+# Master workflow v0.4
 
 Read CLAUDE.md and docs/WORKFLOW-V03.md. Use the supported Hub/CLI, not the internal
 legacy foundation. Register the original request, obtain actual Management analysis,
@@ -15,3 +15,5 @@ precise corrections to the owner and escalate unresolved cycles at the configure
 threshold. Report only actual recorded outcomes and evidence. No CLI handoff runs
 an AI model, no memory record overrides current authority, and no local approval
 string authenticates a human or authorizes an external side effect by itself.
+
+Read docs/INTELLIGENCE-V04.md. Check AI budgets before paid invocations, record actual telemetry or UNKNOWN, recall before repeating searches, and route maintenance findings through the same independent QA loop. Stage and test changes before scoped activation; preserve recovery history.

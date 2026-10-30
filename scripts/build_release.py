@@ -34,10 +34,10 @@ def main():
         for path in walk(ROOT):
             relative = path.relative_to(ROOT).as_posix()
             content = path.read_bytes()
-            archive.writestr(f'master-agent-system-v0.3/{relative}', content)
+            archive.writestr(f'master-agent-system-v0.4/{relative}', content)
             manifest[relative] = hashlib.sha256(content).hexdigest()
-        archive.writestr('master-agent-system-v0.3/RELEASE-MANIFEST.json', json.dumps({
-            'version': '0.3.0', 'sha256': manifest,
+        archive.writestr('master-agent-system-v0.4/RELEASE-MANIFEST.json', json.dumps({
+            'version': '0.4.0', 'sha256': manifest,
             'skill_links': 'Materialized as ordinary files for portable ZIP extraction',
             'excluded': 'Credentials, databases, operational outputs, dependencies and Git history',
         }, indent=2) + '\n')

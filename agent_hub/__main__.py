@@ -1,4 +1,4 @@
-"""Supervised v0.3 CLI. Handoffs and attestations never invoke a model."""
+"""Supervised v0.4 CLI. Handoffs and attestations never invoke a model."""
 import argparse
 import json
 import sqlite3
@@ -13,7 +13,7 @@ def read_json(path):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description='Master Agent System v0.3 — supervised control plane')
+    parser = argparse.ArgumentParser(description='Master Agent System v0.4 — supervised control plane')
     parser.add_argument('--db', default=str(ROOT/'data/hub.sqlite'))
     sub = parser.add_subparsers(dest='command', required=True)
     sub.add_parser('agents'); sub.add_parser('migrate')
@@ -21,13 +21,15 @@ def main(argv=None):
     new = sub.add_parser('new'); new.add_argument('request'); new.add_argument('--criteria', required=True)
     new.add_argument('--department', choices=DOMAINS, default='management'); new.add_argument('--agent', choices=ROLES)
     new.add_argument('--parent', type=int); new.add_argument('--mode', choices=['research','paper'], default='research')
-    new.add_argument('--cycle-limit', type=int, default=3)
+    new.add_argument('--cycle-limit', type=int, default=3);new.add_argument('--idempotency-key')
     for name in ['management-review','plan','assign','dispatch','recall','preflight','start','show','submit','review',
                  'resume','capability-gap','record','history','cancel']:
         command = sub.add_parser(name); command.add_argument('task_id', type=int)
         if name == 'management-review': command.add_argument('--analysis', required=True)
         if name == 'plan': command.add_argument('--plan', type=Path, required=True)
         if name in {'assign','start'}: command.add_argument('--evidence', required=True)
+        if name=='start':
+            command.add_argument('--execution-key');command.add_argument('--projected-cost');command.add_argument('--approval-id')
         if name == 'recall':
             command.add_argument('--query', required=True); command.add_argument('--actor', choices=ROLES)
         if name == 'preflight': command.add_argument('--checks', type=Path, required=True)
@@ -72,9 +74,22 @@ def main(argv=None):
             p.add_argument('--queue-id', type=int, required=True); p.add_argument('--expected-remote-hash', required=True)
             p.add_argument('--resolution', required=True)
     p = sub.add_parser('ecommerce-finance'); p.add_argument('--assumptions', type=Path, required=True)
+    p=sub.add_parser('dashboard');p.add_argument('--port',type=int,default=8765)
+    p=sub.add_parser('replan');p.add_argument('task_id',type=int);p.add_argument('--evidence',required=True)
+    operations={'usage':['record','summary','estimate'], 'budget':['configure','evaluate','approve'],
+        'health':['audit','get','approve'], 'freshness':['scan','verify','supersede','queue','history'],
+        'scheduler':['list','configure','tick','recover','history','run'],
+        'improvements':['propose','get','stage','test','qa','activate','rollback','recover'],
+        'research-cache':['record','lookup'], 'scorecards':['list']}
+    for name,actions in operations.items():
+        p=sub.add_parser(name);p.add_argument('action',choices=actions);p.add_argument('--data',type=Path,help='JSON keyword arguments; see docs/INTELLIGENCE-V04.md')
     args = parser.parse_args(argv)
     hub = None
     try:
+        if args.command=='dashboard':
+            from .dashboard import serve
+            serve(args.db,ROOT,args.port)
+            return 0
         if args.command == 'restore':
             from .migrations import restore
             result = {'restored_to': restore(args.source,args.out)}
@@ -83,14 +98,18 @@ def main(argv=None):
             if args.command == 'agents':
                 result = [{'name':k,'department':v[0],'reports_to':v[1],
                     'profile':f'.claude/agents/{k}.md','instruction_fingerprint':hub.manifest(k)['fingerprint']} for k,v in ROLES.items()]
-            elif args.command == 'new': result = hub.create(args.request,args.criteria,args.department,args.agent,args.mode,args.parent,args.cycle_limit)
+            elif args.command == 'new': result = hub.create(args.request,args.criteria,args.department,args.agent,args.mode,args.parent,args.cycle_limit,args.idempotency_key)
+            elif args.command=='replan':result=hub.replan_migrated(args.task_id,args.evidence)
+            elif args.command in operations:
+                from .intelligence_cli import execute
+                result=execute(hub,args.command,args.action,read_json(args.data) if args.data else {})
             elif args.command == 'management-review': result = hub.management_review(args.task_id,args.analysis)
             elif args.command == 'plan': result = hub.plan(args.task_id,read_json(args.plan))
             elif args.command == 'assign': result = hub.assign(args.task_id,args.evidence)
             elif args.command == 'dispatch': result = hub.dispatch(args.task_id)
             elif args.command == 'recall': result = hub.recall(args.task_id,args.query,args.actor)
             elif args.command == 'preflight': result = hub.preflight(args.task_id,read_json(args.checks))
-            elif args.command == 'start': result = hub.start(args.task_id,args.evidence)
+            elif args.command == 'start': result = hub.start(args.task_id,args.evidence,args.execution_key,args.projected_cost,args.approval_id)
             elif args.command == 'show': result = hub.task(args.task_id)
             elif args.command == 'submit': result = hub.submit(args.task_id,read_json(args.result))
             elif args.command == 'review': result = hub.review(args.task_id,args.reviewer,args.verdict,args.notes,read_json(args.evidence))

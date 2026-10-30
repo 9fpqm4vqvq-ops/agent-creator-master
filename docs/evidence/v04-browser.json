@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "browser": "Chromium",
+  "checks": [
+    "seven summary cards",
+    "seven departments",
+    "task filter",
+    "task detail/history",
+    "all nine views",
+    "desktop/mobile render",
+    "no page JavaScript errors"
+  ],
+  "data": "Synthetic local fixtures only; no model or provider connection"
+}

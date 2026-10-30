@@ -1,5 +1,20 @@
 # Change log
 
+## 0.4.0
+
+- Added a loopback-only read-only interactive dashboard and comprehensive intelligence snapshots.
+- Added cumulative invocation usage, cache-aware pricing estimates, five AI budget scopes,
+  atomic reservations, bounded/expiring approvals and explicit UNKNOWN handling.
+- Added Health and Knowledge Freshness auditors, persistent findings/metadata/history,
+  refresh requests, dated independent-QA verification and preserved supersession.
+- Added unranked evidence-based scorecards and explicit verified tool-failure references.
+- Added disabled-by-default fixed local maintenance, AI request queues, leases/retries/recovery.
+- Added isolated, hashed agent/skill improvement proposals, tests, independent QA links,
+  scoped activation, file/Vault backups, change memory and safe rollback.
+- Added schema 4 migrations, v0.3 replan holds, idempotent intake/execution and search reuse.
+- Preserved all four original vendor trees and existing workflow/regression scenarios.
+- See docs/V04-TEST-RESULTS.md for final evidence and unverified integrations.
+
 ## 0.3.0
 
 - Added mandatory Management review, planning, assignment and canonical task phases,

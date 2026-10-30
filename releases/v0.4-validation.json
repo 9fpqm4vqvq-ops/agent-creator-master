@@ -1,0 +1,13 @@
+{
+  "version": "0.4.0",
+  "archive": "master-agent-system-v0.4.zip",
+  "sha256": "8c6cd709f520c3f9aef883f877d2edb2bc6f633c9a418cc46f1933bba7ac1cff",
+  "manifest_files": 371,
+  "source_test_total": 473,
+  "hub": 126,
+  "vendors": 347,
+  "browser": "Chromium local smoke passed; synthetic fixtures",
+  "runtime_model_integration": "UNVERIFIED",
+  "scheduler_default": "DISABLED",
+  "private_operational_data": "EXCLUDED"
+}

@@ -39,13 +39,16 @@ class SkillRegistry:
             document = json.loads(seed.read_text())
             with self.db:
                 for record in document['skills']:
-                    self._validate_shape(record)
-                    current = skill_fingerprint(self.root, record['path'])
-                    status = record['security_status'] if current == record['fingerprint'] else 'QUARANTINED'
+                    self._validate_shape(record,allow_missing=True)
+                    try:
+                        current = skill_fingerprint(self.root, record['path'])
+                        status = record['security_status'] if current == record['fingerprint'] else 'QUARANTINED'
+                    except (ValueError,OSError):
+                        current=record['fingerprint'];status='QUARANTINED'
                     self.db.execute('INSERT OR IGNORE INTO skill_registry VALUES(?,?,?,?,?)',
                         (record['id'], canonical(record), current, status, record.get('last_validation_date')))
 
-    def _validate_shape(self, record):
+    def _validate_shape(self, record, allow_missing=False):
         for key in ['id', 'name', 'version', 'description', 'path', 'source', 'fingerprint']:
             required(record.get(key), 'Skill ' + key)
         for key in ['supported_agents', 'supported_departments', 'dependencies', 'permissions', 'test_results']:
@@ -53,7 +56,9 @@ class SkillRegistry:
                 raise ValueError('Skill metadata list missing: ' + key)
         if not re.fullmatch(r'[a-z][a-z0-9-]{1,100}', record['id']):
             raise ValueError('Invalid skill ID')
-        safe_file(self.root, record['path'])
+        path=self.root/record['path']
+        if Path(record['path']).is_absolute() or not path.resolve().is_relative_to(self.root):raise ValueError('Unsafe skill path')
+        if not allow_missing or path.exists():safe_file(self.root, record['path'])
 
     def get(self, skill_id):
         row = self.db.execute('SELECT * FROM skill_registry WHERE id=?', (skill_id,)).fetchone()
@@ -62,7 +67,10 @@ class SkillRegistry:
         record = json.loads(row['record'])
         record.update(security_status=row['security_status'], fingerprint=row['fingerprint'],
                       last_validation_date=row['validated_at'])
-        current = skill_fingerprint(self.root, record['path'])
+        try:current = skill_fingerprint(self.root, record['path'])
+        except (ValueError,OSError):
+            record['security_status']='QUARANTINED';record['validation_error']='Skill files unavailable or unsafe'
+            return record
         if current != row['fingerprint']:
             record['security_status'] = 'QUARANTINED'
             record['validation_error'] = 'Skill bytes changed since review'

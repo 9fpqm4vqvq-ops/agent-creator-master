@@ -66,7 +66,7 @@
     {
       "id": "master-workflow",
       "name": "master-workflow",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "description": "Receive a user request, route it through the master agent departments, track evidence and handoffs, and return a reviewed report.",
       "path": ".claude/skills/master-workflow/SKILL.md",
       "supported_agents": [],
@@ -94,13 +94,13 @@
         }
       ],
       "last_validation_date": "2026-10-30T05:55:54.709342+00:00",
-      "fingerprint": "c6aabeda8a6cd3c93d79da390877c76b149ef5c7e7aaf752d4b8725bcf2f9c58",
+      "fingerprint": "ec95d60b46443e199819fa52e2d530fbac0e7fbd98f7b22ea62007e62247bc21",
       "license": "Project-local instructions; review project distribution terms"
     },
     {
       "id": "memory-vault",
       "name": "memory-vault",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "description": "Retrieve and record concise operational knowledge through local SQLite and guarded Markdown projections.",
       "path": ".claude/skills/memory-vault/SKILL.md",
       "supported_agents": [],
@@ -128,7 +128,7 @@
         }
       ],
       "last_validation_date": "2026-10-30T05:55:54.709501+00:00",
-      "fingerprint": "7b3fe839dbd0b4a35583a7a700a317e52e0a2ecf164685234758a1f2f55d1152",
+      "fingerprint": "04cb46fe6fb79ea984c517170989115f4268435189cf85fddbea4ea3b676772d",
       "license": "Project-local instructions; review project distribution terms"
     },
     {

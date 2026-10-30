@@ -1,10 +1,10 @@
-# Start Master Agent System v0.3
+# Start Master Agent System v0.4
 
 Extract the whole ZIP, including hidden .claude files. If upgrading operational
-state, follow docs/MIGRATION-V03.md before opening a v0.2 database with v0.3.
+state, follow docs/MIGRATION-V04.md before opening an operational v0.3 database with v0.4.
 
 ```bash
-cd master-agent-system-v0.3
+cd master-agent-system-v0.4
 python -m unittest discover -s tests -v
 npm ci --prefix tools/claude --no-audit --no-fund
 tools/claude/node_modules/.bin/claude auth login
@@ -17,7 +17,7 @@ folder after installing and authenticating. Never paste credentials into chat.
 
 Paste this first mission into the authenticated Claude Code session:
 
-> Act as my v0.3 master using CLAUDE.md. Route the request through Management.
+> Act as my v0.4 master using CLAUDE.md. Route the request through Management.
 > Prepare an Iraq e-commerce research plan focused initially on Kurdistan Region,
 > with acceptance criteria covering scope, evidence needed, assumptions and missing
 > inputs. Have Management discover current roles and skills, create scoped Income

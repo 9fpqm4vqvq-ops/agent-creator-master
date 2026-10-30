@@ -22,15 +22,14 @@ def authorize(actor, namespace, write=False):
     department = DEPARTMENT_NAMESPACE.get(ROLES[actor][0], ROLES[actor][0])
     if actor in {'master-agent', 'management-director'}:
         return
-    if actor == 'qa-auditor' and not write:
+    if actor in {'qa-auditor','department-health-auditor','knowledge-freshness-auditor'} and not write:
         return
     if namespace == department or namespace == 'shared' and not write:
         return
     raise PermissionError('Memory namespace access denied')
 
 
-def initialize(connection):
-    connection.executescript('''
+MEMORY_SCHEMA = '''
     CREATE TABLE IF NOT EXISTS memory_records (
       id TEXT PRIMARY KEY, namespace TEXT NOT NULL, kind TEXT NOT NULL, title TEXT NOT NULL,
       payload TEXT NOT NULL, sources TEXT NOT NULL, task_id INTEGER REFERENCES tasks(id),
@@ -48,14 +47,19 @@ def initialize(connection):
       id INTEGER PRIMARY KEY, queue_id INTEGER NOT NULL REFERENCES memory_sync_queue(id),
       actor TEXT NOT NULL, evidence TEXT NOT NULL, acknowledged_remote_hash TEXT NOT NULL,
       local_revision INTEGER NOT NULL, at TEXT NOT NULL);
-    ''')
+    '''
+
+
+def initialize(connection):
+    connection.executescript(MEMORY_SCHEMA)
     with connection:
         connection.execute("INSERT OR IGNORE INTO memory_metadata VALUES('source_instance',?)", (str(uuid.uuid4()),))
 
 
 class MemoryVault:
-    def __init__(self, connection):
+    def __init__(self, connection, root=None):
         self.db = connection
+        self.root = root
 
     def get(self, record_id, actor):
         row = self.db.execute('SELECT * FROM memory_records WHERE id=?', (record_id,)).fetchone()
@@ -69,8 +73,10 @@ class MemoryVault:
         return record
 
     def put(self, namespace, kind, title, payload, actor, sources=None, task_id=None,
-            confidence='UNVERIFIED', record_id=None, expected_revision=None, commit=True):
+            confidence='UNVERIFIED', record_id=None, expected_revision=None, commit=True, category='research'):
         authorize(actor, namespace, write=True)
+        from .freshness import policy_for
+        policy = policy_for(category,self.root)
         required(kind, 'Memory kind'); required(title, 'Memory title')
         if confidence not in {'UNVERIFIED', 'VERIFIED', 'ESTIMATE', 'ASSUMPTION', 'QA_APPROVED_OPERATOR'}:
             raise ValueError('Unknown memory confidence')
@@ -91,23 +97,39 @@ class MemoryVault:
             authorize(actor, prior['namespace'], write=True)
             if prior['namespace'] != namespace:
                 raise ConflictError('A record cannot change namespace')
-            if prior['content_hash'] == content_hash:
+            if prior['content_hash'] == content_hash and prior['category']==category:
                 return self.get(record_id, actor)
+            if prior['superseded_by']:raise ConflictError('Superseded knowledge is immutable; create a new record for a new claim')
             if expected_revision != prior['revision']:
                 raise ConflictError('Memory revision conflict; reload before updating')
         revision = prior['revision'] + 1 if prior else 1
         created = prior['created_at'] if prior else now()
         with self.db if commit else nullcontext():
-            self.db.execute('''INSERT INTO memory_records VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)
+            if prior:self._history(dict(prior), actor, 'before content update')
+            self.db.execute('''INSERT INTO memory_records
+                (id,namespace,kind,title,payload,sources,task_id,owner,confidence,revision,content_hash,created_at,updated_at)
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)
                 ON CONFLICT(id) DO UPDATE SET kind=excluded.kind,title=excluded.title,
                 payload=excluded.payload,sources=excluded.sources,task_id=excluded.task_id,
                 confidence=excluded.confidence,revision=excluded.revision,
                 content_hash=excluded.content_hash,updated_at=excluded.updated_at''',
                 (record_id, namespace, clean['kind'], clean['title'], canonical(clean['payload']),
                  canonical(clean['sources']), task_id, actor, confidence, revision, content_hash, created, now()))
+            self.db.execute("UPDATE memory_records SET category=?,date_collected=?,expiry_policy=?,responsible_department=?,verification_status='UNVERIFIED',last_verified_at=NULL,next_review_at=?,superseded_by=NULL WHERE id=?",
+                (category, now(), canonical(policy), 'agent-development' if namespace=='research' else namespace,
+                 (datetime.now(timezone.utc)+timedelta(seconds=policy['ttl_seconds'])).isoformat(),record_id))
+            self._history(dict(self.db.execute('SELECT * FROM memory_records WHERE id=?',(record_id,)).fetchone()),actor,'content recorded; verification required')
         return self.get(record_id, actor)
 
-    def search(self, query, actor, namespace=None, limit=20):
+    def _history(self, record, actor, reason):
+        self.db.execute('INSERT OR IGNORE INTO memory_history VALUES(?,?,?,?,?,?)',
+            (record['id'],record['revision'],canonical(record),actor,reason,now()))
+
+    def history(self, record_id, actor):
+        self.get(record_id,actor)
+        return [dict(r,snapshot=json.loads(r['snapshot'])) for r in self.db.execute('SELECT * FROM memory_history WHERE record_id=? ORDER BY revision',(record_id,))]
+
+    def search(self, query, actor, namespace=None, limit=20, include_superseded=False):
         required(query, 'Memory query')
         if not isinstance(limit, int) or not 1 <= limit <= 100:
             raise ValueError('Memory result limit must be 1..100')
@@ -115,6 +137,7 @@ class MemoryVault:
             authorize(actor, namespace)
         records = []
         for row in self.db.execute('SELECT * FROM memory_records ORDER BY updated_at DESC,id'):
+            if row['superseded_by'] and not include_superseded:continue
             if namespace and row['namespace'] != namespace:
                 continue
             try:
@@ -165,7 +188,7 @@ class MemoryVault:
                     task_id = None
                 results.append(self.put(record['namespace'], record['kind'], record['title'],
                     payload, actor, sources=record['sources'], task_id=task_id,
-                    confidence=record['confidence'], record_id=record['id'], commit=False))
+                    confidence=record['confidence'], record_id=record['id'], commit=False,category=record.get('category','research')))
         return results
 
     def enqueue(self, record_id, provider, actor):

@@ -1,4 +1,4 @@
-"""v0.3 management-led control plane, extending the preserved v0.2 validators."""
+"""v0.4 management-led control plane with local intelligence and budget gates."""
 import hashlib
 import json
 from pathlib import Path
@@ -30,8 +30,16 @@ class Hub(LegacyHub):
         try:
             self.migration = migrate(self.db, db)
             initialize_memory(self.db)
-            self.memory = MemoryVault(self.db)
+            self.memory = MemoryVault(self.db,self.root)
             self.skills = SkillRegistry(self.db, self.root)
+            from .usage import UsageLedger, BudgetService
+            from .freshness import FreshnessAuditor, ResearchCache
+            from .monitoring import HealthRegistry
+            self.usage=UsageLedger(self.db);self.budgets=BudgetService(self.db)
+            self.freshness=FreshnessAuditor(self);self.health=HealthRegistry(self);self.research_cache=ResearchCache(self)
+            from .scheduler import Scheduler
+            from .improvements import Improvements
+            self.scheduler=Scheduler(self);self.scheduler.seed();self.improvements=Improvements(self)
         except Exception:
             self.db.close()
             raise
@@ -68,18 +76,30 @@ class Hub(LegacyHub):
         self.event(task_id, 'TRANSITION', {'from': task['phase'], 'to': destination, 'evidence': evidence}, actor)
 
     def create(self, request, criteria, domain='management', agent=None, mode='research', parent=None,
-               cycle_limit=3):
-        if not isinstance(cycle_limit, int) or not 1 <= cycle_limit <= 20:
-            raise ValueError('QA escalation threshold must be 1..20')
-        request, criteria = redact(request), redact(criteria)
-        task = super().create(request, criteria, domain, agent, mode, parent)
-        department = ROLES[task['owner']][0]
-        with self.db:
-            self.db.execute('UPDATE tasks SET department=?,requested_owner=?,cycle_limit=? WHERE id=?',
-                            (department, task['owner'], cycle_limit, task['id']))
-            self.event(task['id'], 'MANAGEMENT_INTAKE', {'requested_owner': task['owner'],
-                       'department': department, 'criteria': criteria}, 'master-agent')
-        return self.task(task['id'])
+               cycle_limit=3, idempotency_key=None):
+        from .usage import atomic
+        if type(cycle_limit) is not int or not 1<=cycle_limit<=20:raise ValueError('QA escalation threshold must be 1..20')
+        required(request,'Request');required(criteria,'Acceptance criteria')
+        if mode not in {'research','paper'} or domain not in DOMAINS:raise ValueError('Unknown department or unsupported execution mode')
+        owner=agent or DOMAINS[domain]
+        if owner not in ROLES:raise ValueError('Unknown agent')
+        request,criteria=redact(request),redact(criteria)
+        if idempotency_key is not None:required(idempotency_key,'Idempotency key')
+        with atomic(self.db):
+            if self.db.execute("SELECT 1 FROM change_proposals WHERE status IN ('ACTIVATING','ROLLING_BACK') LIMIT 1").fetchone():raise ValueError('Recover the interrupted instruction update before creating work')
+            if idempotency_key is not None:
+                existing=self.db.execute('SELECT * FROM tasks WHERE idempotency_key=?',(idempotency_key,)).fetchone()
+                if existing:
+                    if (existing['request'],existing['criteria'],existing['parent'],existing['mode'],existing['requested_owner'])!=(request,criteria,parent,mode,owner):raise ValueError('Idempotency key conflicts with a different request')
+                    return dict(existing)
+            if parent is not None and self.task(parent)['status'] in {'COMPLETED','CANCELLED','BLOCKED'}:raise ValueError('Cannot add work to a closed parent')
+            department=ROLES[owner][0]
+            cur=self.db.execute("""INSERT INTO tasks(request,criteria,owner,mode,parent,status,created_at,updated_at,
+                department,requested_owner,cycle_limit,idempotency_key) VALUES(?,?,?,?,?,'QUEUED',?,?,?,?,?,?)""",
+                (request,criteria,owner,mode,parent,now(),now(),department,owner,cycle_limit,idempotency_key))
+            self.event(cur.lastrowid,'CREATED',{'owner':owner})
+            self.event(cur.lastrowid,'MANAGEMENT_INTAKE',{'requested_owner':owner,'department':department,'criteria':criteria},'master-agent')
+        return self.task(cur.lastrowid)
 
     def management_review(self, task_id, analysis, actor='management-director'):
         if actor != 'management-director':
@@ -133,12 +153,16 @@ class Hub(LegacyHub):
             raise ValueError('Unknown task priority')
         dependencies = plan.get('dependencies', [])
         self._check_graph(task_id, dependencies)
-        plan.update(owner=owner, priority=priority, dependencies=dependencies)
+        resource=plan.get('resource_plan',{'complexity':'UNKNOWN','team':[owner], 'rationale':'Single assigned specialist; expand only for a documented capability gap.'})
+        if not isinstance(resource,dict) or resource.get('complexity') not in {'UNKNOWN','simple','moderate','complex'} or resource.get('team')!=[owner]:
+            raise ValueError('Plan one accountable specialist; use scoped child tasks for additional specialists')
+        required(resource.get('rationale'),'Smallest qualified team rationale')
+        plan.update(owner=owner, priority=priority, dependencies=dependencies,resource_plan=resource)
         with self.db:
             self.db.execute('''UPDATE tasks SET owner=?,department=?,selected_skills=?,dependencies=?,
-                priority=?,management_plan=?,migration_hold=0 WHERE id=?''',
+                priority=?,management_plan=?,resource_plan=?,migration_hold=0 WHERE id=?''',
                 (owner, ROLES[owner][0], canonical(plan['selected_skills']), canonical(dependencies),
-                 priority, canonical(redact(plan)), task_id))
+                 priority, canonical(redact(plan)), canonical(redact(resource)), task_id))
             self._move(task_id, 'PLANNED', plan['rationale'], actor)
             self.event(task_id, 'MANAGEMENT_PLAN', plan, actor)
         return self.task(task_id)
@@ -157,7 +181,7 @@ class Hub(LegacyHub):
 
     def manifest(self, owner):
         snapshot = super().manifest(owner)
-        paths = [self.root / 'registry/skills.json', self.root / 'registry/skill-finder-source.json']
+        paths = list((self.root/'registry').glob('*.json'))
         paths.extend((self.root / 'agent_hub').glob('*.py'))
         paths.extend((self.root / 'scripts').glob('*.py'))
         if hasattr(self, 'skills'):
@@ -227,17 +251,28 @@ class Hub(LegacyHub):
             self._move(task_id, 'PREFLIGHT', record['runtime_check'], task['owner'])
         return record
 
-    def start(self, task_id, evidence):
+    def start(self, task_id, evidence, execution_key=None, projected_cost=None, approval_id=None):
         task = self.task(task_id)
+        if task['migration_hold'] or task['phase']!='PREFLIGHT':raise ValueError('Current preflight and migration replan are required')
+        required(evidence,'Execution evidence')
         self.check_snapshot(task); self.current_preflight(task_id); self._dependencies_complete(task)
         self.skills.require(json.loads(task['selected_skills']), task['owner'])
-        with self.db:
-            self._move(task_id, 'IN_PROGRESS', evidence, task['owner'])
+        from .usage import atomic
+        handoff=self.db.execute("SELECT MAX(id) FROM events WHERE task_id=? AND kind='HANDOFF'",(task_id,)).fetchone()[0]
+        execution_key=execution_key or f'task:{task_id}:handoff:{handoff}'
+        with atomic(self.db):
+            if self.db.execute('SELECT 1 FROM task_executions WHERE task_id=? AND handoff_id=?',(task_id,handoff)).fetchone():raise ValueError('Duplicate task execution')
+            allowed=self.budgets.reserve(task_id,task['owner'],execution_key,projected_cost,approval_id)
+            if allowed['allowed']:
+                self.db.execute('INSERT INTO task_executions VALUES(?,?,?,?,?,?,?)',(execution_key,task_id,handoff,task['owner'],'STARTED',now(),None))
+                self._move(task_id, 'IN_PROGRESS', evidence, task['owner'])
+                self.event(task_id,'RESOURCE_GATE',allowed,task['owner'])
+        if not allowed['allowed']:raise ValueError('AI budget authorization required: '+allowed['approval_id'])
         return self.task(task_id)
 
     def submit(self, task_id, result):
         task = self.task(task_id)
-        if task['phase'] != 'IN_PROGRESS':
+        if task['migration_hold'] or task['phase'] != 'IN_PROGRESS':
             raise ValueError('Complete task preflight and start before submitting department artifacts')
         self.skills.require(json.loads(task['selected_skills']), task['owner'])
         if not isinstance(result, dict):
@@ -253,6 +288,8 @@ class Hub(LegacyHub):
         result['skills_used'] = used
         super().submit(task_id, redact(result))
         with self.db:
+            self.db.execute("UPDATE task_executions SET state='SUBMITTED',finished_at=? WHERE task_id=? AND state='STARTED'",(now(),task_id))
+            self.db.execute("UPDATE usage_reservations SET state='AWAITING_TELEMETRY' WHERE task_id=? AND state='ACTIVE'",(task_id,))
             self._move(task_id, 'SUBMITTED', 'Existing artifacts and source evidence accepted for review', task['owner'])
             self._move(task_id, 'QA_REVIEW', 'Queued for separate independent QA; no review implied', 'management-director')
             self.db.execute('UPDATE skill_usage SET used_at=? WHERE task_id=? AND handoff_id=(SELECT MAX(id) FROM events WHERE task_id=? AND kind=?)',
@@ -302,7 +339,7 @@ class Hub(LegacyHub):
 
     def review(self, task_id, reviewer, verdict, notes, evidence=None):
         task = self.task(task_id)
-        if task['phase'] != 'QA_REVIEW' or reviewer != 'qa-auditor' or task['owner'] == reviewer:
+        if task['migration_hold'] or task['phase'] != 'QA_REVIEW' or reviewer != 'qa-auditor' or task['owner'] == reviewer:
             raise ValueError('Independent qa-auditor review of a QA task is required')
         result = json.loads(task['result'])
         if reviewer in result['authors']:
@@ -389,10 +426,26 @@ class Hub(LegacyHub):
 
     def report(self):
         report = super().report()
-        report.update(version='0.3.0', phase_counts={p: sum(t['phase'] == p for t in report['tasks']) for p in PHASES},
+        report.update(version='0.4.0', phase_counts={p: sum(t['phase'] == p for t in report['tasks']) for p in PHASES},
                       management_required=True, memory_provider='local SQLite system of record',
                       external_memory_sync='Markdown adapter available; Notion unimplemented/unconfigured')
+        from .monitoring import snapshot
+        report['intelligence']=snapshot(self.db)
         return report
+
+    def replan_migrated(self,task_id,evidence):
+        required(evidence,'Migration replan rationale')
+        task=self.task(task_id)
+        if not task['migration_hold']:raise ValueError('Task has no migration hold')
+        with self.db:
+            self.db.execute("UPDATE tasks SET phase='MANAGEMENT_REVIEW',status='QUEUED',management_plan=NULL,updated_at=? WHERE id=?",(now(),task_id))
+            self.event(task_id,'MIGRATION_REPLAN',{'from':task['phase'],'evidence':evidence},'management-director')
+        return self.task(task_id)
+
+    def verified_tool_failure(self,task_id,tool,diagnosis,reference):
+        required(tool,'Failed tool');required(diagnosis,'Observed failure');required(reference,'Actual tool failure evidence')
+        task=self.task(task_id)
+        with self.db:self.event(task_id,'VERIFIED_TOOL_FAILURE',{'tool':tool,'diagnosis':diagnosis,'operator_attested':True},task['owner'],[reference])
 
     def backup(self, destination):
         return backup(self.db, destination)

@@ -45,3 +45,6 @@ DOMAINS['ecommerce'] = 'iraq-ecommerce-director'
 ROLES['agent-creator'] = ('agent-development', 'agent-creator-researcher', 'maos')
 NAMESPACES = {'management', 'income', 'ecommerce', 'trading', 'shorts', 'research', 'quality', 'shared'}
 DEPARTMENT_NAMESPACE = {'agent-development': 'research'}
+
+ROLES['department-health-auditor'] = ('agent-development', 'agent-creator-researcher', 'maos')
+ROLES['knowledge-freshness-auditor'] = ('agent-development', 'agent-creator-researcher', 'maos')

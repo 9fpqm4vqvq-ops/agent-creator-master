@@ -1,0 +1,7 @@
+{
+  "checked_at": "2026-10-30",
+  "source": "Released v0.3 vendor trees",
+  "tracked_vendor_files_checked": 211,
+  "changed_files": [],
+  "note": "Original supplied packages remain preserved; root integration changes are separate."
+}

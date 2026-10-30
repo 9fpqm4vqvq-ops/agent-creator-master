@@ -1,14 +1,28 @@
-# Master Agent System v0.3
+# Master Agent System v0.4
 
-[Download the v0.3 project ZIP](https://github.com/9fpqm4vqvq-ops/agent-creator-master/raw/refs/heads/main/releases/master-agent-system-v0.3.zip).
+[Download the v0.4 project ZIP](https://github.com/9fpqm4vqvq-ops/agent-creator-master/raw/refs/heads/main/releases/master-agent-system-v0.4.zip).
 
 A supervised Claude Code system with Management-led task routing, independently
 reviewed outputs, a central skill registry, Iraq e-commerce specialists and local
-persistent memory. It extends v0.2 and preserves the four imported source packages.
+persistent memory. It extends v0.3 and preserves the four imported source packages.
 
 The organization is USER -> Master -> Management -> department -> independent QA
 -> Master -> USER. Income owns Trading, Shorts and Iraq E-commerce. See the
-[complete architecture and agent hierarchy](docs/ARCHITECTURE-V03.md).
+[complete architecture and agent hierarchy](docs/ARCHITECTURE-V04.md).
+
+The v0.4 upgrade adds a loopback dashboard, usage/budget ledger, department health
+and knowledge freshness audits, unranked scorecards, and optional local maintenance.
+All new records extend the same SQLite Vault. Read the [v0.4 guide](docs/INTELLIGENCE-V04.md)
+and [v0.3 → v0.4 comparison](docs/V04-COMPARISON.md).
+
+```bash
+python -m agent_hub migrate
+python -m agent_hub dashboard --port 8765
+# Open http://127.0.0.1:8765; Ctrl-C stops the local dashboard.
+```
+
+The two auditors bring the root inventory to **44 roles / 65 skills**. Maintenance
+jobs start disabled. Live usage/provider data remains UNKNOWN until imported.
 
 ## Start
 
@@ -16,7 +30,7 @@ Python 3.10+, Node.js/npm and your own authorized Claude Code account are requir
 The hub itself uses only Python's standard library. No credentials are bundled.
 
 ```bash
-cd master-agent-system-v0.3
+cd master-agent-system-v0.4
 python -m unittest discover -s tests -v
 python scripts/validate_all.py
 npm ci --prefix tools/claude --no-audit --no-fund
@@ -27,7 +41,7 @@ bash scripts/start-master.sh
 For a Git clone, use:
 
 ```bash
-git clone https://github.com/9fpqm4vqvq-ops/agent-creator-master.git master-agent-system-v0.3
+git clone https://github.com/9fpqm4vqvq-ops/agent-creator-master.git master-agent-system-v0.4
 ```
 
 The pinned CLI is preserved from v0.2; it is not a claim of the newest release.
@@ -114,12 +128,12 @@ requirement was verified during this software upgrade.
 
 ## Upgrade, checks and delivery
 
-[Migrations and rollback](docs/MIGRATION-V03.md), [comparison/gap analysis](docs/V03-COMPARISON.md),
-[test results](docs/V03-TEST-RESULTS.md), and [change log](CHANGELOG.md) describe the
+[Migrations and rollback](docs/MIGRATION-V04.md), [comparison/gap analysis](docs/V04-COMPARISON.md),
+[test results](docs/V04-TEST-RESULTS.md), and [change log](CHANGELOG.md) describe the
 actual implementation and remaining configuration. Build a portable ZIP using:
 
 ```bash
-python scripts/build_release.py /absolute/path/master-agent-system-v0.3.zip
+python scripts/build_release.py /absolute/path/master-agent-system-v0.4.zip
 ```
 
 Databases, vault records, operational outputs, credentials and dependencies are

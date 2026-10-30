@@ -1,0 +1,1 @@
+{"version":"0.4.0","ttl_seconds":{"supplier_price":86400,"market_price":86400,"payment_service":604800,"assumption":2592000,"procedure":15552000,"research":2592000},"note":"Configurable maximum age after verified source checks. Changing this file requires replanning active work."}

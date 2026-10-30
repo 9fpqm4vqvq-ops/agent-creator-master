@@ -34,7 +34,8 @@ class SQLiteProvider(MemoryProvider):
             raise ConflictError('SQLite provider revision changed; reload before writing')
         result = self.vault.put(record['namespace'], record['kind'], record['title'], record['payload'],
             self.actor, sources=record['sources'], confidence=record['confidence'], record_id=record['id'],
-            task_id=record.get('task_id'), expected_revision=prior['revision'] if prior and expected_hash else None)
+            task_id=record.get('task_id'), expected_revision=prior['revision'] if prior and expected_hash else None,
+            category=record.get('category','research'))
         return result['content_hash']
 
 

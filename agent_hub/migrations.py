@@ -1,9 +1,9 @@
-"""Additive v0.2 -> v0.3 migration with a consistent pre-migration SQLite backup."""
+"""Additive v0.2/v0.3 -> v0.4 migration with verified pre-migration SQLite backup."""
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
-VERSION = 3
+VERSION = 4
 TASK_COLUMNS = {
     'phase': "TEXT NOT NULL DEFAULT 'CREATED'",
     'department': "TEXT NOT NULL DEFAULT 'management'",
@@ -14,6 +14,8 @@ TASK_COLUMNS = {
     'management_plan': 'TEXT',
     'cycle_limit': 'INTEGER NOT NULL DEFAULT 3',
     'migration_hold': 'INTEGER NOT NULL DEFAULT 0',
+    'idempotency_key': 'TEXT',
+    'resource_plan': 'TEXT',
 }
 
 
@@ -25,6 +27,8 @@ def backup(connection, destination):
     target = sqlite3.connect(path)
     try:
         connection.backup(target)
+        if target.execute('PRAGMA integrity_check').fetchone()[0] != 'ok':
+            raise ValueError('Created backup failed SQLite integrity verification')
     finally:
         target.close()
     return str(path)
@@ -51,9 +55,11 @@ def migrate(connection, db_path):
     legacy = 'phase' not in columns
     existing = connection.execute('SELECT COUNT(*) FROM tasks').fetchone()[0]
     saved = None
-    if legacy and existing:
+    memory_exists = connection.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='memory_records'").fetchone()
+    memory_count = connection.execute('SELECT COUNT(*) FROM memory_records').fetchone()[0] if memory_exists else 0
+    if version < VERSION and (existing or memory_count):
         stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
-        saved = backup(connection, str(db_path) + f'.pre-v03-{stamp}.sqlite')
+        saved = backup(connection, str(db_path) + f'.pre-v04-{stamp}.sqlite')
     # DDL is transactional; a failed migration leaves the original schema usable.
     with connection:
         connection.execute('BEGIN IMMEDIATE')
@@ -73,6 +79,22 @@ def migrate(connection, db_path):
                 ELSE 'MANAGEMENT_REVIEW' END,
                 requested_owner=owner, migration_hold=CASE
                 WHEN status IN ('COMPLETED','CANCELLED') THEN 0 ELSE 1 END""")
+        from .memory import MEMORY_SCHEMA
+        from .intelligence_schema import SCHEMA, FRESHNESS_COLUMNS
+        import uuid
+        for statement in MEMORY_SCHEMA.split(';'):
+            if statement.strip(): connection.execute(statement)
+        connection.execute("INSERT OR IGNORE INTO memory_metadata VALUES('source_instance',?)", (str(uuid.uuid4()),))
+        present = {r[1] for r in connection.execute('PRAGMA table_info(memory_records)')}
+        for name, declaration in FRESHNESS_COLUMNS.items():
+            if name not in present:
+                connection.execute(f'ALTER TABLE memory_records ADD COLUMN {name} {declaration}')
+        connection.execute("UPDATE memory_records SET date_collected=created_at WHERE date_collected IS NULL")
+        connection.execute("UPDATE memory_records SET responsible_department=CASE WHEN namespace='research' THEN 'agent-development' ELSE namespace END WHERE responsible_department IS NULL")
+        for statement in SCHEMA.split(';'):
+            if statement.strip(): connection.execute(statement)
+        if version == 3:
+            connection.execute("UPDATE tasks SET migration_hold=1 WHERE phase NOT IN ('COMPLETED','CANCELLED')")
         connection.execute('CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT, backup_path TEXT)')
         connection.execute('INSERT OR IGNORE INTO schema_migrations VALUES(?,?,?)',
                            (VERSION, datetime.now(timezone.utc).isoformat(), saved))
