@@ -1,0 +1,23 @@
+{
+  "probe": {
+    "provider": "codex-cli",
+    "available": true,
+    "configured": true,
+    "authenticated": true,
+    "version": "0.163.0",
+    "execution_tested": false,
+    "reason": "Authenticated CLI status observed; a real inference is still required"
+  },
+  "kind": "LIVE_MODEL_SMOKE",
+  "events": [
+    {
+      "kind": "PROVIDER_ERROR",
+      "provider": "codex-cli",
+      "code": "EXIT_1",
+      "message": "Error: failed to initialize in-process app-server client: Read-only file system (os error 30)"
+    }
+  ],
+  "status": "UNAVAILABLE",
+  "error_type": "ModelProtocolError",
+  "error": "Model CLI exited unsuccessfully (1): Error: failed to initialize in-process app-server client: Read-only file system (os error 30)"
+}

@@ -3,7 +3,7 @@ import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
-VERSION = 5
+VERSION = 6
 TASK_COLUMNS = {
     'phase': "TEXT NOT NULL DEFAULT 'CREATED'",
     'department': "TEXT NOT NULL DEFAULT 'management'",
@@ -17,6 +17,7 @@ TASK_COLUMNS = {
     'idempotency_key': 'TEXT',
     'resource_plan': 'TEXT',
     'project_id':'TEXT REFERENCES projects(id)',
+    'owner_locked':'INTEGER NOT NULL DEFAULT 1',
 }
 
 
@@ -60,7 +61,7 @@ def migrate(connection, db_path):
     memory_count = connection.execute('SELECT COUNT(*) FROM memory_records').fetchone()[0] if memory_exists else 0
     if version < VERSION and (existing or memory_count):
         stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
-        saved = backup(connection, str(db_path) + f'.pre-v05-{stamp}.sqlite')
+        saved = backup(connection, str(db_path) + f'.pre-v06-{stamp}.sqlite')
     # DDL is transactional; a failed migration leaves the original schema usable.
     with connection:
         connection.execute('BEGIN IMMEDIATE')
@@ -97,7 +98,13 @@ def migrate(connection, db_path):
         from .expansion_schema import SCHEMA as EXPANSION_SCHEMA
         for statement in EXPANSION_SCHEMA.split(';'):
             if statement.strip():connection.execute(statement)
-        if version in {3,4}:
+        from .runtime_schema import SCHEMA as RUNTIME_SCHEMA
+        from .research import RESEARCH_SCHEMA
+        from .workspaces import WORKSPACE_SCHEMA
+        for schema in [RUNTIME_SCHEMA,RESEARCH_SCHEMA,WORKSPACE_SCHEMA]:
+            for statement in schema.split(';'):
+                if statement.strip():connection.execute(statement)
+        if version in {3,4,5}:
             connection.execute("UPDATE tasks SET migration_hold=1 WHERE phase NOT IN ('COMPLETED','CANCELLED')")
         connection.execute('CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT, backup_path TEXT)')
         connection.execute('INSERT OR IGNORE INTO schema_migrations VALUES(?,?,?)',

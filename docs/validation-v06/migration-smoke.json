@@ -1,0 +1,17 @@
+{
+  "schema": 6,
+  "migration": {
+    "version": 6,
+    "backup": "/workspace/work/v06-migration-smoke.sqlite.pre-v06-20261030T161405993624Z.sqlite",
+    "legacy_tasks": 0
+  },
+  "task_preserved": true,
+  "migration_hold": 1,
+  "integrity": "ok",
+  "backups": [
+    {
+      "schema": 5,
+      "bytes": 884736
+    }
+  ]
+}

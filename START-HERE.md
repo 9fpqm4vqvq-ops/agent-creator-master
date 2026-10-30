@@ -1,10 +1,14 @@
-# Start Master Agent System v0.5
+# Start Master Agent System v0.6
+
+For the programmatic execution engine, follow docs/RUNTIME-V06.md first.
+The interactive workflow below remains supported and does not authenticate a CLI
+for programmatic use automatically.
 
 Extract the whole ZIP, including hidden .claude files. If upgrading operational
-state, follow docs/MIGRATION-V05.md before opening an operational v0.4 database with v0.5.
+state, follow docs/MIGRATION-V06.md before opening an operational v0.4 database with v0.6.
 
 ```bash
-cd master-agent-system-v0.5
+cd master-agent-system-v0.6
 python -m unittest discover -s tests -v
 npm ci --prefix tools/claude --no-audit --no-fund
 tools/claude/node_modules/.bin/claude auth login
@@ -17,7 +21,7 @@ folder after installing and authenticating. Never paste credentials into chat.
 
 Paste a focused mission into the authenticated Claude Code session:
 
-> Act as my v0.5 master using CLAUDE.md. Ask Management to prepare a small local
+> Act as my v0.6 master using CLAUDE.md. Ask Management to prepare a small local
 > website prototype with an original launch-content draft. Scope the requirements
 > first, inspect any existing project, choose the smallest qualified Web/Social team,
 > and use scoped child tasks only where needed. Actually invoke the necessary

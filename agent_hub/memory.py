@@ -3,7 +3,7 @@ import hashlib
 import json
 import sqlite3
 import uuid
-from contextlib import nullcontext
+from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -97,34 +97,75 @@ class MemoryVault:
         clean = redact({'kind': kind, 'title': title, 'payload': payload, 'sources': sources})
         content = dict(clean, namespace=namespace, task_id=task_id, confidence=confidence)
         content_hash = hashlib.sha256(canonical(content).encode()).hexdigest()
-        prior = self.db.execute('SELECT * FROM memory_records WHERE id=?', (record_id,)).fetchone()
-        if prior:
-            authorize(actor, prior['namespace'], write=True)
-            if prior['namespace'] != namespace:
-                raise ConflictError('A record cannot change namespace')
-            if prior['content_hash'] == content_hash and prior['category']==category:
-                return self.get(record_id, actor)
-            if prior['superseded_by']:raise ConflictError('Superseded knowledge is immutable; create a new record for a new claim')
-            if expected_revision != prior['revision']:
-                raise ConflictError('Memory revision conflict; reload before updating')
-        revision = prior['revision'] + 1 if prior else 1
-        created = prior['created_at'] if prior else now()
-        with self.db if commit else nullcontext():
-            if prior:self._history(dict(prior), actor, 'before content update')
-            self.db.execute('''INSERT INTO memory_records
-                (id,namespace,kind,title,payload,sources,task_id,owner,confidence,revision,content_hash,created_at,updated_at)
-                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)
-                ON CONFLICT(id) DO UPDATE SET kind=excluded.kind,title=excluded.title,
-                payload=excluded.payload,sources=excluded.sources,task_id=excluded.task_id,
-                confidence=excluded.confidence,revision=excluded.revision,
-                content_hash=excluded.content_hash,updated_at=excluded.updated_at''',
-                (record_id, namespace, clean['kind'], clean['title'], canonical(clean['payload']),
-                 canonical(clean['sources']), task_id, actor, confidence, revision, content_hash, created, now()))
+        # A competing worker must not read an old revision and overwrite a newer
+        # commit. Own writes acquire the SQLite writer lock before reading; the
+        # UPDATE also binds the exact revision/body observed inside this transaction.
+        with self._write_transaction(commit):
+            prior = self.db.execute('SELECT * FROM memory_records WHERE id=?', (record_id,)).fetchone()
+            if prior:
+                authorize(actor, prior['namespace'], write=True)
+                if prior['namespace'] != namespace:
+                    raise ConflictError('A record cannot change namespace')
+                if prior['content_hash'] == content_hash and prior['category'] == category:
+                    return self.get(record_id, actor)
+                if prior['superseded_by']:
+                    raise ConflictError('Superseded knowledge is immutable; create a new record for a new claim')
+                if expected_revision != prior['revision']:
+                    raise ConflictError('Memory revision conflict; reload before updating')
+            revision = prior['revision'] + 1 if prior else 1
+            created = prior['created_at'] if prior else now()
+            if prior:
+                updated = self.db.execute('''UPDATE memory_records SET
+                    kind=?,title=?,payload=?,sources=?,task_id=?,confidence=?,revision=?,
+                    content_hash=?,updated_at=?
+                    WHERE id=? AND revision=? AND content_hash=? AND superseded_by IS NULL''',
+                    (clean['kind'], clean['title'], canonical(clean['payload']), canonical(clean['sources']),
+                     task_id, confidence, revision, content_hash, now(), record_id,
+                     prior['revision'], prior['content_hash']))
+                if updated.rowcount != 1:
+                    raise ConflictError('Memory changed during update; reload before retrying')
+                self._history(dict(prior), actor, 'before content update')
+            else:
+                self.db.execute('''INSERT INTO memory_records
+                    (id,namespace,kind,title,payload,sources,task_id,owner,confidence,revision,content_hash,created_at,updated_at)
+                    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)''',
+                    (record_id, namespace, clean['kind'], clean['title'], canonical(clean['payload']),
+                     canonical(clean['sources']), task_id, actor, confidence, revision, content_hash, created, now()))
             self.db.execute("UPDATE memory_records SET category=?,date_collected=?,expiry_policy=?,responsible_department=?,verification_status='UNVERIFIED',last_verified_at=NULL,next_review_at=?,superseded_by=NULL WHERE id=?",
                 (category, now(), canonical(policy), NAMESPACE_OWNERS.get(namespace,'agent-development' if namespace=='research' else namespace),
                  (datetime.now(timezone.utc)+timedelta(seconds=policy['ttl_seconds'])).isoformat(),record_id))
             self._history(dict(self.db.execute('SELECT * FROM memory_records WHERE id=?',(record_id,)).fetchone()),actor,'content recorded; verification required')
-        return self.get(record_id, actor)
+            saved = self.get(record_id, actor)
+        return saved
+
+    @contextmanager
+    def _write_transaction(self, commit):
+        """Keep each Vault mutation atomic without committing a caller's transaction.
+
+        commit=False preserves the established explicit-commit API: when called
+        without an outer transaction, leave the new transaction open on success.
+        A savepoint protects other caller work when an inner mutation fails.
+        """
+        owned = not self.db.in_transaction
+        savepoint = 'vault_' + uuid.uuid4().hex
+        if owned:
+            self.db.execute('BEGIN IMMEDIATE')
+        else:
+            self.db.execute('SAVEPOINT ' + savepoint)
+        try:
+            yield
+            if owned:
+                if commit:
+                    self.db.commit()
+            else:
+                self.db.execute('RELEASE SAVEPOINT ' + savepoint)
+        except BaseException:
+            if owned:
+                self.db.rollback()
+            else:
+                self.db.execute('ROLLBACK TO SAVEPOINT ' + savepoint)
+                self.db.execute('RELEASE SAVEPOINT ' + savepoint)
+            raise
 
     def _history(self, record, actor, reason):
         self.db.execute('INSERT OR IGNORE INTO memory_history VALUES(?,?,?,?,?,?)',

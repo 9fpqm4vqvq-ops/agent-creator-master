@@ -1,0 +1,4 @@
+{
+  "status": "UNAVAILABLE",
+  "error": "GitHub read transport unavailable; inspect authorized network/configuration"
+}

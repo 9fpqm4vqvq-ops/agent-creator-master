@@ -11,3 +11,5 @@ node_modules/
 work/
 memory/
 *.pre-v03-*
+
+*.pre-v06-*

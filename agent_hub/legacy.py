@@ -148,7 +148,8 @@ class Hub:
                                            'classification': 'VERIFIED / ASSUMPTION / HISTORICAL'}],
                               'limitations': ['string']},
         }
-        with self.db:
+        from .usage import atomic
+        with atomic(self.db):
             self.db.execute("UPDATE tasks SET status='DISPATCHED',snapshot=?,result=NULL,updated_at=? WHERE id=?",
                             (json.dumps(snapshot), now(), task_id))
             self.event(task_id, 'HANDOFF', packet)
@@ -179,7 +180,8 @@ class Hub:
         if checks['freshness_status'] == 'VERIFIED' and not any(s['classification'] == 'VERIFIED' for s in checks['sources']):
             raise ValueError('Verified freshness requires verified source evidence')
         record = dict(checks, recorded_at=now(), operator_attestation=True)
-        with self.db:
+        from .usage import atomic
+        with atomic(self.db):
             self.event(task_id, 'PREFLIGHT', record)
         return record
 
@@ -233,7 +235,8 @@ class Hub:
         result['preflight'] = preflight
         result['artifact_hashes'] = {p: hashlib.sha256((self.root/p).read_bytes()).hexdigest()
                                      for p in result['artifacts']}
-        with self.db:
+        from .usage import atomic
+        with atomic(self.db):
             self.db.execute("UPDATE tasks SET status='QA',result=?,updated_at=? WHERE id=?",
                             (json.dumps(result), now(), task_id))
             self.event(task_id, 'RESULT', result)

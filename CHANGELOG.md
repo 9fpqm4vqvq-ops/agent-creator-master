@@ -1,3 +1,18 @@
+# v0.6.0 — 2026-10-30
+
+- Add supported model adapters, durable run/invocation records, real Management →
+  specialist → QA orchestration and bounded correction cycles.
+- Add guarded per-run workspaces, actual Docker/bubblewrap probes, reviewed argv
+  execution, output/time limits, cancellation and retained process evidence.
+- Add allowlisted public research, citations/cache/freshness and documented GitHub,
+  Notion and injected native read adapters; retain all consequential-action gates.
+- Fix concurrent Memory Vault lost updates, freshness supersession races, UI data
+  omission in upgrade staging, and atomic dispatch/preflight/submission boundaries.
+- Extend read-only dashboard with execution receipts and actual command checks.
+- Add additive schema v6 migration/backup, configuration guide, regression tests and
+  explicitly separated simulated/live evidence. Live model acceptance remains blocked
+  in the validation environment; see docs/V06-ACCEPTANCE.md.
+
 # Change log
 
 ## 0.5.0

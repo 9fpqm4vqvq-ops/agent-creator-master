@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime, timedelta, timezone
 
 from .legacy import now, required
-from .memory import authorize
+from .memory import authorize, ConflictError
 from .security import canonical
 from .usage import instant, atomic
 
@@ -46,11 +46,19 @@ class FreshnessAuditor:
     def __init__(self,hub):self.hub=hub;self.db=hub.db
 
     def _metadata(self,record,updates,reason):
-        self.hub.memory._history(record,self.actor,'before '+reason)
-        values=dict(updates,revision=record['revision']+1,updated_at=now())
-        self.db.execute('UPDATE memory_records SET '+','.join(k+'=?' for k in values)+' WHERE id=?',(*values.values(),record['id']))
-        updated=dict(self.db.execute('SELECT * FROM memory_records WHERE id=?',(record['id'],)).fetchone())
-        self.hub.memory._history(updated,self.actor,reason)
+        # Source verification applies to the exact body and revision reviewed.
+        # Category/supersession changes also increment revision, so a stale review
+        # cannot mark concurrently edited or replaced knowledge fresh.
+        with atomic(self.db):
+            values=dict(updates,revision=record['revision']+1,updated_at=now())
+            changed=self.db.execute('UPDATE memory_records SET '+','.join(k+'=?' for k in values)+
+                ' WHERE id=? AND revision=? AND content_hash=?',
+                (*values.values(),record['id'],record['revision'],record['content_hash']))
+            if changed.rowcount != 1:
+                raise ConflictError('Knowledge changed after review; retrieve and verify the current revision')
+            self.hub.memory._history(record,self.actor,'before '+reason)
+            updated=dict(self.db.execute('SELECT * FROM memory_records WHERE id=?',(record['id'],)).fetchone())
+            self.hub.memory._history(updated,self.actor,reason)
         return updated
 
     def scan(self,at=None,queue=False):
@@ -116,7 +124,11 @@ class FreshnessAuditor:
         if old['superseded_by'] or old['namespace']!=replacement['namespace'] or replacement['superseded_by']:raise ValueError('Invalid namespace or supersession chain')
         if replacement['verification_status']!='FRESH' or instant(replacement['next_review_at'])<=instant(now()):raise ValueError('Replacement must have fresh independently verified evidence')
         if result.get('memory_record_hashes',{}).get(replacement_id)!=replacement['content_hash'] or result.get('memory_record_hashes',{}).get(record_id)!=old['content_hash']:raise ValueError('Reviewed memory bytes changed')
-        with atomic(self.db):self._metadata(old,{'superseded_by':replacement_id,'verification_status':'SUPERSEDED'},'QA-approved supersession '+str(qa_task_id))
+        with atomic(self.db):
+            current=self.hub.memory.get(replacement_id,self.actor)
+            if current['revision']!=replacement['revision'] or current['content_hash']!=replacement['content_hash'] or current['verification_status']!='FRESH' or current['superseded_by'] or instant(current['next_review_at'])<=instant(now()):
+                raise ConflictError('Replacement changed after review; retrieve and verify it again')
+            self._metadata(old,{'superseded_by':replacement_id,'verification_status':'SUPERSEDED'},'QA-approved supersession '+str(qa_task_id))
         return self.hub.memory.get(record_id,self.actor)
 
 

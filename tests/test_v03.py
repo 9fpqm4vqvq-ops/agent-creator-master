@@ -384,7 +384,7 @@ class Migration(Support, unittest.TestCase):
 
     def test_future_database_version_is_refused(self):
         path=self.root/'future.sqlite';connection=sqlite3.connect(path)
-        connection.execute('PRAGMA user_version=6');connection.close()
+        connection.execute('PRAGMA user_version=7');connection.close()
         with self.assertRaises(ValueError):Hub(path,self.root)
 
 

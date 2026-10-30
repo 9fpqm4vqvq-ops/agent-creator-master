@@ -1,6 +1,26 @@
-# Master Agent System v0.5
+# Master Agent System v0.6
 
-[Download the v0.5 project ZIP](https://github.com/9fpqm4vqvq-ops/agent-creator-master/raw/refs/heads/main/releases/master-agent-system-v0.5.zip).
+## v0.6 execution upgrade
+
+The existing 70 agents and 176 skills now have a durable `AgentRuntime`: separate
+Management, specialist and QA invocations, guarded artifact writing, actual
+isolated command checks, budget gates and execution receipts. Providers: supported
+Claude Code CLI, Codex CLI and OpenAI Responses API. No provider is enabled by default.
+
+**Validation limitation:** authenticated live model execution did not succeed in
+this build environment. Codex failed before inference because its app-server
+client could not initialize on the read-only filesystem. Claude Code was absent;
+no API credentials were configured. Deterministic tests use explicitly simulated
+model responses. Actual Docker-isolated functional checks succeeded. Direct live
+research and GitHub REST smoke tests were blocked by this environment's DNS/network
+configuration. This release is not certified for unattended production use.
+
+Start with [v0.6 setup](docs/RUNTIME-V06.md), [feature comparison and limitations](docs/V06-COMPARISON.md),
+[acceptance evidence](docs/V06-ACCEPTANCE.md), and [migration/rollback](docs/MIGRATION-V06.md).
+The older sections below describe retained functionality and manual workflows.
+
+
+[Download the v0.6 project ZIP](https://github.com/9fpqm4vqvq-ops/agent-creator-master/raw/refs/heads/main/releases/master-agent-system-v0.6.zip).
 
 A supervised Claude Code system with Management-led task routing, independently
 reviewed outputs, a central skill registry, Iraq e-commerce specialists and local
@@ -159,7 +179,7 @@ requirement was verified during this software upgrade.
 actual implementation and remaining configuration. Build a portable ZIP using:
 
 ```bash
-python scripts/build_release.py /absolute/path/master-agent-system-v0.5.zip
+python scripts/build_release.py /absolute/path/master-agent-system-v0.6.zip
 ```
 
 Databases, vault records, operational outputs, credentials and dependencies are

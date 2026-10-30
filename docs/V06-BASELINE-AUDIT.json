@@ -1,0 +1,40 @@
+{
+  "baseline": {
+    "version": "0.5.0",
+    "archive_manifest_files_verified": 1265,
+    "passing_tests": 526,
+    "root": 179,
+    "vendors": 347
+  },
+  "features": {
+    "task_state_QA_and_artifact_guards": "FULLY FUNCTIONAL: local/operator-attested; no authenticated model calls",
+    "management_and_70_agent_profiles": "FUNCTIONAL WITH CONFIGURATION: native host invocations; Python execution MISSING",
+    "skill_registry_and_176_scoped_skills": "FULLY FUNCTIONAL: local discovery/provenance/gates; referenced external tools require configuration",
+    "SQLite_memory_ACLs_and_projection": "PARTIALLY IMPLEMENTED reliability: real persistence, confirmed concurrent CAS bug",
+    "usage_and_budget_reservations": "FULLY FUNCTIONAL locally; no live provider meter collection",
+    "connector_registry": "PARTIALLY IMPLEMENTED: injected callback tests, no configured built-in provider bridges",
+    "project_site_API_SVG_calendar_tools": "FULLY FUNCTIONAL local prototypes/drafts; no production deployment/account connection",
+    "research_cache": "FULLY FUNCTIONAL references; live search/retrieval executor MISSING",
+    "dashboard_and_health_freshness_scheduler": "FULLY FUNCTIONAL local observation/read-only; paid execution disabled",
+    "QA_correction_records": "FULLY FUNCTIONAL local state machine; actual autonomous invocation/correction loop MISSING",
+    "cancel_restart_provider_fault_handling": "PARTIALLY IMPLEMENTED: task state only, no provider process lifecycle",
+    "agent_update_staging": "BROKEN for real full-suite staging: reviewed UI/UX data globally excluded"
+  },
+  "observed_runtime": {
+    "claude_cli": "NOT_INSTALLED",
+    "codex_cli": "0.163.0; login status reports ChatGPT authentication; not yet execution-tested",
+    "managed_provider_credentials": "NONE_CONFIGURED",
+    "bwrap_default_probe": "UNAVAILABLE: sandbox denied NETLINK_ROUTE socket; no bypass attempted"
+  },
+  "plan": [
+    "Extend the same SQLite schema to version 6 for stable runs/invocations/tools/research/workspace execution records; preserve task phases and mark old unfinished work for replan.",
+    "Add provider-neutral AgentRuntime and fresh-session Claude/Codex/OpenAI adapters plus explicit authenticated-host bridge; mocks remain test-only and no runtime defaults to a fake provider.",
+    "Drive real Management analysis, selected specialist context/skills/memory, scoped workspace artifacts, distinct QA context and bounded correction loop through existing Hub transitions.",
+    "Reserve and meter each actual management/specialist/QA/tool invocation separately; actual/estimated/UNKNOWN and missing billing remain explicit.",
+    "Add restricted live research and documented read connector adapters, reusing capability/approval/reconciliation gates for consequential operations.",
+    "Add isolated workspace file/tool gateway, approved command hashes and actual isolation probes; fail closed for untrusted commands when required isolation is absent.",
+    "Fix confirmed memory/freshness CAS races, atomic submit/cancellation integration, repeated QA failure detection and staged source-data exclusion.",
+    "Add live execution dashboard panels, deterministic process/HTTP/tool tests, actual authenticated model tests when supported, independent source QA, migration/rollback/setup/results docs, release and existing public GitHub update."
+  ],
+  "limits": "User request ends with a truncated comparison bullet (IMP); the requested full comparison is provided using the explicit feature/status taxonomy above."
+}

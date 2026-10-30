@@ -89,7 +89,11 @@ class Improvements:
             for name in names:
                 path=Path(directory)/name
                 if path.is_symlink() and not path.resolve().is_relative_to(self.root):raise ValueError('External staging symlink refused')
-            return [n for n in names if n in {'.git','data','memory','work','outputs','releases','node_modules','__pycache__'} or n.endswith(('.sqlite','.pyc','.db')) or n.startswith('.env')]
+            reviewed_data=self.root/'vendor/supplementary/ui-ux-pro-max-skill/data'
+            excluded={'.git','data','memory','work','outputs','releases','node_modules','__pycache__'}
+            return [n for n in names if
+                (n in excluded and Path(directory)/n != reviewed_data) or
+                n.endswith(('.sqlite','.pyc','.db')) or n.startswith('.env')]
         shutil.copytree(self.root,destination,ignore=ignore,symlinks=False)
         for name in proposal['files']:
             target=destination/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(self.folder(identity)/'candidate'/name,target)
@@ -123,6 +127,41 @@ class Improvements:
     def _idle(self):
         if self.db.execute("SELECT 1 FROM tasks WHERE phase NOT IN ('COMPLETED','CANCELLED') LIMIT 1").fetchone():raise ValueError('Finish or cancel active tasks before changing instructions')
         if self.db.execute("SELECT 1 FROM maintenance_runs WHERE status='RUNNING' LIMIT 1").fetchone():raise ValueError('Stop active maintenance before activation')
+        # Runtime tables are additive and may not exist in older Vaults or test
+        # fixtures. Do not infer idleness from a cancelled task while its provider
+        # or tool process still has a live lifecycle record.
+        terminal={'COMPLETED','FAILED','BLOCKED','CANCELLED','SUCCEEDED','DONE','INTERRUPTED','EXPIRED','REJECTED','TIMED_OUT','OUTPUT_LIMIT'}
+        tables={row[0] for row in self.db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+        for table in ('agent_runs','agent_invocations','tool_processes','runtime_tool_processes','workspace_processes'):
+            if table not in tables:
+                continue
+            columns={row[1] for row in self.db.execute('PRAGMA table_info('+table+')')}
+            state='status' if 'status' in columns else 'state' if 'state' in columns else None
+            if state:
+                marks=','.join('?' for _ in terminal)
+                active=self.db.execute('SELECT 1 FROM '+table+' WHERE '+state+' IS NULL OR UPPER('+state+') NOT IN ('+marks+') LIMIT 1',tuple(terminal)).fetchone()
+            elif 'finished_at' in columns:
+                active=self.db.execute('SELECT 1 FROM '+table+' WHERE finished_at IS NULL LIMIT 1').fetchone()
+            else:
+                raise ValueError('Cannot establish runtime idleness for '+table+'; lifecycle state is unavailable')
+            if active:
+                raise ValueError('Stop active agent/provider/tool execution before changing instructions: '+table)
+            for flag in ('process_active','process_alive','is_running'):
+                if flag in columns and self.db.execute('SELECT 1 FROM '+table+' WHERE '+flag+'=1 LIMIT 1').fetchone():
+                    raise ValueError('Stop the live tool/provider process before changing instructions: '+table)
+            if 'pid' in columns and 'finished_at' in columns:
+                for process in self.db.execute('SELECT pid FROM '+table+' WHERE finished_at IS NULL AND pid IS NOT NULL'):
+                    pid=process[0]
+                    if not isinstance(pid,int) or pid<=0:
+                        raise ValueError('Cannot establish unfinished process idleness: '+table)
+                    try:
+                        os.kill(pid,0)
+                    except ProcessLookupError:
+                        continue
+                    except PermissionError:
+                        pass # A live but inaccessible process is not safely idle.
+                    raise ValueError('Stop the live tool/provider process before changing instructions: '+table)
+
     def activate(self,identity,authorization_reference,allow_permission_expansion=False):
         required(authorization_reference,'Actual scoped activation authorization')
         proposal=self.get(identity)

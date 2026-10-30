@@ -78,6 +78,7 @@ def main(argv=None):
     p = sub.add_parser('ecommerce-finance'); p.add_argument('--assumptions', type=Path, required=True)
     p=sub.add_parser('dashboard');p.add_argument('--port',type=int,default=8765)
     p=sub.add_parser('replan');p.add_argument('task_id',type=int);p.add_argument('--evidence',required=True)
+    p=sub.add_parser('runtime');p.add_argument('action',choices=['intake','execute','get','recover','resume','cancel','probe']);p.add_argument('--data',type=Path);p.add_argument('--config',type=Path)
     operations={'usage':['record','summary','estimate'], 'budget':['configure','evaluate','approve'],
         'health':['audit','get','approve'], 'freshness':['scan','verify','supersede','queue','history'],
         'scheduler':['list','configure','tick','recover','history','run'],
@@ -106,6 +107,14 @@ def main(argv=None):
                     'profile':f'.claude/agents/{k}.md','instruction_fingerprint':hub.manifest(k)['fingerprint']} for k,v in ROLES.items()]
             elif args.command == 'new': result = hub.create(args.request,args.criteria,args.department,args.agent,args.mode,args.parent,args.cycle_limit,args.idempotency_key,args.project)
             elif args.command=='replan':result=hub.replan_migrated(args.task_id,args.evidence)
+            elif args.command=='runtime':
+                from .runtime import AgentRuntime
+                runtime=AgentRuntime(hub,read_json(args.config) if args.config else {})
+                data=read_json(args.data) if args.data else {}
+                methods={'intake':runtime.intake,'execute':runtime.execute_task,'get':runtime.get,
+                    'recover':runtime.recover,'resume':runtime.resume_execution,'cancel':runtime.cancel_execution,
+                    'probe':runtime.adapter.probe}
+                result=methods[args.action](**data)
             elif args.command in operations:
                 from .intelligence_cli import execute
                 result=execute(hub,args.command,args.action,read_json(args.data) if args.data else {})

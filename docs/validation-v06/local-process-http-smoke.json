@@ -1,0 +1,35 @@
+{
+  "classification": "ACTUAL_LOCAL_PROCESS_AND_PUBLIC_HTTP; NOT MODEL GENERATED OR MODEL QA",
+  "checks": {
+    "isolation": {
+      "available": true,
+      "backend": "docker",
+      "reason": "Actual isolated /bin/true succeeded",
+      "checked_at": "2026-10-30T16:03:54.691608+00:00",
+      "network": "none",
+      "image": "python:3.12-slim"
+    },
+    "functional_process": {
+      "id": "ae86bd35-a94e-4580-bc01-eaace7a5ca58",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "output": "functional checks passed\n",
+      "error": null,
+      "argv": [
+        "python",
+        "-B",
+        "test_app.py"
+      ],
+      "input_hash": "271fc20858d01d647241699e1b3399bb7aa124b8a0fd06d84b7344f4c5233180",
+      "isolation": "docker",
+      "network": "none",
+      "started_at": "2026-10-30T16:03:54.721687+00:00",
+      "finished_at": "2026-10-30T16:03:55.873181+00:00"
+    },
+    "public_research": {
+      "status": "UNAVAILABLE",
+      "error": "RESEARCH UNAVAILABLE \u2014 source DNS could not be safely resolved"
+    }
+  }
+}
