@@ -1,0 +1,14 @@
+{
+  "source": "user-upload:skill-finder.zip",
+  "sha256": "f7ac4ab1bee4c6e4db922b5be574e2d5e5fcbf5002e751293a6405e27db668c4",
+  "files": [
+    "vendor/skill-finder/SKILL.md"
+  ],
+  "security_status": "REFERENCE_ONLY",
+  "contains_executable_code": false,
+  "documented_endpoint": "https://claude-plugins.dev/api/skills",
+  "documented_installer": "npx claude-plugins skills install <namespace> --local",
+  "live_api_verified": false,
+  "installer_verified": false,
+  "auto_install_enabled": false
+}

@@ -1,136 +1,128 @@
-# Master Agent System
+# Master Agent System v0.3
 
-A supervised Claude Code master agent that receives your requests, delegates to
-department leads or a specific worker, and returns reviewed reports.
+[Download the v0.3 project ZIP](https://github.com/9fpqm4vqvq-ops/agent-creator-master/raw/refs/heads/main/releases/master-agent-system-v0.3.zip).
 
-```mermaid
-flowchart TD
-  U[You] --> M[Master Agent]
-  M --> G[Management: routing, tracking, reports]
-  M --> A[Agent Development & Research]
-  M --> I[Income]
-  M --> Q[Independent QA]
-  I --> T[Trading: research and paper preparation]
-  I --> S[Shorts and content]
-  Q --> M
-  M --> U
-```
+A supervised Claude Code system with Management-led task routing, independently
+reviewed outputs, a central skill registry, Iraq e-commerce specialists and local
+persistent memory. It extends v0.2 and preserves the four imported source packages.
 
-Agent Development & Research designs agents, reviews skills, checks documentation
-and proposes tested updates. Income coordinates the imported opportunity framework,
-Trading and Shorts. The master invokes department specialists through Claude Code's
-native Agent tool. Project-local profiles are in `.claude/agents/`.
+The organization is USER -> Master -> Management -> department -> independent QA
+-> Master -> USER. Income owns Trading, Shorts and Iraq E-commerce. See the
+[complete architecture and agent hierarchy](docs/ARCHITECTURE-V03.md).
 
-This is version 0.2: working local task management and prepared agent definitions.
-Actual AI delegation needs a signed-in Claude Code session. There is no unattended
-scheduler, authenticated approval service, live broker connector or auto-publishing.
+## Start
 
-## Start in Claude Code
-
-Requires Python 3.10+, Node.js and your own authorized Claude Code access.
-The official CLI is pinned in `tools/claude/package-lock.json`.
+Python 3.10+, Node.js/npm and your own authorized Claude Code account are required.
+The hub itself uses only Python's standard library. No credentials are bundled.
 
 ```bash
-cd master-agent-system
+cd master-agent-system-v0.3
+python -m unittest discover -s tests -v
+python scripts/validate_all.py
 npm ci --prefix tools/claude --no-audit --no-fund
 tools/claude/node_modules/.bin/claude auth login
 bash scripts/start-master.sh
 ```
 
-Authenticate using the official CLI flow; never paste keys into chat or commit
-them. Network policy must permit the authentication/API destinations required by
-your chosen Claude account. This environment currently has package-manager access;
-Claude API/auth access has not been verified. Do not bypass the proxy or TLS checks.
-Keep the runtime's normal permission prompts enabled.
+For a Git clone, use:
 
-Suggested first request:
+```bash
+git clone https://github.com/9fpqm4vqvq-ops/agent-creator-master.git master-agent-system-v0.3
+```
 
-> Act as my master agent. Ask Agent Development & Research to inspect our current
-> roles and skills and report missing capabilities with dated evidence. Ask Income
-> to prepare a research-only trading intake checklist. Use separate child tasks,
-> independent QA, and return one consolidated report. Do not place orders or
-> configure a real trading account.
+The pinned CLI is preserved from v0.2; it is not a claim of the newest release.
+Read [START-HERE.md](START-HERE.md) for the first supervised mission. Actual model
+delegation and web access depend on your authenticated runtime and permissions.
 
-## Local task hub
+## Local task workflow
 
-The hub needs only Python's standard library; no API keys or pip installation.
+These commands record a supervised workflow; they do not invoke a model.
+Replace ID with the task ID returned by `new`. Fill templates with actual work,
+never placeholders or invented tests/reviews.
 
 ```bash
 python -m agent_hub agents
-python -m agent_hub new 'Inspect trading prerequisites' \
-  --department trading --mode paper \
-  --criteria 'List missing account inputs, data sources and paper-test requirements'
-python -m agent_hub dispatch 1
-python -m agent_hub show 1
-python -m agent_hub report
+python -m agent_hub skills search 'Iraq ecommerce research' --department ecommerce
+python -m agent_hub new 'Prepare an Iraq e-commerce research plan' --department ecommerce --criteria 'List scope, required evidence, assumptions and missing inputs'
+python -m agent_hub management-review ID --analysis 'Actual Management analysis and available capabilities'
+python -m agent_hub plan ID --plan templates/management-plan.json
+python -m agent_hub assign ID --evidence 'Actual Management assignment rationale'
+python -m agent_hub dispatch ID
+python -m agent_hub recall ID --query 'Iraq ecommerce prior decisions failures'
+# Read selected skills and fill a fresh work/preflight.json using the packet fingerprint.
+python -m agent_hub preflight ID --checks work/preflight.json
+python -m agent_hub start ID --evidence 'Actual runtime invocation reference'
+# Perform the work in Claude Code and write real deliverables and result JSON.
+python -m agent_hub submit ID --result work/result.json
+# After an actual independent reviewer invocation, fill work/qa-review.json.
+python -m agent_hub review ID --reviewer qa-auditor --verdict PASS --notes 'Checks actually performed' --evidence work/qa-review.json
+python -m agent_hub history ID
 python -m agent_hub report --format markdown
 ```
 
-`dispatch` produces a handoff packet; it does **not** call a model. Have Claude Code
-invoke the packet's named agent with its instructions. Explicit departments are
-`management`, `agent-development`, `income`, `trading`, `shorts`, `quality`.
-`--agent NAME` selects a specific root profile; `--parent ID` links child work.
-No request is routed by a guessed keyword.
+Use `--agent NAME` for an explicit worker and `--parent ID` for child work. Record
+cross-task dependencies in the Management plan. The canonical lifecycle is in
+`phase`; `status` remains a v0.2-compatible projection. There is no direct
+`complete` or arbitrary state-changing CLI command. See [workflow](docs/WORKFLOW-V03.md).
 
-Each dispatched task requires a preflight record before result submission. Read the
-current instructions and selected skills, check the available runtime and assess
-whether the task needs current external evidence. Copy `templates/preflight.json`,
-replace its fingerprint with the packet value, and fill in the checks actually done:
+## Skills
 
-```bash
-python -m agent_hub preflight 1 --checks work/task-1-preflight.json
-```
+`registry/skills.json` is the reviewed built-in inventory; operational validation
+and usage history persist in SQLite. New or changed candidates cannot be selected
+until reviewed. Stage candidates under `work/skill-candidates/`, outside native
+`.claude/skills` discovery. `skills register`, `skills activate` and `skills usage`
+provide the guarded lifecycle. Activation authorizes hub selection of the reviewed
+staged files; it does not run an installer or silently create native slash commands.
+A native installation is a separate reviewed local source change.
 
-VERIFIED freshness requires dated source records; UNVERIFIED must be disclosed in
-the result's limitations. NOT_REQUIRED is for tasks without changing external claims.
-The hub validates records; it cannot prove the agent read a document or visited a URL.
+The actual supplied Skill Finder ZIP contains only SKILL.md. Its source is preserved
+in vendor/skill-finder; the safe root wrapper and adapter disable automatic installs.
+An injected authorized transport is supported and tested with fixtures. The live
+registry endpoint and npx installer are unverified and disabled by default.
+Read [the integration report](docs/SKILL-FINDER-V03.md).
 
-After actual execution, create a result JSON with `summary`, nonempty `artifacts`
-(existing repository-relative paths), `sources` (location, timezone-aware checked_at,
-classification VERIFIED/ASSUMPTION/HISTORICAL) and `limitations`. Then:
+## Local Memory Vault
 
-```bash
-python -m agent_hub submit 1 --result outputs/task-1-result.json
-# Only after a genuinely independent QA invocation:
-python -m agent_hub review 1 --reviewer qa-auditor --verdict PASS \
-  --notes 'Describe checks actually performed and their evidence'
-```
-
-Statuses: QUEUED -> DISPATCHED -> QA -> COMPLETED; QA may request REWORK or BLOCKED.
-Three rework verdicts block the task. A parent cannot pass until every child is
-complete. Changed instructions require cancellation and a new packet; changed
-artifacts require rework and resubmission. Use `cancel ID --reason '...'`.
-Parent PASS recursively rechecks the instruction and artifact hashes of completed
-children. Fresh preflight checks are required after each rework dispatch.
-Blocked tasks can be replaced with new tasks citing the original ID; old records
-remain available. Cancellation does not cancel child tasks automatically.
-
-SQLite state is created in ignored `data/`. Reports expose the actual recorded
-state, not assumed completion. QA records are trusted operator attestations and
-do not authenticate who reviewed. Shell-capable AI agents are not isolated by
-the database. This is a single-user supervised tool, not a multiuser service.
-
-## Packages and validation
-
-`vendor/maos`, `vendor/income`, `vendor/shorts` and `vendor/day-trader` preserve the
-uploaded source packages, including hidden definitions, skills, tests and license
-files where supplied. Root instructions govern integration; nested project
-instructions are used only by their selected department. The 11 trader skill
-links in `.claude/skills/` preserve relative tool paths. Other vendor skills are
-read by department leads as needed. Native skills are not assumed loaded simply
-because a file exists in vendor/.
+SQLite stores events, task history, knowledge, department namespaces, skill usage
+and sync queues. QA-approved outcomes are recorded automatically. Explicit knowledge
+writes and retrieval use `memory put/get/search`; export/import keeps stable IDs
+and rejects conflicting changes. Namespace checks are application-level controls
+for trusted local operators, not authenticated user isolation.
 
 ```bash
-python -m unittest discover -s tests -v
-python scripts/validate_all.py
+python -m agent_hub memory export --actor master-agent --out work/memory-export.json
+python -m agent_hub memory enqueue --actor master-agent --id RECORD_UUID --provider markdown
+python -m agent_hub memory sync --actor master-agent --provider markdown --directory memory
+python -m agent_hub memory queue --actor master-agent
+python -m agent_hub backup --out work/hub-backup.sqlite
 ```
 
-Read [the recheck](docs/READINESS-RECHECK.md), [agent lifecycle](docs/AGENT-LIFECYCLE.md)
-and [trading boundaries](docs/TRADING.md). Imported tools keep their own separate
-databases; the root hub tracks cross-department tasks, not automatic database sync.
+Markdown sync is local file projection compatible with Obsidian. External edits
+cause conflicts rather than silent overwrites. Failures retry with bounded backoff;
+Notion deliberately queues an unconfigured failure. No Notion account or Obsidian
+application integration was authenticated. See [memory](docs/MEMORY-VAULT.md).
 
-Live trading remains disabled. Example balances and limits are not your settings.
-No profit, live-data freshness or external integration is established by fixture tests.
+## Iraq e-commerce
 
-For the first real session, use [START-HERE.md](START-HERE.md). No Claude Code
-authentication is bundled; it must be completed in your own runtime.
+Eight profiles cover direction, market research, products, suppliers/dropshipping,
+logistics, finance/payments, marketing and validation. Initial scope is Kurdistan
+Region and wider Iraq. Templates require dated evidence, supplier/fulfillment
+feasibility, explicit costs and margins, payment-stage distinctions and a bounded
+experiment. `ecommerce-finance --assumptions PATH` computes estimates only.
+No current supplier, market demand, merchant eligibility, shipping route or legal
+requirement was verified during this software upgrade.
+
+## Upgrade, checks and delivery
+
+[Migrations and rollback](docs/MIGRATION-V03.md), [comparison/gap analysis](docs/V03-COMPARISON.md),
+[test results](docs/V03-TEST-RESULTS.md), and [change log](CHANGELOG.md) describe the
+actual implementation and remaining configuration. Build a portable ZIP using:
+
+```bash
+python scripts/build_release.py /absolute/path/master-agent-system-v0.3.zip
+```
+
+Databases, vault records, operational outputs, credentials and dependencies are
+excluded. Vendor code remains byte-for-byte preserved. Offline checks do not prove
+real model delegation, authenticated independent QA, live research, publication,
+external sync or profitability. No live broker or background worker is enabled.

@@ -1,6 +1,6 @@
-# Trading department v0.2
+# Trading department v0.3
 
-Reporting path: Human -> Master -> Income -> Trading.
+Reporting path: Human -> Master -> Management -> Income -> Trading.
 
 The imported Day Trader package contains 11 skills and standard-library tools.
 It can analyze data, build plans, simulate paths, calculate sizes, check limits

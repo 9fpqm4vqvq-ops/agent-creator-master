@@ -1,40 +1,41 @@
-# Start your master agent in Claude Code
+# Start Master Agent System v0.3
 
-Extract the complete folder, including hidden `.claude` files. Requires Python
-3.10+, Node.js/npm, internet access and your own authorized Claude Code account.
+Extract the whole ZIP, including hidden .claude files. If upgrading operational
+state, follow docs/MIGRATION-V03.md before opening a v0.2 database with v0.3.
 
 ```bash
-cd master-agent-system
+cd master-agent-system-v0.3
 python -m unittest discover -s tests -v
 npm ci --prefix tools/claude --no-audit --no-fund
 tools/claude/node_modules/.bin/claude auth login
 bash scripts/start-master.sh
 ```
 
-On Windows, use `py -3` if needed and launch
-`tools\claude\node_modules\.bin\claude.cmd --agent master-agent` after installing
-and authenticating. The folder must be the current working directory.
+On Windows use `py -3` if needed, then launch
+`tools\claude\node_modules\.bin\claude.cmd --agent master-agent` from the project
+folder after installing and authenticating. Never paste credentials into chat.
 
-Paste this first mission into the running Claude Code session:
+Paste this first mission into the authenticated Claude Code session:
 
-> Act as my master agent using CLAUDE.md. Receive my requests and delegate them
-> through Management, Agent Development & Research, and Income. Trading reports
-> through Income. First, create one parent readiness task and child tasks for
-> Agent Development & Research and Income/Trading. Actually invoke the named
-> native subagents. Have the creator inspect current roles and skills, verify
-> version-sensitive claims against official documentation and return a tested
-> improvement proposal. Have Income and Trading prepare the trading intake and
-> a paper-validation plan using the supplied Day Trader skills. Record each
-> task's preflight, preserve dated sources and disclose unverified facts. Obtain
-> a separately invoked QA review of completed artifacts. Return one consolidated
-> report with completed work, blocked items, evidence and the few decisions you
-> need from me. No live orders or external publishing are part of this mission.
+> Act as my v0.3 master using CLAUDE.md. Route the request through Management.
+> Prepare an Iraq e-commerce research plan focused initially on Kurdistan Region,
+> with acceptance criteria covering scope, evidence needed, assumptions and missing
+> inputs. Have Management discover current roles and skills, create scoped Income
+> and e-commerce child tasks, and assign owners. Actually invoke the required
+> native workers; preserve the logical department path if nested delegation is
+> unavailable. Retrieve prior memory, record preflight and start for each task.
+> Ask the e-commerce specialists to define the market, supplier, logistics,
+> payment-stage, unit-economics and validation evidence needed. Do not invent current
+> market findings. Obtain a separately invoked QA review of actual outputs and
+> tests; return precise corrections for rework. Consolidate only reviewed work,
+> store the approved outcome and return one report with evidence and open inputs.
+> This mission authorizes research and drafts, not spending, outreach, account
+> creation, ads, storefront publication or broker orders.
 
-To assign a worker explicitly, say: “Give this task to agent-creator-researcher:
-[request].” To address a department, say: “Ask Income / Trading to [request].”
-Ask “Give me the management report” for the consolidated task status and evidence.
+For a specific worker: “Route this through Management to iraq-market-researcher:
+[request].” For agent maintenance: “Ask Management and Agent Development & Research
+to investigate this missing capability: [need].” Ask “Give me the management report”
+for consolidated phases, sources, QA results and blockers.
 
-The local CLI prepares handoffs and records outcomes. Actual reasoning and
-delegation happen inside your authenticated Claude Code session. No background
-worker runs after you close the session. The first mission still needs to be run
-with real subagents; offline tests do not establish independent QA or live access.
+The initial real mission has not been run here: this workspace has no authenticated
+Claude Code session. Closing your session does not leave an autonomous worker running.

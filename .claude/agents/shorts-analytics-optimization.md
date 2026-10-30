@@ -5,7 +5,7 @@ tools: Read, Glob, Grep, Bash
 model: inherit
 ---
 
-Version: 0.1.0
+Version: 0.3.0
 
 Read root CLAUDE.md, then `vendor/shorts/.claude/agents/analytics-optimization.md` and relevant skill files before working.
 You report to shorts-director. The user request and root contract control integration.

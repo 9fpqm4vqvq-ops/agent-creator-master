@@ -7,7 +7,7 @@ from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
-EXCLUDED = {'.git', 'node_modules', '__pycache__', 'data', 'outputs', 'work', 'trader'}
+EXCLUDED = {'.git', 'node_modules', '__pycache__', 'data', 'outputs', 'work', 'trader', 'memory', 'releases', 'RELEASE-MANIFEST.json'}
 
 
 def walk(directory):
@@ -26,16 +26,18 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('destination', type=Path)
     args = parser.parse_args()
+    if args.destination.resolve().is_relative_to(ROOT):
+        raise ValueError('Build the release archive outside the source tree')
     args.destination.parent.mkdir(parents=True, exist_ok=True)
     manifest = {}
     with ZipFile(args.destination, 'w', compression=ZIP_DEFLATED) as archive:
         for path in walk(ROOT):
             relative = path.relative_to(ROOT).as_posix()
             content = path.read_bytes()
-            archive.writestr(f'master-agent-system/{relative}', content)
+            archive.writestr(f'master-agent-system-v0.3/{relative}', content)
             manifest[relative] = hashlib.sha256(content).hexdigest()
-        archive.writestr('master-agent-system/RELEASE-MANIFEST.json', json.dumps({
-            'version': '0.2.0', 'sha256': manifest,
+        archive.writestr('master-agent-system-v0.3/RELEASE-MANIFEST.json', json.dumps({
+            'version': '0.3.0', 'sha256': manifest,
             'skill_links': 'Materialized as ordinary files for portable ZIP extraction',
             'excluded': 'Credentials, databases, operational outputs, dependencies and Git history',
         }, indent=2) + '\n')

@@ -1,3 +1,5 @@
+> Historical v0.2 audit. For current v0.3 behavior and readiness, use V03-COMPARISON.md and V03-TEST-RESULTS.md.
+
 # Agent systems recheck and initial integration
 
 Review date: October 29, 2026. Scope: four uploaded ZIPs, two README attachments,

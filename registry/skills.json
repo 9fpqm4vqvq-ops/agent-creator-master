@@ -1,0 +1,2052 @@
+{
+  "format": "skill-registry-v1",
+  "skills": [
+    {
+      "id": "ecommerce-unit-economics",
+      "name": "ecommerce-unit-economics",
+      "version": "0.3.0",
+      "description": "Model estimated per-order contribution and cash flow including returns, COD, delivery failures, advertising and fees.",
+      "path": ".claude/skills/ecommerce-unit-economics/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "ecommerce",
+        "income",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "reviewed-root-v03",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.708899+00:00",
+      "fingerprint": "5f4122d48212784d41f671bef32cbcfeca458f49dd1debfa26370cc3b77960d9",
+      "license": "Project-local instructions; review project distribution terms"
+    },
+    {
+      "id": "iraq-ecommerce-research",
+      "name": "iraq-ecommerce-research",
+      "version": "0.3.0",
+      "description": "Research realistic Iraqi and Kurdistan Region e-commerce opportunities with supplier, fulfillment, demand and regulatory evidence.",
+      "path": ".claude/skills/iraq-ecommerce-research/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "ecommerce",
+        "income",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "reviewed-root-v03",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.709106+00:00",
+      "fingerprint": "7d31cce19e84019dfae97f08d7db2aad32472225d088e217947be6023faddde6",
+      "license": "Project-local instructions; review project distribution terms"
+    },
+    {
+      "id": "master-workflow",
+      "name": "master-workflow",
+      "version": "0.3.0",
+      "description": "Receive a user request, route it through the master agent departments, track evidence and handoffs, and return a reviewed report.",
+      "path": ".claude/skills/master-workflow/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "reviewed-root-v03",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.709342+00:00",
+      "fingerprint": "c6aabeda8a6cd3c93d79da390877c76b149ef5c7e7aaf752d4b8725bcf2f9c58",
+      "license": "Project-local instructions; review project distribution terms"
+    },
+    {
+      "id": "memory-vault",
+      "name": "memory-vault",
+      "version": "0.3.0",
+      "description": "Retrieve and record concise operational knowledge through local SQLite and guarded Markdown projections.",
+      "path": ".claude/skills/memory-vault/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "reviewed-root-v03",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.709501+00:00",
+      "fingerprint": "7b3fe839dbd0b4a35583a7a700a317e52e0a2ecf164685234758a1f2f55d1152",
+      "license": "Project-local instructions; review project distribution terms"
+    },
+    {
+      "id": "skill-finder",
+      "name": "skill-finder",
+      "version": "0.3.0",
+      "description": "Discover candidate skills through the reviewed instruction-only Skill Finder adapter without automatic installation.",
+      "path": ".claude/skills/skill-finder/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "reviewed-root-v03",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.709648+00:00",
+      "fingerprint": "37ed41fb80ae93c5531e64d98c41aea3d8e5185bcfaf838e51126ab66b4a59d8",
+      "license": "Project-local instructions; review project distribution terms"
+    },
+    {
+      "id": "trader-alerts",
+      "name": "trader-alerts",
+      "version": "unversioned-import",
+      "description": "Price Alerts. Rings when a price, a stop or the opening bell hits. Turns the trade plan into three alerts in one go (the stop, the target and \"flat by close\" at your flat-by time), plus above / below / stop / target levels, percent moves from the previous close, any time of day, and the NYSE opening bell, each ringing once so you are not spammed. Knows NYSE hours with the 2026 and 2027 holidays and 1:00 p.m. early closes, works out New York time itself, fetches free delayed quotes (Yahoo chart JSON, Stooq CSV) one ticker at a time, and writes trader/prices.json for sizing and the risk check. Use when the user says \"alert me when\", \"tell me if TSLA hits\", \"watch my stop\", \"watch my trade\", \"remind me to close by 3:55\", \"is the market open\", \"when does the market open\", \"get me a price\", or right after /trader-exit writes a plan. unofficial free JSON endpoint, one request per ticker, half a second apart. On a 429 it waits and tries once more; on a 429 or a 5xx after that it tries `query1`. It identifies itself as `day-trader-skill/2.0`. It answered 404 on 2026-10-13; the parser stays for when it is back. and for checking a size, not for timing an order. The broker's price is the one that fills. Each price in `trader/prices.json` keeps its quote time, and trader-risk only uses one under 15 minutes old. `get_stock_snapshot`, IBKR `get_price_snapshot`) and write it into `trader/prices.json` as `{\"as_of\": \"...Z\", \"prices\": {\"TSLA\": 366.48}}`. (Independence Day observed), Sep 7, Nov 26, Dec 25. Early close 1:00 p.m. on Nov 27 and Dec 24. (Juneteenth observed), Jul 5 (Independence Day observed), Sep 6, Nov 25, Dec 24 (Christmas observed). Early close 1:00 p.m. on Nov 26. the three alerts back to the user: the stop, the target and the flat-by time. scheduled task or `/loop`. Each run fetches only the tickers in today's rules and rings each alert once. A check reads the latest delayed quote; it is not a live feed, and a price can pass a level between two checks. bracket order has probably filled: check `get_open_position` and record the fill with trader-broker. \"Flat by close\" means close anything still open: trader-broker `flatten`, then trader-risk, then the user's yes. Never act for them. passed that exact order today, the user typed an explicit yes for that one order in the chat, and the user clicked Allow once on Claude's own card because the order tool is set to \"Needs approval\" (Customize > Connectors > tool permissions). Never set an order tool to \"Always allow\".",
+      "path": ".claude/skills/trader-alerts/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "trading",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:day-trader",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.710008+00:00",
+      "fingerprint": "dc54b6c49596e6dd3eae89d877c166498df9e10e5b7790e6fc14f32386cf29c1",
+      "license": "MIT"
+    },
+    {
+      "id": "trader-analyst",
+      "name": "trader-analyst",
+      "version": "unversioned-import",
+      "description": "The Earnings Analyst. Reads a company's reported numbers straight from SEC EDGAR (XBRL company facts from its 10-Qs and 10-Ks, plus the latest earnings 8-K and its press release) and sums up what changed: revenue, gross, operating and net margins, net income and diluted EPS, quarter by quarter, each against the same quarter a year earlier, with the trailing twelve months. Reads an earnings call transcript when you paste one. Use when the user says \"how did Tesla's earnings look\", \"analyze the earnings\", \"what changed this quarter\", \"is revenue growing\", \"check the 10-Q\", \"compare margins\", \"sum up the call\", \"does it report this week\", or before trading a stock around its earnings. number the company has tagged in its filings), the company's submissions list (for the newest 10-Q or 10-K and the newest 8-K with item 2.02, \"Results of Operations\") and that 8-K's folder to find the press release (the EX-99.1 exhibit). revenue, net income and diluted EPS, the latest margins and growth), for your notes or a spreadsheet. `metrics.example.json` in this folder is a real run for AAPL, AXP, GOOGL, KO and BAC on 2026-10-13. (or the company's IR page has it), read it and sum up what management said changed: guidance, margins, demand, anything they declined to answer. headlines or on the company's investor relations page, and say where it came from. Use the press release for context (guidance, segment colour), and say which numbers came from where. earlier. Quarter-on-quarter changes are shown but many businesses are seasonal (Apple's December quarter is always its biggest). quarter is the 10-K year minus the three quarters inside it and is marked \"derived\"; derived EPS is approximate. newest 10-Q is later than the newest quarter in the facts, the tool prints a NOTE with the link: read the 10-Q itself before summarising. the business (investment marks, tax items) are inside it. The tool says so. Banks and insurers have no gross margin: blank, not zero. `trader/watchlist.json`): ```bash python3 \"${CLAUDE_SKILL_DIR}/facts.py\" TSLA python3 \"${CLAUDE_SKILL_DIR}/facts.py\" TSLA NVDA AMD --metrics trader/metrics.json ``` `--quarters 8` shows two years, `--json` everything machine-readable, `--cik` a company without a ticker. the numbers need context, and read them. margins, one on anything unusual (a one-off, a derived quarter, data that lags), and the links. Plain words, real numbers, no adjectives the numbers do not support. report before the open), say it before `/trader-exit` sets the stop: a stop does not protect against a gap, the stock can open past it. the company filed. cannot derive. second.",
+      "path": ".claude/skills/trader-analyst/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "trading",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:day-trader",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.710474+00:00",
+      "fingerprint": "02002808034180b7a66bd3aedfe0ef818255ca07c8b7e0704f2ffe565976ddd3",
+      "license": "MIT"
+    },
+    {
+      "id": "trader-broker",
+      "name": "trader-broker",
+      "version": "unversioned-import",
+      "description": "Order Executor. Sends approved orders to your broker, paper trading by default, never without your yes. Shows each order as a plain ticket (a bracket shows its stop-loss, take-profit and the max loss at the stop) plus the exact JSON for Alpaca's place_stock_order, records your yes word for word, then Claude's own Allow once / Deny card asks again. Builds the sell ticket that closes a day trade by your flat-by time, records fills, and logs each trade's max loss so trader-risk can hold the daily limit. Covers setting up Alpaca's official MCP server in Claude Desktop (paper by default, keys in env vars, never in chat), the Interactive Brokers connector, and setting order tools to \"Needs approval\". Use when the user says \"place the order\", \"buy it\", \"execute\", \"send it to my broker\", \"close my position\", \"flatten\", \"get me out\", \"connect Alpaca\", \"set up paper trading\", or after /trader-risk passes. appears because the order tool is set to \"Needs approval\". the Alpaca dashboard. Paper keys are separate from live keys. `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claude/`, Windows: `%APPDATA%\\Claude\\`). The user adds this block (also in `claude_desktop_config.example.json` here) and types their own keys into the file: \"mcpServers\": { \"alpaca\": { \"command\": \"uvx\", \"args\": [\"alpaca-mcp-server\"], \"env\": { \"ALPACA_API_KEY\": \"paste your paper key here, in this file only\", \"ALPACA_SECRET_KEY\": \"paste your paper secret here, in this file only\", \"ALPACA_PAPER_TRADE\": \"true\", \"ALPACA_TOOLSETS\": \"account,trading,stock-data\" } } } The `env` block hands the keys to the server as environment variables. **Keys never go in the chat.** Never ask for them, never read this file back into the conversation, and if the user pastes a key anyway, tell them to delete that message and make new keys in the Alpaca dashboard. `ALPACA_PAPER_TRADE` is already true by default; writing it makes it visible. `ALPACA_TOOLSETS` is optional and hides the tools they do not need. in older versions), open alpaca, and for each tool pick Always allow, Needs approval or Blocked: - `place_stock_order`: **Needs approval**. Never Always allow. - every other tool that places, changes, cancels or closes anything (`cancel_order_by_id`, `replace_order_by_id`, `close_position`, `update_account_config`): Needs approval. - `place_option_order`, `place_crypto_order`, `close_all_positions`, `cancel_all_orders`, `exercise_options_position`, `do_not_exercise_options_position`: **Blocked** unless the user has a reason and says so. - read-only tools (`get_account_info`, `get_all_positions`, `get_open_position`, `get_orders`, `get_clock`, `get_stock_snapshot`, `get_stock_latest_quote`): Always allow is fine. in the Alpaca dashboard that it is the paper account. READY or BLOCKED goes back to `/trader-risk`. per question. Never offer \"yes to all\". If it prints \"Not recorded\", the reply was not an explicit yes for this order (for example \"sure\", \"yes to all\", or a yes that names a different stock or amount). Ask again. Never turn a reply into a yes yourself. JSON the ticket printed. Claude's card appears: Allow once or Deny. --broker-id <id> --filled-qty Q --filled-price P` (the fill from the response or `get_open_position`), or `--status denied`, or `--status failed` with `--note`. A failed order is not retried without a new check and a new yes. The log keeps the entry's max loss for trader-risk's daily limit. (`alerts.py add --from-plan`). The bracket's own orders do the stopping. `ticket.py fill --symbol TSLA --side sell --qty 8 --price 358.32`. 1. Ask Alpaca how many shares are held: `get_open_position` (read only). 2. `ticket.py flatten --symbol TSLA --qty 8` writes a market sell for those shares to `trader/orders.json`. 3. `/trader-risk`. A sell that only closes what the user holds is never blocked by the daily limits or the entry window. 4. `ticket.py show`, then the user's yes for that one order, as above. 5. The bracket's stop-loss and take-profit still hold those shares, so Alpaca rejects a new sell until they are canceled: `get_orders` (status open, nested true) shows them; `cancel_order_by_id` each one (Needs approval). Then `place_stock_order` with the ticket, then `result`. BUY 8 TSLA, market, good for today stop-loss 358.32 take-profit 370.04 max loss about $46.88 if the stop fills at 358.32 (it can fill worse in a fast market) why: opening-range breakout on TSLA: 8 shares, bound by your $50 max loss per trade (8 x 5.86 = $46.88 at the stop) READY: trader-risk PASS, waiting for your yes Claude will call place_stock_order with exactly: {\"symbol\": \"TSLA\", \"side\": \"buy\", \"qty\": \"8\", \"type\": \"market\", \"time_in_force\": \"day\", \"order_class\": \"bracket\", \"take_profit_limit_price\": \"370.04\", \"stop_loss_stop_price\": \"358.32\"} passed that exact order today, the user typed an explicit yes for that one order in the chat, and the user clicked Allow once on Claude's own card because the order tool is set to \"Needs approval\" (Customize > Connectors > tool permissions). Never set an order tool to \"Always allow\".",
+      "path": ".claude/skills/trader-broker/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "trading",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:day-trader",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.710827+00:00",
+      "fingerprint": "c90fc4daa6a3f05b30fb847434e0b0afc2248767516b4f328b9c660da09fe341",
+      "license": "MIT"
+    },
+    {
+      "id": "trader-budget",
+      "name": "trader-budget",
+      "version": "unversioned-import",
+      "description": "Budget Manager. Sizes every position to your budget and your max loss per trade. Reads the trade plan from trader-exit (entry, stop, target), finds the whole shares that fit inside four limits (max loss per trade, position cap, max order, cash after your buffer), says which limit decided it, and writes ONE bracket order (entry, stop-loss, take-profit) to trader/orders.json in the exact shape of Alpaca's place_stock_order. A stop too far away for your max loss is a plain refusal, not a smaller order. Nothing is placed. Use when the user says \"how many shares\", \"size this trade\", \"how much should I buy\", \"I have $5,000\", \"I only want to risk $50 a trade\", \"set my rules\", \"keep 10% in cash\", or after /trader-exit writes a plan. budget), the biggest order ($4,000) and the smallest order ($5). **min_reward_risk** (1.0), **require_stop** (true), **no_entries_before** / **no_entries_after** (\"09:45\" / \"15:30\") and **flat_by** (\"15:55\"), all New York time. \"setup\": \"orb\", \"entry_time\": \"10:15 AM\", \"flat_by\": \"15:55\"}} passed that exact order today, the user typed an explicit yes for that one order in the chat, and the user clicked Allow once on Claude's own card because the order tool is set to \"Needs approval\" (Customize > Connectors > tool permissions). Never set an order tool to \"Always allow\".",
+      "path": ".claude/skills/trader-budget/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "trading",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:day-trader",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.711312+00:00",
+      "fingerprint": "27d0903f6d66cfab131d21d6a75f8205744345fb0318ad0509a9bce7485ad0ac",
+      "license": "MIT"
+    },
+    {
+      "id": "trader-entry",
+      "name": "trader-entry",
+      "version": "unversioned-import",
+      "description": "Entry Timer. Watches a setup bar by bar and tells you the moment to get in. Reads free Yahoo 1-minute or 5-minute bars, builds the opening range (the first 15 minutes by default) and calls the entry on the first completed bar that CLOSES above the range high, or above a level you give it (like a 20-day high from the scanner), with an optional volume check. Says waiting and how far, triggered with the time and the price, expired, or not open yet, and writes trader/entry.json for /trader-exit. Long side only. It never places an order. Use when the user says \"tell me when to get in\", \"watch TSLA\", \"has it broken out\", \"did it break the opening range\", \"entry signal\", \"time my entry\", \"check my watchlist\", or after /trader-scanner and /trader-news, before /trader-exit. 9:30, 9:35 and 9:40 five-minute bars, or fifteen 1-minute bars. The level to beat is the range high. above the level. A wick above is not a trigger. A close exactly at the level is not above it. The price is its close, to the cent. plus 5 (or 1) minutes and Yahoo has caught up to that moment (it waits a minute at most). Yahoo's live tick, like 10:49:45, is never a bar. bar's volume at 1.5 times the range bars' average. The 9:30 bar holds the opening auction, so 1.0 is already strict. p.m. early close the cutoff moves up with the close, to 12:30. triggered, expired, or no data. Before 9:30: not open yet. Before 9:45: the range is still forming. Weekends and NYSE holidays: the market is closed. `/trader-scanner`. Check `/trader-news` for it first. waiting and how far, triggered at what time and price, or expired. the background, or `entry.py check SYMBOL --write` on a `/loop` every 5 minutes. `watch` wakes just after each bar closes, prints one line per bar, and exits 0 on the trigger (it writes `trader/entry.json`) or 1 when the setup expires. Keep the computer awake while it watches: a sleeping laptop pauses it, and it catches up, late, when it wakes. If the trigger is more than a bar old, say that too: a late entry is a different trade. is bought. and can lag. Say so when a minute matters. promises winning trades or money. reset it. passed that exact order today, the user typed an explicit yes for that one order in the chat, and the user clicked Allow once on Claude's own card because the order tool is set to \"Needs approval\" (Customize > Connectors > tool permissions). Never set an order tool to \"Always allow\".",
+      "path": ".claude/skills/trader-entry/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "trading",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:day-trader",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.711580+00:00",
+      "fingerprint": "09529fafed6bd8445ca8b03303b47b68794473e050bf99f638509c9a32a7e67c",
+      "license": "MIT"
+    },
+    {
+      "id": "trader-exit",
+      "name": "trader-exit",
+      "version": "unversioned-import",
+      "description": "Exit Planner. Sets your stop and your target before you enter, so you know when to get out. Reads the entry from trader-entry (or a price you give), puts the stop at the opening-range midpoint by default (or the range low, your price, a percent, or a multiple of the ATR), rounds it down to the cent, and sets the target at 2R (or 1R, or your price). Refuses a stop at or above the entry, a target at or below it, or a stop too tight to survive the spread, and says why. Writes trader/plan.json for the Time Machine, the Budget Manager and Price Alerts. Long side only. Use when the user says \"where's my stop\", \"set my stop and target\", \"plan the exit\", \"when do I get out\", \"stop loss\", \"what's my R\", \"risk reward\", or right after /trader-entry triggers, before /trader-timemachine. long). Risk = entry minus stop. Target = entry + R x risk, rounded half up to the cent. `2R` by default; `1R`, `1.5R` or `price:X` also work. below it. A risk under 0.05% of the price: too tight to survive the spread, normal wiggle would stop you out. An entry.json that has not triggered (unless you give `--entry`). A short: v2 plans longs only. win or lose, no overnight hold. On a 1:00 p.m. early close it moves up to 12:55. An entry at or after the flat-by time is refused. plans ahead at the level you expect. another. A level setup needs one: ask. the target and its rule, the risk a share, reward:risk and flat by. target). Never loosen anything on your own. to size it to the max loss per trade. Offer `/trader-alerts` for the stop, the target and the flat-by time. Claude can keep `entry.py watch` running in the background or on a `/loop` until a setup triggers, then come here. Entry         $364.18 at 10:15 AM (bar 8) Stop          $358.32  opening-range midpoint: ($362.18 + $354.47) / 2 = $358.325, rounded down Target        $370.04  1R (one times the risk) Risk a share  $5.86 (1.61% of the entry) Reward:risk   1.0 Flat by       15:55 ET, win or lose: no overnight hold never prints a P&L or a return. prediction that the price gets there. passed that exact order today, the user typed an explicit yes for that one order in the chat, and the user clicked Allow once on Claude's own card because the order tool is set to \"Needs approval\" (Customize > Connectors > tool permissions). Never set an order tool to \"Always allow\".",
+      "path": ".claude/skills/trader-exit/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "trading",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:day-trader",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.711830+00:00",
+      "fingerprint": "58d56472d5ab377477c7afe42bb64670f8cc9bdc0418a826768a40e1e08b4bea",
+      "license": "MIT"
+    },
+    {
+      "id": "trader-news",
+      "name": "trader-news",
+      "version": "unversioned-import",
+      "description": "News Monitor. Tracks breaking news on every stock you watch and flags what moves it: Yahoo Finance headlines per ticker, each company's 8-K filings on SEC EDGAR (earnings, CEO changes, deals, restatements, bankruptcy) and how far each stock is from yesterday's close. Shows only what is new since the last check, newest first, in New York time, tags each item (earnings, analyst, deal, halt, regulatory, macro...) and never repeats one. Use when the user says \"any news on TSLA\", \"why is this moving\", \"what's the news on my watchlist\", \"morning briefing\", \"pre-market news\", \"monitor the news\", \"did anything break\", \"check the 8-Ks\", or after /trader-scanner finds setups. happened, open the story or the filing and read it. Quote the source and link it. Never summarise a paywalled story you could not read: say so. what the company told the SEC. tags: earnings, analyst, legal, deal, capital, people, risk, halt, regulatory, macro. Filings marked `!` carry an important 8-K item: earnings results (2.02), an officer change (5.02), an impairment (2.06), a delisting notice (3.01), past financials no longer reliable (4.02), bankruptcy (1.03) or a cyber incident (1.05). A move with no headline is worth saying out loud too. yesterday's close. Never say what the stock will do next. nothing new. `--all` shows items already seen, `--json` gives everything machine readable, `--dry-run` leaves the state alone. halt, legal, regulatory or risk, and every MOVING ticker first. move, and one line on why it matters to the setup (for example \"earnings are this week: an overnight gap can jump past any stop\"). `/trader-exit`: an earnings date inside the trade, a halt, an offering. Never act on a headline alone. headline. calls, and SEC's 10 requests a second limit stays far away.",
+      "path": ".claude/skills/trader-news/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "trading",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:day-trader",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.712073+00:00",
+      "fingerprint": "16a4e62c9569bacb1fcda910015cd8960e6285cf726cc62a08bc307d1320e942",
+      "license": "MIT"
+    },
+    {
+      "id": "trader-pelosi",
+      "name": "trader-pelosi",
+      "version": "unversioned-import",
+      "description": "The Pelosi Tracker. Watches the stock trades members of Congress must disclose under the STOCK Act: reads the House Clerk's public Periodic Transaction Reports (PTRs) as soon as they are posted, alerts once per new filing, and turns each PDF into clean rows (who, owner, stock, ticker, buy or sell, options strike and expiry, trade date, amount range, how many days it took to disclose). Flags trades in stocks you hold. Senate reports are covered by a documented manual route. Use when the user says \"what is Pelosi buying\", \"track Nancy Pelosi\", \"Congress trades\", \"politician stock trades\", \"did any congressman buy X\", \"alert me when Pelosi files\", or \"run the Pelosi skill\". (one `<Member>` per filing: name, district, FilingType, FilingDate, DocID) and each PTR at `.../public_disc/ptr-pdfs/<YEAR>/<DocID>.pdf`. alerts once) and keeps downloaded PDFs in `trader/state/ptr-pdfs/`. Clerk's site, with its DocID and link. Third-party trackers are fine for browsing but can be off (Capitol Trades showed Pelosi's trade dates one day earlier than her PTRs). The PTR wins. the member. Pelosi's 2026 trades are all SP: Paul Pelosi. and the filing; over 45 is flagged as late. a share purchase. The tool reads contracts, strike and expiry from the description and marks exercises. - spouse purchase, Bloom Energy Corporation Class A Common Stock (BE): 100 call options, $100 strike, expires 2027-06-17, $1,000,001 - $5,000,000, traded 2026-07-24, disclosed 28 days later accepts the agreement themselves. name, set the date range and search. paper filings are scanned images. and you write it up in the same shape as the House rows, with the report link, and the same 45-day caveat. politician beats the market. No return claims. trade date. recommendation to buy or sell anything. `/trader-risk` passes AND the user types an explicit yes for that order in the chat, AND the brokerage tool is set to \"Needs approval\" in Claude (Customize > Connectors > tool permissions) so Claude's own \"Allow once / Deny\" card appears too. Never \"Always allow\" an order tool. the user confirms. trade (STOCK Act). This skill reads them fast; it has no inside information, and it says so.",
+      "path": ".claude/skills/trader-pelosi/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "trading",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [
+        "Python standard library tools where supplied; check chosen tool help",
+        "FFmpeg/ffprobe for video rendering; pdftotext for disclosure PDFs when used"
+      ],
+      "source": "preserved-upload:day-trader",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.712336+00:00",
+      "fingerprint": "3d36e98db9d7f5fc958829433c2b454bfb4c53efa8f2b6f846ec3c17fd131dad",
+      "license": "MIT"
+    },
+    {
+      "id": "trader-risk",
+      "name": "trader-risk",
+      "version": "unversioned-import",
+      "description": "Risk Manager. Checks every trade against your limits and stops anything over them, before it can reach the broker. For a day trade: a stop is required, the loss at the stop must fit your max loss per trade (measured from the higher of the plan's entry and a fresh price), reward:risk must meet your minimum, the day's total risk must fit your daily loss limit, no more than your trades per day, and no new entries outside your entry window or when the market is closed. It also keeps the basics: blocked tickers, order size, position cap, cash buffer, margin, short sales, options and crypto, malformed or bad bracket orders, duplicates and a daily order limit. Getting out is never blocked by a day limit. Prints PASS or BLOCK with the reason and records the verdicts so trader-broker only shows an order that passed. Use when the user says \"check my order\", \"is this safe\", \"risk check\", \"does this break my rules\", \"can I take this trade\", \"how much have I risked today\", or before /trader-broker, always. market order, the HIGHER of the plan's entry and a fresh price from `trader/prices.json` (under 15 minutes old). A plan written at 10:15 cannot understate the risk at 10:55 after the price ran up. An older price is not used, and it says so. lose, as trader-broker logged it. Three full-size trades use up a $150 day. included), never from the computer's clock zone. Weekends and NYSE holidays are closed. On a 1:00 p.m. early close the window ends 3 hours earlier too. Set both `no_entries_*` to null to switch the window off. sold on the same day in the log, plus any entry placed today (it is meant to be flat by the close). FINRA removed the $25,000 pattern-day-trader minimum (Regulatory Notice 26-10, effective June 4, 2026; firms may phase in until October 20, 2027), so some brokers still apply the old rule: turn `pdt_guard` on if yours does. (trader-alerts: `alerts.py quote TSLA --write`). was blocked. the stop, reward:risk, and how much of today's limits it uses. For a BLOCK, give the reason and the fix (fewer shares, a closer stop from trader-exit, wait for the window, or skip the trade). Never change a limit yourself. each order to its verdict by fingerprint, so an edited order is not ready until it passes again, and a verdict from yesterday does not count today. entry 364.18 (the plan's entry), stop 358.32, target 370.04: risk 5.86 a share max loss $46.88 (limit $50), reward:risk 1.00 (min 1) today before this: 0 of 3 trades, $0 of $150 daily loss entry 364.18 (the plan's entry), stop 358.32, target 370.04: risk 5.86 a share max loss $52.74 (limit $50), reward:risk 1.00 (min 1) today before this: 0 of 3 trades, $0 of $150 daily loss - loss: 9 shares x 5.86 risk a share = $52.74 at the stop, over your $50 max loss per trade stop can fill worse than its price in a fast market. passed that exact order today, the user typed an explicit yes for that one order in the chat, and the user clicked Allow once on Claude's own card because the order tool is set to \"Needs approval\" (Customize > Connectors > tool permissions). Never set an order tool to \"Always allow\".",
+      "path": ".claude/skills/trader-risk/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "trading",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:day-trader",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.712593+00:00",
+      "fingerprint": "065124539fc4daa8fa4abc73a836722931403486c73e4fdb4a5ae5296d22b817",
+      "license": "MIT"
+    },
+    {
+      "id": "trader-scanner",
+      "name": "trader-scanner",
+      "version": "unversioned-import",
+      "description": "Chart Scanner. Scans thousands of charts for setups: opening-range breakouts, flags, oversold bounces. Builds the list of US-listed common stocks, ordinary shares and ADRs from Nasdaq Trader's symbol directories, runs a pre-market scan of daily closes (20-day closing-high breakout, bull flag, reclaimed the 20-day average, oversold, oversold bounce) and an intraday opening-range breakout scan on 5-minute bars, then writes trader/watchlist.json for trader-news and trader-entry. Free Yahoo data, bar by bar. Use when the user says \"scan the market\", \"find me setups\", \"what is breaking out\", \"opening range breakouts\", \"scan for bull flags\", \"oversold stocks\", \"pre-market scan\", \"build my watchlist\", \"what should I look at today\", or at the start of a trading day before /trader-news. letter after a dot (BRK.B). A `$` preferred (ABR$D) is out, and so is a `.U`, `.W` or `.R` suffix (units, warrants, rights). each consisting of\", \"Rights to receive\"); notes, ETNs, debentures; a % coupon; \"Depositary Shares\" that are not American or Global (those carry a preferred). shares, shares of beneficial interest, ADS / ADR / American or Global depositary shares, or partnership or trust units. request. A chart goes on only if a completed bar after the range closed at or above the highest close of the range. That is a necessary condition (the range high is at least every range close), so no breakout is lost. request each. Range high = the highest high of the range bars, range low = the lowest low. On a strong morning most charts are candidates, so stage 2 checks at most `--max-confirm` (200) of them, the most traded first (price times volume so far), and prints PARTIAL with the count it skipped. `--max-confirm 0` checks them all. 5-minute bars, bar by bar, never tick by tick. query2 first, query1 on a 429 or 5xx, one retry after a 5-second wait on a 429. failed or had no data)\". Never round a partial scan up to \"the whole market\". liquid, scanned, hits) and the top few by setup. many usable charts broke their range and when, and that a later hit is closer to the price now. it), then `/trader-entry TICKER` (the entry bar by bar). Never pick for them. 9:50 AM  AMC         $2.97  range 2.90 to 2.96  +0.50% over ... 10:15 AM  TSLA      $364.18  range 354.47 to 362.18  +0.55% over were usable, and the time of the data. passed that exact order today, the user typed an explicit yes for that one order in the chat, and the user clicked Allow once on Claude's own card because the order tool is set to \"Needs approval\" (Customize > Connectors > tool permissions). Never set an order tool to \"Always allow\".",
+      "path": ".claude/skills/trader-scanner/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "trading",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:day-trader",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.712849+00:00",
+      "fingerprint": "4255e82f82db5e63bba37149048d32db304fdcc1b2a6c89013fe1ae22d1ecaec",
+      "license": "MIT"
+    },
+    {
+      "id": "trader-timemachine",
+      "name": "trader-timemachine",
+      "version": "unversioned-import",
+      "description": "Time Machine. Replays every possible outcome of a trade before you risk a dollar: 10,000 simulated sessions plus every past time the setup fired. Takes the plan from trader-exit (entry, stop, target), rebuilds the rest of the day 10,000 times from the stock's own 5-minute bars over the last 60 days, and re-runs the same rule on every past session. Prints the odds of target first, stop first, or neither by the close, where the price sits at the close, the average R, the history, and one honest verdict, then hands off to /trader-budget. Use when the user says \"run the time machine\", \"replay this trade\", \"what are the odds\", \"simulate this trade\", \"monte carlo\", \"backtest this setup\", \"how often does this hit the target\", \"is this a coin flip\", or after /trader-exit writes a plan, before /trader-budget. --entry 364.18 --stop 358.32 --target 370.04 --entry-time \"10:15 AM\" five-minute bars, 9:30 to 4:00 New York time. Half days, gaps and today are left out. Every bar becomes four ratios to the bar before it: open, high, low and close over the previous close. pick a past bar from the same time of day (plus or minus 2 bars) at random, and scale it to the current price. Bar by bar, it checks the stop first, then the target. A bar that touches both counts as the stop. which means the trade was still open at `--until` (default 4:00 PM, the close, or 1:00 PM on an NYSE early-close day). Green, which means target first or above the entry at `--until`. R is +1 at a 1R target, -1 at the stop, and otherwise the distance from the entry at `--until` divided by the risk. A gap through the stop still counts as -1R here. A real fill can be worse. and target R) runs again on every one of those past sessions. That is what really happened, not a simulation. replays that hit one side, and asks how often the target came first. A bigger target needs to win less often to break even: 1 in (1 + R). That is 50 % at 1R, 33 % at 2R, 25 % at 3R. Less than 5 points from break-even: \"Close to a coin flip\" at 1R, \"Close to break-even\" at any other R. 5 to 15 points: \"Leans toward the target\" or \"Leans toward the stop\". 15 or more: \"Strongly toward\" one of them. So a 2R plan with target first 24.1 % and stop first 50.5 % is close to break-even (it needs 33 % of the 74.6 % that hit a side, and got 32 %), not a loser. replays hit neither (the price at `--until` decides those), and the average R when its sign goes against the lean. Those can only point the other way because of the replays that hit neither. is none, run that first, or pass the plan as flags. flat-by time, so \"neither\" means still open at the time you would get out. range of the price at the close, the average R, the history line, then the verdict line and any line under it exactly as printed. Say the seed. not dress it up. If the history and the replays disagree, say that too. Earnings, news and halts can do things those 60 days never did. Check `/trader-news` for the stock before going on. target first   29.4 % stop first     25.5 % neither        45.1 %   still open at 4:00 PM green          51.7 %   target first, or above the entry at 4:00 PM Price at 4:00 PM: median 364.36, 90 % of replays between 355.54 and 373.54. Average R: +0.034 them, do not rewrite them. Never judge a 2R or 3R plan by target first vs stop first alone: the verdict already weighs the target's R. bar by bar, never tick by tick and never real time. passed that exact order today, the user typed an explicit yes for that one order in the chat, and the user clicked Allow once on Claude's own card because the order tool is set to \"Needs approval\" (Customize > Connectors > tool permissions). Never set an order tool to \"Always allow\".",
+      "path": ".claude/skills/trader-timemachine/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "trading",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:day-trader",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.713110+00:00",
+      "fingerprint": "81b25ce0758b36ecb3c59320562d849dc03b823c11633bdcc67fa2c7326948ca",
+      "license": "MIT"
+    },
+    {
+      "id": "autonomous-web-research",
+      "name": "autonomous-web-research",
+      "version": "unversioned-import",
+      "description": "Conduct verifiable, dated research on legitimate online income models, platform rules and buyer demand.",
+      "path": "vendor/income/.claude/skills/autonomous-web-research/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.713299+00:00",
+      "fingerprint": "147430a8d11a12145d834373bd48a37840515a2c12218ad64b9c91a5520bd457",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "business-model-innovation",
+      "name": "business-model-innovation",
+      "version": "unversioned-import",
+      "description": "Invent differentiated online income opportunities grounded in real customer problems and deliverability.",
+      "path": "vendor/income/.claude/skills/business-model-innovation/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.713461+00:00",
+      "fingerprint": "a90782d8fe076a1b7c247290a3643e64afad9038c5c2f2a7a57c359815e8f457",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "business-plan-development",
+      "name": "business-plan-development",
+      "version": "unversioned-import",
+      "description": "Draft practical 30/60/90-day launch plans for verified opportunities requiring user consent for external actions.",
+      "path": "vendor/income/.claude/skills/business-plan-development/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.713618+00:00",
+      "fingerprint": "a27a16b237ceb3d17744ba00622405293b7537d2ce722bf0f7dc667de9ce860d",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "competitor-and-demand-analysis",
+      "name": "competitor-and-demand-analysis",
+      "version": "unversioned-import",
+      "description": "Compare competitor offers, demand evidence, public prices, customer frustrations and differentiation.",
+      "path": "vendor/income/.claude/skills/competitor-and-demand-analysis/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.713771+00:00",
+      "fingerprint": "2c0547bea069d56a68d33243cfc821932ae6214a064203b5f31079b541483582",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "continuous-improvement-loop",
+      "name": "continuous-improvement-loop",
+      "version": "unversioned-import",
+      "description": "Track policy, payment route and experiment changes without endless research or false background execution.",
+      "path": "vendor/income/.claude/skills/continuous-improvement-loop/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.713923+00:00",
+      "fingerprint": "3d622a687e84e2c48c3c3b7a2710fb454ac9a091ec5055dbe9c2e1e1a7c8ab1e",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "decision-making-framework",
+      "name": "decision-making-framework",
+      "version": "unversioned-import",
+      "description": "Make evidence-based, risk-adjusted decisions and resolve contradictory subagent recommendations.",
+      "path": "vendor/income/.claude/skills/decision-making-framework/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.714076+00:00",
+      "fingerprint": "4dc88d44b791846fe2aa80513743648457097007073165640e784e53db40e52a",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "financial-modeling",
+      "name": "financial-modeling",
+      "version": "unversioned-import",
+      "description": "Calculate net-income and break-even scenarios with transparent assumptions and hours.",
+      "path": "vendor/income/.claude/skills/financial-modeling/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.714495+00:00",
+      "fingerprint": "8a33c840870413d1ec664ef6a988ff7245bdb2f3799ffba7f0527fa86ad60956",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "fraud-and-scam-detection",
+      "name": "fraud-and-scam-detection",
+      "version": "unversioned-import",
+      "description": "Review online earning proposals for scams, impossible promises, illegal or unsafe actions and unresolved compliance risks.",
+      "path": "vendor/income/.claude/skills/fraud-and-scam-detection/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.714685+00:00",
+      "fingerprint": "004f06269749c433500fd3ba1584b5571274f7837603505003d8e33bea0e0eca",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "iraq-market-intelligence",
+      "name": "iraq-market-intelligence",
+      "version": "unversioned-import",
+      "description": "Analyze Iraq-specific access, local customer needs, regional market patterns and lawful constraints.",
+      "path": "vendor/income/.claude/skills/iraq-market-intelligence/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.714855+00:00",
+      "fingerprint": "9e3bae62daaadeaebb618050604b4ba421fe81e3ffb231aff63ceba67b90bdfc",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "lean-experiment-design",
+      "name": "lean-experiment-design",
+      "version": "unversioned-import",
+      "description": "Define low-cost measurable market experiments with precommitted thresholds and stop conditions.",
+      "path": "vendor/income/.claude/skills/lean-experiment-design/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.715017+00:00",
+      "fingerprint": "2c11cb4f5447fb7696b74a4ea8bcbefbadfb8eb5a575cc25098f100330a5068f",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "multi-agent-orchestration",
+      "name": "multi-agent-orchestration",
+      "version": "unversioned-import",
+      "description": "Coordinate 11 named research, feasibility, QA and execution subagents while enforcing independent review.",
+      "path": "vendor/income/.claude/skills/multi-agent-orchestration/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.715178+00:00",
+      "fingerprint": "a3fbfbc281fd466fd2dc4562ed9591c05b6558206f92adf244606d83b9415a43",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "opportunity-scoring",
+      "name": "opportunity-scoring",
+      "version": "unversioned-import",
+      "description": "Score opportunities consistently by Iraq feasibility, demand, net earnings, cost, time, scale and competition.",
+      "path": "vendor/income/.claude/skills/opportunity-scoring/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.715452+00:00",
+      "fingerprint": "3f09c41c19222dbdc7afd80a251b7560c8db21786cd28891e7a5914eee6d246b",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "payment-gateway-verification",
+      "name": "payment-gateway-verification",
+      "version": "unversioned-import",
+      "description": "Verify all six stages in a legitimate payment route from buyer to actual spendable funds in Iraq.",
+      "path": "vendor/income/.claude/skills/payment-gateway-verification/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.715648+00:00",
+      "fingerprint": "dcc18095e076054f045938800840228b3e27d48e0d8342d154a41b4dc5c19fb6",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "persistent-agent-memory",
+      "name": "persistent-agent-memory",
+      "version": "unversioned-import",
+      "description": "Maintain SQLite-backed evidence, decisions, payout checks, scenarios, experiments and learning outcomes.",
+      "path": "vendor/income/.claude/skills/persistent-agent-memory/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.715811+00:00",
+      "fingerprint": "5f4be9b93316be535b25fbe8b279983b3b7d7142e40a2f18fa6510e54c0464e0",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "root-cause-analysis",
+      "name": "root-cause-analysis",
+      "version": "unversioned-import",
+      "description": "Analyze why QA failed or experiments underperformed and issue one bounded corrective research plan.",
+      "path": "vendor/income/.claude/skills/root-cause-analysis/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.715966+00:00",
+      "fingerprint": "8625b5c5ed4795d968785d8ebe8963fead3eb31db5b9c65c917a57d399508c6e",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "source-fact-checking",
+      "name": "source-fact-checking",
+      "version": "unversioned-import",
+      "description": "Independently verify externally checkable claims and payment/platform evidence against dated primary sources.",
+      "path": "vendor/income/.claude/skills/source-fact-checking/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.716126+00:00",
+      "fingerprint": "ee48444dc8645c82901e2ac197aae9e47116976b86ff4aede6f6d11c97b2e2e6",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "structured-report-generation",
+      "name": "structured-report-generation",
+      "version": "unversioned-import",
+      "description": "Generate concise decision dashboards and auditable research reports with evidence and gate status.",
+      "path": "vendor/income/.claude/skills/structured-report-generation/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "income",
+        "ecommerce",
+        "agent-development",
+        "quality"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:income",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.716337+00:00",
+      "fingerprint": "2ed4e253a0c4d73fcc178d3facbcc94461230e09cd561dda526836bdabb7f5b2",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "agent-design",
+      "name": "agent-design",
+      "version": "unversioned-import",
+      "description": "Specify agent interfaces, tools, skills, limits and acceptance criteria. Use when designing or refining a Claude Code subagent.",
+      "path": "vendor/maos/.claude/skills/agent-design/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.716512+00:00",
+      "fingerprint": "fcc51585eed73943dea61111e1a76ced16a22268ad5d975eef4229e219668c95",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "agent-lifecycle",
+      "name": "agent-lifecycle",
+      "version": "unversioned-import",
+      "description": "Control proposed, tested, QA-approved and active agent registry states. Use when promoting, updating or retiring agents.",
+      "path": "vendor/maos/.claude/skills/agent-lifecycle/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.716762+00:00",
+      "fingerprint": "43bf87036b4394d091346860a933061f6d0d74a594068b9fb45d484666f9ef1d",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "agent-three-r",
+      "name": "agent-three-r",
+      "version": "unversioned-import",
+      "description": "Decide whether to reuse, script, temporarily delegate or create an agent. Use when a capability gap or agent proposal arises.",
+      "path": "vendor/maos/.claude/skills/agent-three-r/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.716925+00:00",
+      "fingerprint": "4fc2e98c9e8ff5ca9d824fde904765979e6b255aa758bea851dbc71260cb02be",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "approval-gates",
+      "name": "approval-gates",
+      "version": "unversioned-import",
+      "description": "Enforce human authorization for consequential actions. Use for payments, registration, publishing, deployments or deletion.",
+      "path": "vendor/maos/.claude/skills/approval-gates/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.717079+00:00",
+      "fingerprint": "2d549e076cd9133724aa562ffa8a6766d5e8242c9f1889a30b24c27c59cf852c",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "capability-benchmarking",
+      "name": "capability-benchmarking",
+      "version": "unversioned-import",
+      "description": "Compare a new or modified specialist against baseline results. Use before agent promotion or redesign.",
+      "path": "vendor/maos/.claude/skills/capability-benchmarking/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.717280+00:00",
+      "fingerprint": "1385d9e6a787c4ad528cb2b31674897cd02eb63a76208405d59738f6d65f7610",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "cost-estimation",
+      "name": "cost-estimation",
+      "version": "unversioned-import",
+      "description": "Forecast approximate cost and token needs. Use when scoping complex workflows or comparing agent options.",
+      "path": "vendor/maos/.claude/skills/cost-estimation/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.717538+00:00",
+      "fingerprint": "608cc73b7fa106a63b66dee57d48d3b035341f04874631163c8eca4ce2b2e2b8",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "data-workflow",
+      "name": "data-workflow",
+      "version": "unversioned-import",
+      "description": "Diagnose-Assemble-Take Action-Assess for meaningful task orchestration. Use when a task requires several steps or specialist coordination.",
+      "path": "vendor/maos/.claude/skills/data-workflow/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.717722+00:00",
+      "fingerprint": "ff6f5a7185099113b5255a65daa556c508ce7af255c9c7f7fe87d4127d7a56ba",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "evidence-research",
+      "name": "evidence-research",
+      "version": "unversioned-import",
+      "description": "Gather verifiable current sources and characterize confidence. Use when investigating technical, market or operational claims.",
+      "path": "vendor/maos/.claude/skills/evidence-research/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.717880+00:00",
+      "fingerprint": "74b4a76db06e20c9880479244bf896905de06144db62c529e9e4083b5220305c",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "independent-quality-assurance",
+      "name": "independent-quality-assurance",
+      "version": "unversioned-import",
+      "description": "Audit specialist deliverables for accuracy, security and acceptance. Use before closing meaningful tasks or activating agents.",
+      "path": "vendor/maos/.claude/skills/independent-quality-assurance/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.718035+00:00",
+      "fingerprint": "d7623b1e28f945e46bb4b22176a8973cd7cba6cfd25d891fda349f440c8c8cb4",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "learning-memory",
+      "name": "learning-memory",
+      "version": "unversioned-import",
+      "description": "Record lessons, rejected hypotheses and routing outcomes. Use after experiments, failures or major decisions.",
+      "path": "vendor/maos/.claude/skills/learning-memory/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.718259+00:00",
+      "fingerprint": "22cfe5c6bb31ae8424354305ab0ff971850097a13736cf5a10e31cc95877ed3c",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "registry-management",
+      "name": "registry-management",
+      "version": "unversioned-import",
+      "description": "Maintain persistent local agent and task capabilities. Use when checking ownership, role coverage or lifecycle records.",
+      "path": "vendor/maos/.claude/skills/registry-management/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.718434+00:00",
+      "fingerprint": "f00f04ac731476c485835df2148de694399fe176f8dbc5a3c9aa0b8e8a69d3c9",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "standard-reporting",
+      "name": "standard-reporting",
+      "version": "unversioned-import",
+      "description": "Deliver concise, traceable completed-task reports. Use for user progress updates, QA summaries or final results.",
+      "path": "vendor/maos/.claude/skills/standard-reporting/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.718597+00:00",
+      "fingerprint": "8f9231f5e381d629dd30fe675f9672b4fd657c144ee6a11971c87629acf4c4eb",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "targeted-rework",
+      "name": "targeted-rework",
+      "version": "unversioned-import",
+      "description": "Repair failed deliverables without restarting valid work. Use following a specific independent QA failure.",
+      "path": "vendor/maos/.claude/skills/targeted-rework/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.718753+00:00",
+      "fingerprint": "677a92072555a27cfa2ca066cfeff5c494883f60e7931187ededa5da4b8ca666",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "task-routing",
+      "name": "task-routing",
+      "version": "unversioned-import",
+      "description": "Route work to the smallest qualified team with explicit responsibility. Use when selecting existing agents or coordinating cross-department tasks.",
+      "path": "vendor/maos/.claude/skills/task-routing/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.718908+00:00",
+      "fingerprint": "ead702d3a5fe3f06405ee41d9cd177cb6fd8ae6e0fdebecf35e33037aa3f250c",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "token-optimization",
+      "name": "token-optimization",
+      "version": "unversioned-import",
+      "description": "Reduce redundant model calls and context without losing quality. Use when token budgets, latency or tool costs are relevant.",
+      "path": "vendor/maos/.claude/skills/token-optimization/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "management",
+        "agent-development",
+        "income",
+        "trading",
+        "shorts",
+        "quality",
+        "ecommerce"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:maos",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.719065+00:00",
+      "fingerprint": "a63b1377be168793104b3c89682b1f0c985416363306fdfd99a5f19666f86be5",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "agent-orchestration",
+      "name": "agent-orchestration",
+      "version": "unversioned-import",
+      "description": "Coordinate specialized subagents, dependencies and approval-gated YouTube Shorts production workflows. Use when assigning work, resolving agent disagreements or evaluating project status.",
+      "path": "vendor/shorts/.claude/skills/agent-orchestration/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.719243+00:00",
+      "fingerprint": "8ee2d1b4c9911e92a2dbdd88bb10a2a2fd784cf5512ab4b127e0f375c1f1f4a5",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "competitor-intelligence",
+      "name": "competitor-intelligence",
+      "version": "unversioned-import",
+      "description": "Build legal and original competitive pattern analysis for Shorts. Use when comparing creator strategies.",
+      "path": "vendor/shorts/.claude/skills/competitor-intelligence/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.719404+00:00",
+      "fingerprint": "ade1cb9db1a67c8b95a9befcd227df116c26433d111bee8e23ce5761d25f4ab1",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "copyright-compliance",
+      "name": "copyright-compliance",
+      "version": "unversioned-import",
+      "description": "Audit video asset licenses, originality and platform reuse risks. Use before any Shorts publication.",
+      "path": "vendor/shorts/.claude/skills/copyright-compliance/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.719555+00:00",
+      "fingerprint": "0351aa22af0b2d5284dccb942c2319b75c3912c41f75658768c6b1024194f0d5",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "critical-reasoning",
+      "name": "critical-reasoning",
+      "version": "unversioned-import",
+      "description": "Challenge evidence and weigh rival explanations in niche, competitor and Shorts strategy claims. Use when making high-impact recommendations.",
+      "path": "vendor/shorts/.claude/skills/critical-reasoning/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.719716+00:00",
+      "fingerprint": "a0f2cc2550cd66636bad772596b096df1ac92323039909795c7021256e7f9d2e",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "decision-memory",
+      "name": "decision-memory",
+      "version": "unversioned-import",
+      "description": "Record experiment choices, rationale and results in persistent SQLite project memory. Use after material decisions and learning.",
+      "path": "vendor/shorts/.claude/skills/decision-memory/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.720057+00:00",
+      "fingerprint": "ebe5611aa694d6c9952d47cf43a797985d3314e79788e07a5df04ff7357e181d",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "deep-web-research",
+      "name": "deep-web-research",
+      "version": "unversioned-import",
+      "description": "Research market opportunities through credible dated public sources. Use for niche discovery, trends and fact checking.",
+      "path": "vendor/shorts/.claude/skills/deep-web-research/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.720257+00:00",
+      "fingerprint": "3d9a925efb6b9a5894b9eb391af9c43e08c6d67381dc1eb2e8cc9cf6dea42223",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "fact-checking",
+      "name": "fact-checking",
+      "version": "unversioned-import",
+      "description": "Verify factual claims in scripts and video with credible sources. Use during independent quality review.",
+      "path": "vendor/shorts/.claude/skills/fact-checking/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.720432+00:00",
+      "fingerprint": "912ca4b69a44b46abf6d5a78cac1bcd049a299bf12173fc26b3aa463a24280e0",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "hypothesis-testing",
+      "name": "hypothesis-testing",
+      "version": "unversioned-import",
+      "description": "Design and evaluate measurable controlled Shorts creative experiments. Use when planning variants or deciding whether to scale.",
+      "path": "vendor/shorts/.claude/skills/hypothesis-testing/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.720751+00:00",
+      "fingerprint": "38cf428ea6956f8251676ef2469cb7232e98eaeaf8e76be0049c24ec490c56e2",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "niche-scoring",
+      "name": "niche-scoring",
+      "version": "unversioned-import",
+      "description": "Rank niches consistently using evidence-grounded factors. Use when choosing between niche opportunities.",
+      "path": "vendor/shorts/.claude/skills/niche-scoring/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.720920+00:00",
+      "fingerprint": "aed4578f6ec6b75ac625af6ca718669c16c895e6ae3cc9edec13b817f8aa0268",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "performance-analytics",
+      "name": "performance-analytics",
+      "version": "unversioned-import",
+      "description": "Compare real Shorts experiments using channel-owned metrics and costs. Use after publishing and analytics availability.",
+      "path": "vendor/shorts/.claude/skills/performance-analytics/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.721102+00:00",
+      "fingerprint": "373ea5d7ac29535ff79c7893693672e043c227f831edc248c2c08d92ec283928",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "short-form-storytelling",
+      "name": "short-form-storytelling",
+      "version": "unversioned-import",
+      "description": "Write original short-form narratives and timed production scripts. Use when creating Shorts scripts.",
+      "path": "vendor/shorts/.claude/skills/short-form-storytelling/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.721299+00:00",
+      "fingerprint": "a5248e63d964ec43ba00196166fe74092d9ffa94e719b996c5efd76e57c14d6e",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "storyboard-design",
+      "name": "storyboard-design",
+      "version": "unversioned-import",
+      "description": "Plan 9:16 scene-by-scene frames, motion and transitions. Use when preparing production.",
+      "path": "vendor/shorts/.claude/skills/storyboard-design/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.721463+00:00",
+      "fingerprint": "78c35006867582b37430b437f16713d81e576137ef15c82df47a7f2dc94f8df1",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "video-automation",
+      "name": "video-automation",
+      "version": "unversioned-import",
+      "description": "Automate rendering, subtitle generation and technical video verification. Use when producing vertical videos.",
+      "path": "vendor/shorts/.claude/skills/video-automation/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [
+        "Python standard library tools where supplied; check chosen tool help",
+        "FFmpeg/ffprobe for video rendering; pdftotext for disclosure PDFs when used"
+      ],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.721618+00:00",
+      "fingerprint": "cef9486bc65a6c1f3d7f03081875cc7aa5dba9a19bc9d5ef53abb06cf34a04cc",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "video-quality-audit",
+      "name": "video-quality-audit",
+      "version": "unversioned-import",
+      "description": "Inspect 9:16 resolution, streams, audio, captions and visual consistency before publishing. Use for final video QA.",
+      "path": "vendor/shorts/.claude/skills/video-quality-audit/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.721774+00:00",
+      "fingerprint": "0b42c7b049e4a1cbbd948ef94d83ae6a3e275ac6d425686ced17ceb473fff91b",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "viral-hook-analysis",
+      "name": "viral-hook-analysis",
+      "version": "unversioned-import",
+      "description": "Study and write original Shorts opening hooks with measurable retention hypotheses. Use when testing first seconds or drafting hooks.",
+      "path": "vendor/shorts/.claude/skills/viral-hook-analysis/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.721924+00:00",
+      "fingerprint": "09fa12591cb174cecd3dd97f63e63b56c06adce33244ff924ee5f5fe001ab43d",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "visual-branding",
+      "name": "visual-branding",
+      "version": "unversioned-import",
+      "description": "Create original repeatable vertical visual identity for a Shorts channel. Use when defining typography, colors and motion.",
+      "path": "vendor/shorts/.claude/skills/visual-branding/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.722077+00:00",
+      "fingerprint": "91b657eaadc42569737023406a9077bf453482c56c9f01f0a73f88bf0c51b90b",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    },
+    {
+      "id": "youtube-data-analysis",
+      "name": "youtube-data-analysis",
+      "version": "unversioned-import",
+      "description": "Analyze YouTube Data API public metadata and owned-channel analytics exports. Use for YouTube channel/video metrics.",
+      "path": "vendor/shorts/.claude/skills/youtube-data-analysis/SKILL.md",
+      "supported_agents": [],
+      "supported_departments": [
+        "shorts",
+        "quality",
+        "agent-development"
+      ],
+      "dependencies": [],
+      "source": "preserved-upload:shorts",
+      "permissions": [
+        "local-read",
+        "local-draft",
+        "authorized-research-only"
+      ],
+      "security_status": "BASELINE_REVIEWED",
+      "test_results": [
+        {
+          "result": "PASS",
+          "reference": "docs/V03-TEST-RESULTS.md; offline baseline and structural/behavioral validation only"
+        }
+      ],
+      "last_validation_date": "2026-10-30T05:55:54.722363+00:00",
+      "fingerprint": "0b8bf3a7ca52ee96f341e6d96d1f0720f8f2cb5855e0cecaa2cf08a25c9239ac",
+      "license": "Not specified in imported package; review source rights before redistribution"
+    }
+  ]
+}

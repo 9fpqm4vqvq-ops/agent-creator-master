@@ -9,3 +9,5 @@ trader/
 vendor/**/reports/
 node_modules/
 work/
+memory/
+*.pre-v03-*

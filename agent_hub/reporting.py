@@ -7,9 +7,9 @@ def markdown_report(report):
     displayed = datetime.fromisoformat(report['generated_at']).astimezone(timezone(timedelta(hours=3)))
     lines = ['# Master agent report', '', f"Generated: {displayed.isoformat()} (Asia/Baghdad)", '',
              f"Execution: {report['execution_mode']}. Live trading: disabled.", '',
-             ' | '.join(f'{state}: {count}' for state, count in report['counts'].items()), '']
+             ' | '.join(f'{state}: {count}' for state, count in report.get('phase_counts', report['counts']).items()), '']
     for task in report['tasks']:
-        lines.extend([f"## Task {task['id']}: {task['status']}", '',
+        lines.extend([f"## Task {task['id']}: {task.get('phase', task['status'])}", '',
                       f"Request: {task['request']}", '',
                       f"Owner: {task['owner']}; parent: {task['parent'] or 'none'}; mode: {task['mode']}.", '',
                       f"Acceptance criteria: {task['criteria']}", ''])

@@ -1,11 +1,17 @@
 # Repository development
 
-This repository implements a supervised Claude Code master-agent system. Read
-README.md and CLAUDE.md for the intended organization and operating contract.
-Source packages in vendor/ are preserved imports. Prefer changes in agent_hub/,
-root profiles, docs and tests; document any necessary vendor patch separately.
+This repository extends the supervised Claude Code master-agent system to v0.3.
+Read README.md and CLAUDE.md. Preserve vendor sources; prefer root integration
+changes and document any necessary vendor patch. Do not remove established agents,
+skills or regression scenarios. Use Python 3.10+ standard library for the hub.
 
-Use Python 3.10+ standard library for the hub. Run `python -m unittest discover -s tests -v`
-and `python scripts/validate_all.py` after material changes. Do not claim model
-delegation, independent QA, live data, broker execution or publishing from offline tests.
-Do not commit databases, credentials, personal trading settings or operational outputs.
+After material changes run `python -m unittest discover -s tests -v` and
+`python scripts/validate_all.py`. Preserve real test evidence. Do not claim model
+delegation, independent model QA, live data, broker execution or external sync from
+offline tests. Keep local databases, credentials, personal business/trading settings,
+vault records, operational exports and outputs out of Git/releases.
+
+New substantive tasks must use Management review/plan/assign, selected registered
+skills, memory recall, preflight/start and structured independent QA evidence.
+Stage unreviewed skills under work/skill-candidates outside native discovery. Respect
+actual user authorization and host permissions; local attestation text is not identity.

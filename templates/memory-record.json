@@ -1,0 +1,11 @@
+{
+  "namespace": "ecommerce",
+  "kind": "research-finding",
+  "title": "REPLACE_WITH_CONCISE_TITLE",
+  "payload": {
+    "summary": "REPLACE_WITH_FINDING_OR_DECISION",
+    "limitations": []
+  },
+  "sources": [],
+  "confidence": "UNVERIFIED"
+}

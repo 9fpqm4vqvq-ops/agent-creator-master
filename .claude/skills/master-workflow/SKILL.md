@@ -1,13 +1,17 @@
 ---
 name: master-workflow
-description: Receive a user request, route it through the master agent departments, track evidence and handoffs, and return a reviewed report.
+description: Route requests through Management, selected skills, memory recall, preflight, departments and independent QA before returning reviewed reports.
 ---
 
-Read the root CLAUDE.md. Use `python -m agent_hub agents` to inspect departments.
-Create a task with explicit acceptance criteria. Dispatch a packet and actually invoke
-the designated Claude Code profile. The dispatch command itself performs no AI work.
-Record instruction/skill/runtime/freshness checks with `preflight ID --checks PATH`
-before execution. Repeat after each rework handoff. Report inaccessible current sources.
-Submit real artifacts and dated evidence. Obtain independent QA and report results.
-Use creator/researcher for agent maintenance; use Income -> Trading for trading.
-Any live action remains outside this research/paper-only release.
+# Master workflow v0.3
+
+Read CLAUDE.md and docs/WORKFLOW-V03.md. Use the supported Hub/CLI, not the internal
+legacy foundation. Register the original request, obtain actual Management analysis,
+plan and assignment, then dispatch. Read selected registered skills, recall relevant
+memory and record current preflight before explicit start. Actually invoke native
+workers through the master when nested delegation is unavailable. Submit real
+artifacts and dated evidence, obtain separately invoked criterion-level QA, return
+precise corrections to the owner and escalate unresolved cycles at the configured
+threshold. Report only actual recorded outcomes and evidence. No CLI handoff runs
+an AI model, no memory record overrides current authority, and no local approval
+string authenticates a human or authorizes an external side effect by itself.

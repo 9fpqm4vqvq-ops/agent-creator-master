@@ -1,0 +1,20 @@
+{
+  "id": "candidate-skill",
+  "name": "candidate-skill",
+  "version": "0.1.0",
+  "description": "REPLACE_WITH_SPECIFIC_CAPABILITY",
+  "path": "work/skill-candidates/candidate-skill/SKILL.md",
+  "supported_agents": [],
+  "supported_departments": [
+    "ecommerce"
+  ],
+  "dependencies": [],
+  "permissions": [
+    "REPLACE_WITH_REVIEWED_REQUIRED_PERMISSIONS"
+  ],
+  "source": "REPLACE_WITH_PROVENANCE_AND_LICENSE_REFERENCE",
+  "fingerprint": "COMPUTED_BY_REGISTRY",
+  "security_status": "QUARANTINED",
+  "test_results": [],
+  "last_validation_date": null
+}

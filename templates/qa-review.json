@@ -1,0 +1,105 @@
+{
+  "review_reference": "REPLACE_WITH_REAL_SEPARATE_REVIEW_INVOCATION",
+  "criteria": [
+    {
+      "criterion": "List scope, required evidence, assumptions and missing inputs",
+      "verdict": "REPLACE_WITH_PASS_FAIL_OR_BLOCKED",
+      "evidence": [
+        "REPLACE_WITH_ACTUAL_REFERENCE"
+      ],
+      "correction": "REQUIRED_FOR_FAIL_OR_BLOCKED"
+    }
+  ],
+  "checks": {
+    "completeness": {
+      "verdict": "REPLACE_WITH_PASS_FAIL_BLOCKED_OR_NOT_APPLICABLE",
+      "evidence": [
+        "REPLACE_WITH_ACTUAL_REFERENCE"
+      ],
+      "reason": "REQUIRED_FOR_NOT_APPLICABLE",
+      "correction": "REQUIRED_FOR_FAIL_OR_BLOCKED"
+    },
+    "functional_correctness": {
+      "verdict": "REPLACE_WITH_PASS_FAIL_BLOCKED_OR_NOT_APPLICABLE",
+      "evidence": [
+        "REPLACE_WITH_ACTUAL_REFERENCE"
+      ],
+      "reason": "REQUIRED_FOR_NOT_APPLICABLE",
+      "correction": "REQUIRED_FOR_FAIL_OR_BLOCKED"
+    },
+    "accuracy_evidence": {
+      "verdict": "REPLACE_WITH_PASS_FAIL_BLOCKED_OR_NOT_APPLICABLE",
+      "evidence": [
+        "REPLACE_WITH_ACTUAL_REFERENCE"
+      ],
+      "reason": "REQUIRED_FOR_NOT_APPLICABLE",
+      "correction": "REQUIRED_FOR_FAIL_OR_BLOCKED"
+    },
+    "output_quality": {
+      "verdict": "REPLACE_WITH_PASS_FAIL_BLOCKED_OR_NOT_APPLICABLE",
+      "evidence": [
+        "REPLACE_WITH_ACTUAL_REFERENCE"
+      ],
+      "reason": "REQUIRED_FOR_NOT_APPLICABLE",
+      "correction": "REQUIRED_FOR_FAIL_OR_BLOCKED"
+    },
+    "user_instructions": {
+      "verdict": "REPLACE_WITH_PASS_FAIL_BLOCKED_OR_NOT_APPLICABLE",
+      "evidence": [
+        "REPLACE_WITH_ACTUAL_REFERENCE"
+      ],
+      "reason": "REQUIRED_FOR_NOT_APPLICABLE",
+      "correction": "REQUIRED_FOR_FAIL_OR_BLOCKED"
+    },
+    "security_permissions": {
+      "verdict": "REPLACE_WITH_PASS_FAIL_BLOCKED_OR_NOT_APPLICABLE",
+      "evidence": [
+        "REPLACE_WITH_ACTUAL_REFERENCE"
+      ],
+      "reason": "REQUIRED_FOR_NOT_APPLICABLE",
+      "correction": "REQUIRED_FOR_FAIL_OR_BLOCKED"
+    },
+    "skill_use": {
+      "verdict": "REPLACE_WITH_PASS_FAIL_BLOCKED_OR_NOT_APPLICABLE",
+      "evidence": [
+        "REPLACE_WITH_ACTUAL_REFERENCE"
+      ],
+      "reason": "REQUIRED_FOR_NOT_APPLICABLE",
+      "correction": "REQUIRED_FOR_FAIL_OR_BLOCKED"
+    },
+    "source_freshness": {
+      "verdict": "REPLACE_WITH_PASS_FAIL_BLOCKED_OR_NOT_APPLICABLE",
+      "evidence": [
+        "REPLACE_WITH_ACTUAL_REFERENCE"
+      ],
+      "reason": "REQUIRED_FOR_NOT_APPLICABLE",
+      "correction": "REQUIRED_FOR_FAIL_OR_BLOCKED"
+    },
+    "reproducibility": {
+      "verdict": "REPLACE_WITH_PASS_FAIL_BLOCKED_OR_NOT_APPLICABLE",
+      "evidence": [
+        "REPLACE_WITH_ACTUAL_REFERENCE"
+      ],
+      "reason": "REQUIRED_FOR_NOT_APPLICABLE",
+      "correction": "REQUIRED_FOR_FAIL_OR_BLOCKED"
+    },
+    "missing_requirements": {
+      "verdict": "REPLACE_WITH_PASS_FAIL_BLOCKED_OR_NOT_APPLICABLE",
+      "evidence": [
+        "REPLACE_WITH_ACTUAL_REFERENCE"
+      ],
+      "reason": "REQUIRED_FOR_NOT_APPLICABLE",
+      "correction": "REQUIRED_FOR_FAIL_OR_BLOCKED"
+    },
+    "artifact_integrity": {
+      "verdict": "REPLACE_WITH_PASS_FAIL_BLOCKED_OR_NOT_APPLICABLE",
+      "evidence": [
+        "REPLACE_WITH_ACTUAL_REFERENCE"
+      ],
+      "reason": "REQUIRED_FOR_NOT_APPLICABLE",
+      "correction": "REQUIRED_FOR_FAIL_OR_BLOCKED"
+    }
+  },
+  "tests": [],
+  "test_rationale": "REPLACE_WITH_EXPLANATION_IF_EXECUTABLE_TESTS_DO_NOT_APPLY"
+}

@@ -1,0 +1,15 @@
+{
+  "sale_price": null,
+  "unit_cost": null,
+  "outbound_shipping": null,
+  "return_shipping": null,
+  "packaging": null,
+  "ad_cost_per_attempt": null,
+  "cancellation_rate": null,
+  "delivery_success_rate": null,
+  "return_rate": null,
+  "cod_fee_rate": null,
+  "inventory_recovery_rate": null,
+  "fixed_monthly_cost": null,
+  "currency": "SET_EXPLICIT_CURRENCY"
+}
