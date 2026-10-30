@@ -1,0 +1,32 @@
+[
+  {
+    "file": "day-trader-skill-main.zip",
+    "sha256": "a417522153234847eeaab4f0b883de1843a3ebe9b1e3f4942581070c97562054",
+    "bytes": 446717
+  },
+  {
+    "file": "shorts-growth-agent-claude-starter.zip",
+    "sha256": "694675a8216de48daa4566ce2896987ed2301405b8d04c90b175303ddd299cd8",
+    "bytes": 29380
+  },
+  {
+    "file": "master-agent-operating-system-claude.zip",
+    "sha256": "a440c5890a2c63c3e03688157762b541de52e8ab40c3e6ec637881d28de16a90",
+    "bytes": 38429
+  },
+  {
+    "file": "income-opportunity-intelligence-claude-agent.zip",
+    "sha256": "542ffb8bc0fcac9704bd985fb26ac364742ed9cee478f47be56658503ac8ac45",
+    "bytes": 53605
+  },
+  {
+    "file": "README.md",
+    "sha256": "16cd8eb186f4bc7a6c1044cb21e46dbb79a2fe4275f3b0bc987b537ea678bd60",
+    "bytes": 7057
+  },
+  {
+    "file": "README (1).md",
+    "sha256": "46c6c7d96837ddfe21f3bb11fbc3a718ea29a3c1623982cce99e71c2393a7041",
+    "bytes": 6506
+  }
+]

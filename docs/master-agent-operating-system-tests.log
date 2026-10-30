@@ -1,0 +1,20 @@
+test_agent_activation_full_gates (test_maos.ControllerTests.test_agent_activation_full_gates) ... ok
+test_agent_qa_must_be_independent (test_maos.ControllerTests.test_agent_qa_must_be_independent) ... ok
+test_cannot_skip_qa_or_self_approve (test_maos.ControllerTests.test_cannot_skip_qa_or_self_approve) ... ok
+test_evidence_and_decision_separated (test_maos.ControllerTests.test_evidence_and_decision_separated) ... ok
+test_fraud_or_missing_evidence_can_block (test_maos.ControllerTests.test_fraud_or_missing_evidence_can_block) ... ok
+test_normal_task_independent_qa (test_maos.ControllerTests.test_normal_task_independent_qa) ... ok
+test_rework_limit_three (test_maos.ControllerTests.test_rework_limit_three) ... ok
+test_routing_does_not_execute (test_maos.ControllerTests.test_routing_does_not_execute) ... ok
+test_seed_ten_roles (test_maos.ControllerTests.test_seed_ten_roles) ... ok
+test_separate_task_status_and_registry (test_maos.ControllerTests.test_separate_task_status_and_registry) ... ok
+test_three_r_missing_blocks_creation (test_maos.ControllerTests.test_three_r_missing_blocks_creation) ... ok
+test_usage_truthfulness (test_maos.ControllerTests.test_usage_truthfulness) ... ok
+test_agent_frontmatter (test_maos.PackageValidationTests.test_agent_frontmatter) ... ok
+test_documentation_exists (test_maos.PackageValidationTests.test_documentation_exists) ... ok
+test_skill_frontmatter (test_maos.PackageValidationTests.test_skill_frontmatter) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.013s
+
+OK

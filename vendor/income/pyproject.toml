@@ -1,0 +1,7 @@
+[project]
+name = "income-opportunity-intelligence"
+version = "0.1.0"
+description = "Claude Code multi-agent, Iraq-focused income opportunity research starter"
+requires-python = ">=3.10"
+[tool.setuptools]
+packages = ["ioi"]

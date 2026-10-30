@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Everyday science explained",
+    "demand": 4,
+    "competition": 4,
+    "repeatability": 5,
+    "monetization": 3,
+    "originality": 4,
+    "difficulty": 2,
+    "evidence": "DEMO SCORES ONLY \u2014 replace with sourced research"
+  },
+  {
+    "name": "Historical misconceptions",
+    "demand": 3,
+    "competition": 3,
+    "repeatability": 5,
+    "monetization": 3,
+    "originality": 4,
+    "difficulty": 3,
+    "evidence": "DEMO SCORES ONLY \u2014 replace with sourced research"
+  },
+  {
+    "name": "Frugal home fixes",
+    "demand": 4,
+    "competition": 4,
+    "repeatability": 4,
+    "monetization": 4,
+    "originality": 3,
+    "difficulty": 2,
+    "evidence": "DEMO SCORES ONLY \u2014 replace with sourced research"
+  }
+]

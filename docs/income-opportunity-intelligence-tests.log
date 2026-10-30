@@ -1,0 +1,17 @@
+test_approval_required_for_activation_and_cost_cap (test_core.CoreTests.test_approval_required_for_activation_and_cost_cap) ... ok
+test_creator_cannot_attest_own_work (test_core.CoreTests.test_creator_cannot_attest_own_work) ... ok
+test_dashboard_actual_records_only (test_core.CoreTests.test_dashboard_actual_records_only) ... ok
+test_finance_math_and_malformed_inputs (test_core.CoreTests.test_finance_math_and_malformed_inputs) ... ok
+test_payout_requirements_and_fake_attest_fail (test_core.CoreTests.test_payout_requirements_and_fake_attest_fail) ... ok
+test_qa_stale_after_material_change (test_core.CoreTests.test_qa_stale_after_material_change) ... ok
+test_rework_three_attempt_limit (test_core.CoreTests.test_rework_three_attempt_limit) ... ok
+test_schema_and_new_opportunity_hold (test_core.CoreTests.test_schema_and_new_opportunity_hold) ... ok
+test_score_is_weighted_and_missing_criteria_are_not_normalized (test_core.CoreTests.test_score_is_weighted_and_missing_criteria_are_not_normalized) ... ok
+test_all_agents_and_existing_preload_skills (test_package.PackageTests.test_all_agents_and_existing_preload_skills) ... ok
+test_skill_metadata_and_count (test_package.PackageTests.test_skill_metadata_and_count) ... ok
+test_source_template_is_present (test_package.PackageTests.test_source_template_is_present) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.014s
+
+OK

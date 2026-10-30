@@ -1,0 +1,2 @@
+# Local core CLI and test suite use Python 3.10+ standard library only.
+# Optional connectors need separately installed and audited dependencies.

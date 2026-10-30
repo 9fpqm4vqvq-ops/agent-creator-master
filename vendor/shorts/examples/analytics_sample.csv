@@ -1,0 +1,3 @@
+video_id,published_at,observation_date,views,engaged_views,subscribers_gained,revenue_usd,average_view_duration_seconds
+DEMO001,2026-01-01,2026-01-08,1200,540,12,0.14,18.4
+DEMO002,2026-01-02,2026-01-09,850,310,5,0.08,13.1

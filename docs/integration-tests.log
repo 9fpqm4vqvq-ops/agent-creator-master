@@ -1,0 +1,29 @@
+test_cli_end_to_end_and_failure_exit_status (test_hub.RealPackage.test_cli_end_to_end_and_failure_exit_status) ... ok
+test_real_profiles_and_skill_links_exist (test_hub.RealPackage.test_real_profiles_and_skill_links_exist) ... ok
+test_artifact_tampering_requires_rework (test_hub.Workflow.test_artifact_tampering_requires_rework) ... ok
+test_blocked_parent_cannot_accept_new_work (test_hub.Workflow.test_blocked_parent_cannot_accept_new_work) ... ok
+test_cancelled_task_cannot_run (test_hub.Workflow.test_cancelled_task_cannot_run) ... ok
+test_child_completion_required_for_parent (test_hub.Workflow.test_child_completion_required_for_parent) ... ok
+test_department_policy_and_other_role_changes_invalidate_packet (test_hub.Workflow.test_department_policy_and_other_role_changes_invalidate_packet) ... ok
+test_direct_agent_routing_and_reporting_chain (test_hub.Workflow.test_direct_agent_routing_and_reporting_chain) ... ok
+test_full_workflow_persists_and_reports (test_hub.Workflow.test_full_workflow_persists_and_reports) ... ok
+test_illegal_state_and_duplicate_dispatch (test_hub.Workflow.test_illegal_state_and_duplicate_dispatch) ... ok
+test_independence_and_review_notes_required (test_hub.Workflow.test_independence_and_review_notes_required) ... ok
+test_instruction_change_rejects_old_result (test_hub.Workflow.test_instruction_change_rejects_old_result) ... ok
+test_materialized_skill_copy_is_snapshotted (test_hub.Workflow.test_materialized_skill_copy_is_snapshotted) ... ok
+test_no_empty_acceptance_criteria (test_hub.Workflow.test_no_empty_acceptance_criteria) ... ok
+test_no_live_execution_or_unknown_agents (test_hub.Workflow.test_no_live_execution_or_unknown_agents) ... ok
+test_no_missing_or_escaping_artifacts (test_hub.Workflow.test_no_missing_or_escaping_artifacts) ... ok
+test_parent_rechecks_completed_child_artifact (test_hub.Workflow.test_parent_rechecks_completed_child_artifact) ... ok
+test_preflight_rejects_false_freshness_and_unknown_skills (test_hub.Workflow.test_preflight_rejects_false_freshness_and_unknown_skills) ... ok
+test_preflight_required_again_after_rework (test_hub.Workflow.test_preflight_required_again_after_rework) ... ok
+test_readable_report_preserves_uncertainty (test_hub.Workflow.test_readable_report_preserves_uncertainty) ... ok
+test_result_requires_evidence_shape_and_valid_dates (test_hub.Workflow.test_result_requires_evidence_shape_and_valid_dates) ... ok
+test_three_reworks_escalate (test_hub.Workflow.test_three_reworks_escalate) ... ok
+test_tool_change_rejects_old_result (test_hub.Workflow.test_tool_change_rejects_old_result) ... ok
+test_unverified_freshness_disclosed_in_result (test_hub.Workflow.test_unverified_freshness_disclosed_in_result) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.901s
+
+OK

@@ -1,0 +1,8 @@
+{
+  "instruction_fingerprint": "REPLACE_WITH_CURRENT_DISPATCH_FINGERPRINT",
+  "skills_read": [".claude/skills/master-workflow/SKILL.md"],
+  "runtime_check": "REPLACE_WITH_ACTUAL_AVAILABLE_TOOLS_AND_LIMITATIONS",
+  "freshness_status": "UNVERIFIED",
+  "freshness_notes": "REPLACE_WITH_TASK_SPECIFIC_CHECKS_AND_MISSING_EVIDENCE",
+  "sources": []
+}

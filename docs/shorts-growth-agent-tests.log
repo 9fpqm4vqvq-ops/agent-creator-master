@@ -1,0 +1,10 @@
+test_db_memory (test_starter.StarterTests.test_db_memory) ... ok
+test_no_auto_publish (test_starter.StarterTests.test_no_auto_publish) ... ok
+test_score (test_starter.StarterTests.test_score) ... ok
+test_skills (test_starter.StarterTests.test_skills) ... ok
+test_subagents (test_starter.StarterTests.test_subagents) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.002s
+
+OK
