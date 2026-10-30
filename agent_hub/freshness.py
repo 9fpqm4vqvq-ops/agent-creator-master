@@ -11,6 +11,7 @@ from .usage import instant, atomic
 
 POLICIES = {
     'supplier_price':86400, 'market_price':86400, 'payment_service':604800,
+    'framework_version':604800,'social_trend':259200,'connector_permission':86400,
     'assumption':2592000, 'procedure':15552000, 'research':2592000,
 }
 

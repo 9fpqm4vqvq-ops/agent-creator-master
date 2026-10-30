@@ -12,7 +12,7 @@ EXCLUDED = {'.git', 'node_modules', '__pycache__', 'data', 'outputs', 'work', 't
 
 def walk(directory):
     for path in sorted(directory.iterdir()):
-        if path.name in EXCLUDED or path.name == '.env' or path.name.startswith('.env.') and path.name != '.env.example':
+        if (path.name in EXCLUDED and path != ROOT/'vendor/supplementary/ui-ux-pro-max-skill/data') or path.name == '.env' or path.name.startswith('.env.') and path.name != '.env.example':
             continue
         if not path.resolve().is_relative_to(ROOT):
             raise ValueError(f'External symlink refused: {path}')
@@ -34,10 +34,10 @@ def main():
         for path in walk(ROOT):
             relative = path.relative_to(ROOT).as_posix()
             content = path.read_bytes()
-            archive.writestr(f'master-agent-system-v0.4/{relative}', content)
+            archive.writestr(f'master-agent-system-v0.5/{relative}', content)
             manifest[relative] = hashlib.sha256(content).hexdigest()
-        archive.writestr('master-agent-system-v0.4/RELEASE-MANIFEST.json', json.dumps({
-            'version': '0.4.0', 'sha256': manifest,
+        archive.writestr('master-agent-system-v0.5/RELEASE-MANIFEST.json', json.dumps({
+            'version': '0.5.0', 'sha256': manifest,
             'skill_links': 'Materialized as ordinary files for portable ZIP extraction',
             'excluded': 'Credentials, databases, operational outputs, dependencies and Git history',
         }, indent=2) + '\n')

@@ -5,7 +5,7 @@ tools: Read, Glob, Grep, Bash
 model: inherit
 ---
 
-Version: 0.4.0
+Version: 0.5.0
 
 Read root CLAUDE.md, then `vendor/income/.claude/agents/market-competitor-analyst.md` and relevant skill files before working.
 You report to income-director. The user request and root contract control integration.

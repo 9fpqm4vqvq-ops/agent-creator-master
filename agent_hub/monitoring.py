@@ -21,7 +21,7 @@ class HealthRegistry:
     def audit(self,department,review_kind='weekly'):
         if department not in DOMAINS or review_kind not in CADENCES:raise ValueError('Unknown department/cadence')
         findings=[];evidence=[];versions={'python_observed':platform.python_version(),
-            'project_declared':'0.4.0','external_currency':'NOT_VERIFIED_OFFLINE'}
+            'project_declared':'0.5.0','external_currency':'NOT_VERIFIED_OFFLINE'}
         for name,(dept,parent,bundle) in ROLES.items():
             if dept!=department:continue
             path=self.hub.root/f'.claude/agents/{name}.md'
@@ -42,6 +42,12 @@ class HealthRegistry:
             executable=shutil.which(tool)
             versions[tool+'_available']=bool(executable)
             if tool=='claude' and not executable:findings.append({'kind':'RUNTIME_UNAVAILABLE','tool':tool})
+        from .departments import NAMESPACE_OWNERS
+        stale=[r['id'] for r in self.db.execute('SELECT * FROM memory_records') if NAMESPACE_OWNERS.get(r['namespace'],r['responsible_department'])==department and not r['superseded_by'] and (r['verification_status']!='FRESH' or not r['next_review_at'] or instant(r['next_review_at'])<=instant(now()))]
+        if stale:findings.append({'kind':'KNOWLEDGE_REQUIRES_REVIEW','record_ids':stale})
+        reworks=self.db.execute('SELECT COALESCE(SUM(reworks),0) FROM tasks WHERE department=?',(department,)).fetchone()[0]
+        if reworks:findings.append({'kind':'QA_REWORK_HISTORY','cycles':reworks,'note':'Inspect difficulty and failure evidence before proposing an improvement.'})
+        evidence.append({'department_usage':UsageLedger(self.db).summary(department=department),'research_freshness_unverified_records':len(stale),'qa_rework_cycles':reworks})
         identity=str(uuid.uuid4());at=instant(now());next_due=at+timedelta(days=CADENCES[review_kind])
         actions=[{'action':'Research and independently validate '+f['kind'],'finding':f} for f in findings]
         with self.db:self.db.execute('INSERT INTO department_health VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)',
@@ -89,7 +95,7 @@ def scorecards(db):
     return cards
 
 
-def snapshot(db):
+def snapshot(db,root=None):
     tasks=[dict(r) for r in db.execute('SELECT * FROM tasks ORDER BY id DESC')]
     counts={}
     for t in tasks:counts[t['phase']]=counts.get(t['phase'],0)+1
@@ -102,10 +108,10 @@ def snapshot(db):
                 key=assessment['criterion'];failures[key]=failures.get(key,0)+1
     budget_rows=[]
     for row in db.execute('SELECT * FROM ai_budgets WHERE enabled=1'):
-        task_id=int(row['scope_key']) if row['scope']=='TASK' else tasks[0]['id'] if tasks else None
+        task_id=int(row['scope_key']) if row['scope']=='TASK' else next((t['id'] for t in tasks if t['project_id']==row['scope_key']),None) if row['scope']=='PROJECT' else tasks[0]['id'] if tasks else None
         agent=row['scope_key'] if row['scope']=='AGENT' else DOMAINS[row['scope_key']] if row['scope']=='DEPARTMENT' else 'management-director'
         budget_rows.extend(b for b in BudgetService(db).evaluate(task_id,agent,'0')['budgets'] if b['id']==row['id'])
-    return {'version':'0.4.0','collected_at':now(),'task_total':len(tasks),'phase_counts':counts,
+    return {'version':'0.5.0','collected_at':now(),'task_total':len(tasks),'phase_counts':counts,
         'active':sum(t['phase'] not in {'COMPLETED','CANCELLED','BLOCKED','ESCALATION'} for t in tasks),
         'completed':counts.get('COMPLETED',0),'blocked':counts.get('BLOCKED',0)+counts.get('ESCALATION',0),
         'rework_cycles':sum(t['reworks'] for t in tasks),'tasks':tasks[:500],'tasks_display_limit':500,
@@ -126,5 +132,35 @@ def snapshot(db):
             'runs':[dict(r) for r in db.execute('SELECT * FROM maintenance_runs ORDER BY started_at DESC LIMIT 100')],
             'runtime':'Explicit local tick/loop required; no daemon installed. AI work is queued for authenticated Claude Code.'},
         'scorecards':scorecards(db),'changes':[dict(r) for r in db.execute('SELECT * FROM change_proposals ORDER BY created_at DESC LIMIT 100')],
+        'expansion':expansion_snapshot(db,root),
         'limitations':['Periodic local snapshot, not a live provider feed.','Operator attestations do not authenticate model identity.',
             'Unrecorded provider charges are UNKNOWN. Provider billing limits must also be configured externally.']}
+
+
+def expansion_snapshot(db,root=None):
+    from .connectors import CANDIDATES
+    projects=[]
+    for row in db.execute('SELECT * FROM projects ORDER BY created_at DESC'):
+        item=dict(row,record=json.loads(row['record']))
+        root_task=dict(db.execute('SELECT * FROM tasks WHERE id=?',(row['task_id'],)).fetchone())
+        assigned=[dict(t) for t in db.execute('SELECT id,parent,owner,department,phase,reworks,dependencies FROM tasks WHERE project_id=?',(row['id'],))]
+        item.update(phase=root_task['phase'],assigned_tasks=assigned,assigned_agents=sorted({t['owner'] for t in assigned}),
+            qa_status='QA_LINKED' if row['qa_task_id'] else 'AWAITING_QA' if root_task['phase'] in {'SUBMITTED','QA_REVIEW'} else 'TASK_QA_PASSED_PROJECT_UNLINKED' if root_task['phase']=='COMPLETED' else 'NOT_SUBMITTED',usage=UsageLedger(db).summary(project_id=row['id']))
+        projects.append(item)
+    content=[dict(r,payload=json.loads(r['payload'])) for r in db.execute('SELECT * FROM content_items ORDER BY scheduled_at,created_at')]
+    analytics=[dict(r,dataset=json.loads(r['dataset'])) for r in db.execute('SELECT * FROM analytics_observations ORDER BY collected_at DESC')]
+    connectors=[dict(r,operations=json.loads(r['operations']),limitations=json.loads(r['limitations'])) for r in db.execute('SELECT * FROM connector_capabilities ORDER BY provider,runtime_id')]
+    for project in projects:
+        if project['kind']=='social':
+            items=[i for i in content if i['project_id']==project['id']]
+            project['calendar']=items;project['content_states']={state:sum(i['status']==state for i in items) for state in ['DRAFT','REVIEWED','APPROVED','SCHEDULED','PUBLISHED','FAILED','ARCHIVED']}
+            project['approval_queue']=[i['id'] for i in items if i['status']=='REVIEWED']
+            project['analytics']=[r for r in analytics if r['project_id']==project['id']]
+            project['publishing_ready']=[i['id'] for i in items if i['status']=='APPROVED']
+    handoffs=[dict(r) for r in db.execute('SELECT * FROM department_handoffs ORDER BY created_at DESC')]
+    return {'web_projects':[p for p in projects if p['kind']=='web'],'social_campaigns':[p for p in projects if p['kind']=='social'],
+        'content_calendar':content,'connectors':connectors,'connector_candidates':[{'provider':p,'status':'NOT_DISCOVERED'} for p in CANDIDATES if p not in {c['provider'] for c in connectors}],
+        'handoffs':handoffs,'pending_handoffs':[h for h in handoffs if not h['accepted_at']],
+        'action_approvals':[dict(r) for r in db.execute("SELECT * FROM action_approvals WHERE status='APPROVED'")],
+        'external_actions':[dict(r) for r in db.execute('SELECT * FROM external_actions ORDER BY started_at DESC')],
+        'note':'Local records and supplied data do not establish live platform publication, design edits, deployment or account analytics. Connector evidence is scoped to its recorded runtime.'}

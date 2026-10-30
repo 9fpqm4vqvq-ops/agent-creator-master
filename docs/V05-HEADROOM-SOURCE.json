@@ -1,0 +1,14 @@
+{
+  "name": "headroom",
+  "source": "USER_SUPPLIED_UPSTREAM_URL",
+  "url": "https://github.com/headroomlabs-ai/headroom.git",
+  "commit": "1fe8549f9ca77a2bc1280e4319980e0b9b31f5b9",
+  "uploaded_archive_examined": false,
+  "reason": "Uploaded archive exceeds 32 MiB transfer limit. Pinned upstream subset used; not asserted byte-identical to ZIP.",
+  "files": {
+    "llms.txt": "e5e2cf5ad86a65d65a39b7cda7db040ab63c7afa2ec29ae862b9d9bd83385b54",
+    "LICENSE": "f14dd440c8e3152b4d4d324615de8251ddb011dc81f484daad0b6902093539cc",
+    "pyproject.toml": "b7fc457b019bd4a2e907817823b543b9e0d59076e339e55dba9f05273dab0170",
+    "README.md": "2b46680bd0622d22f9be629984926e0753796121c209d31d3652e39adc390f56"
+  }
+}

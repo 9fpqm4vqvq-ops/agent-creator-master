@@ -9,6 +9,7 @@ from pathlib import Path
 
 from .legacy import now, required, validate_sources
 from .roles import ROLES, NAMESPACES, DEPARTMENT_NAMESPACE
+from .departments import NAMESPACE_OWNERS
 from .security import redact, canonical
 
 
@@ -24,7 +25,9 @@ def authorize(actor, namespace, write=False):
         return
     if actor in {'qa-auditor','department-health-auditor','knowledge-freshness-auditor'} and not write:
         return
-    if namespace == department or namespace == 'shared' and not write:
+    if namespace=='connector-capabilities':
+        if not write or actor in {'agent-creator-researcher','social-platform-integration-specialist','web-devops-deployment-engineer'}:return
+    if namespace == department or NAMESPACE_OWNERS.get(namespace)==ROLES[actor][0] or namespace == 'shared' and not write:
         return
     raise PermissionError('Memory namespace access denied')
 
@@ -69,6 +72,8 @@ class MemoryVault:
         authorize(actor, record['namespace'])
         record['payload'] = json.loads(record['payload'])
         record['sources'] = json.loads(record['sources'])
+        from .usage import instant
+        record['effective_verification_status']='REQUIRES_VERIFICATION' if record['verification_status']=='FRESH' and record['next_review_at'] and instant(record['next_review_at'])<=instant(now()) else record['verification_status']
         record['source_instance'] = self.db.execute("SELECT value FROM memory_metadata WHERE key='source_instance'").fetchone()[0]
         return record
 
@@ -116,7 +121,7 @@ class MemoryVault:
                 (record_id, namespace, clean['kind'], clean['title'], canonical(clean['payload']),
                  canonical(clean['sources']), task_id, actor, confidence, revision, content_hash, created, now()))
             self.db.execute("UPDATE memory_records SET category=?,date_collected=?,expiry_policy=?,responsible_department=?,verification_status='UNVERIFIED',last_verified_at=NULL,next_review_at=?,superseded_by=NULL WHERE id=?",
-                (category, now(), canonical(policy), 'agent-development' if namespace=='research' else namespace,
+                (category, now(), canonical(policy), NAMESPACE_OWNERS.get(namespace,'agent-development' if namespace=='research' else namespace),
                  (datetime.now(timezone.utc)+timedelta(seconds=policy['ttl_seconds'])).isoformat(),record_id))
             self._history(dict(self.db.execute('SELECT * FROM memory_records WHERE id=?',(record_id,)).fetchone()),actor,'content recorded; verification required')
         return self.get(record_id, actor)

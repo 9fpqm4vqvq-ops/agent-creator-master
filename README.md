@@ -1,28 +1,36 @@
-# Master Agent System v0.4
+# Master Agent System v0.5
 
-[Download the v0.4 project ZIP](https://github.com/9fpqm4vqvq-ops/agent-creator-master/raw/refs/heads/main/releases/master-agent-system-v0.4.zip).
+[Download the v0.5 project ZIP](https://github.com/9fpqm4vqvq-ops/agent-creator-master/raw/refs/heads/main/releases/master-agent-system-v0.5.zip).
 
 A supervised Claude Code system with Management-led task routing, independently
 reviewed outputs, a central skill registry, Iraq e-commerce specialists and local
-persistent memory. It extends v0.3 and preserves the four imported source packages.
+persistent memory. It extends v0.4 and preserves the four imported source packages.
 
 The organization is USER -> Master -> Management -> department -> independent QA
 -> Master -> USER. Income owns Trading, Shorts and Iraq E-commerce. See the
-[complete architecture and agent hierarchy](docs/ARCHITECTURE-V04.md).
+[complete architecture and agent hierarchy](docs/ARCHITECTURE-V05.md).
 
-The v0.4 upgrade adds a loopback dashboard, usage/budget ledger, department health
-and knowledge freshness audits, unranked scorecards, and optional local maintenance.
-All new records extend the same SQLite Vault. Read the [v0.4 guide](docs/INTELLIGENCE-V04.md)
-and [v0.3 → v0.4 comparison](docs/V04-COMPARISON.md).
+The v0.5 upgrade adds **Web & Application Development** and **Social Media &
+Digital Presence** as independent departments under Management. Income Shorts and
+Iraq E-commerce keep their existing ownership. There are **70 root roles / 176
+catalogued skills**, with project/campaign records, scoped handoffs, local software/
+creative outputs, connector capability evidence, publication/deployment guards,
+project budgets and 13 read-only dashboard views.
+
+Read [department integration](docs/DEPARTMENTS-V05.md), [uploaded skill assessment](docs/SKILLS-V05.md),
+[connectors and action boundaries](docs/CONNECTORS-V05.md), [migration](docs/MIGRATION-V05.md)
+and the [v0.4 → v0.5 comparison](docs/V05-COMPARISON.md). All records extend the same
+SQLite Vault. No provider, social account, Figma editor, renderer or paid model is
+automatically installed/connected.
 
 ```bash
 python -m agent_hub migrate
 python -m agent_hub dashboard --port 8765
-# Open http://127.0.0.1:8765; Ctrl-C stops the local dashboard.
+# Open http://127.0.0.1:8765 on this computer.
 ```
 
-The two auditors bring the root inventory to **44 roles / 65 skills**. Maintenance
-jobs start disabled. Live usage/provider data remains UNKNOWN until imported.
+Maintenance starts disabled. Actual telemetry remains UNKNOWN until observed.
+The read-only dashboard does not publish content or deploy applications.
 
 ## Start
 
@@ -30,7 +38,7 @@ Python 3.10+, Node.js/npm and your own authorized Claude Code account are requir
 The hub itself uses only Python's standard library. No credentials are bundled.
 
 ```bash
-cd master-agent-system-v0.4
+cd master-agent-system-v0.5
 python -m unittest discover -s tests -v
 python scripts/validate_all.py
 npm ci --prefix tools/claude --no-audit --no-fund
@@ -41,12 +49,30 @@ bash scripts/start-master.sh
 For a Git clone, use:
 
 ```bash
-git clone https://github.com/9fpqm4vqvq-ops/agent-creator-master.git master-agent-system-v0.4
+git clone https://github.com/9fpqm4vqvq-ops/agent-creator-master.git master-agent-system-v0.5
 ```
 
 The pinned CLI is preserved from v0.2; it is not a claim of the newest release.
 Read [START-HERE.md](START-HERE.md) for the first supervised mission. Actual model
 delegation and web access depend on your authenticated runtime and permissions.
+
+## New department commands
+
+Commands accept JSON keyword arguments in --data PATH. Use actual records in ignored work/:
+
+```bash
+python -m agent_hub route suggest --data work/routing-query.json
+python -m agent_hub projects create --data work/project.json
+python -m agent_hub projects decompose --data work/scopes.json
+python -m agent_hub design-search search --data work/design-query.json
+python -m agent_hub social export --data work/campaign-id.json
+python -m agent_hub connectors candidates
+```
+
+Examples and argument definitions are in [Web workflow](docs/WEB-WORKFLOW-V05.md) and
+[Social workflow](docs/SOCIAL-WORKFLOW-V05.md). Existing --mode research continues
+as supervised local work (including engineering/drafts); trading live execution
+remains disabled. No command is an actual model invocation.
 
 ## Local task workflow
 
@@ -128,12 +154,12 @@ requirement was verified during this software upgrade.
 
 ## Upgrade, checks and delivery
 
-[Migrations and rollback](docs/MIGRATION-V04.md), [comparison/gap analysis](docs/V04-COMPARISON.md),
-[test results](docs/V04-TEST-RESULTS.md), and [change log](CHANGELOG.md) describe the
+[Migrations and rollback](docs/MIGRATION-V05.md), [comparison/gap analysis](docs/V05-COMPARISON.md),
+[test results](docs/V05-TEST-RESULTS.md), and [change log](CHANGELOG.md) describe the
 actual implementation and remaining configuration. Build a portable ZIP using:
 
 ```bash
-python scripts/build_release.py /absolute/path/master-agent-system-v0.4.zip
+python scripts/build_release.py /absolute/path/master-agent-system-v0.5.zip
 ```
 
 Databases, vault records, operational outputs, credentials and dependencies are

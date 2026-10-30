@@ -1,0 +1,6 @@
+{
+  "source": "Published v0.4 tracked original vendor trees",
+  "files_checked": 211,
+  "changed_files": [],
+  "validation": "Byte equality; supplementary sources are a separate directory."
+}

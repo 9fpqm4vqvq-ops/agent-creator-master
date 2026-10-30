@@ -1,0 +1,14 @@
+{
+  "reviewer": "qa-auditor",
+  "author": "agent-creator-researcher",
+  "review_reference": "REPLACE_WITH_ACTUAL_INDEPENDENT_REVIEW",
+  "authorization_reference": "REPLACE_WITH_ACTUAL_SCOPED_AUTHORIZATION",
+  "tests": [
+    {
+      "result": "REPLACE_WITH_ACTUAL_PASS_OR_FAIL",
+      "reference": "REPLACE_WITH_ACTUAL_TEST_REFERENCE"
+    }
+  ],
+  "expected_diff_hash": "REPLACE_WITH_PREVIEWED_BASELINE_DIFF_HASH",
+  "allow_capability_expansion": false
+}

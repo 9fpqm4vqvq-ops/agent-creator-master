@@ -1,9 +1,9 @@
-"""Additive v0.2/v0.3 -> v0.4 migration with verified pre-migration SQLite backup."""
+"""Additive v0.2/v0.3 -> v0.5 migration with verified pre-migration SQLite backup."""
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
-VERSION = 4
+VERSION = 5
 TASK_COLUMNS = {
     'phase': "TEXT NOT NULL DEFAULT 'CREATED'",
     'department': "TEXT NOT NULL DEFAULT 'management'",
@@ -16,6 +16,7 @@ TASK_COLUMNS = {
     'migration_hold': 'INTEGER NOT NULL DEFAULT 0',
     'idempotency_key': 'TEXT',
     'resource_plan': 'TEXT',
+    'project_id':'TEXT REFERENCES projects(id)',
 }
 
 
@@ -59,7 +60,7 @@ def migrate(connection, db_path):
     memory_count = connection.execute('SELECT COUNT(*) FROM memory_records').fetchone()[0] if memory_exists else 0
     if version < VERSION and (existing or memory_count):
         stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
-        saved = backup(connection, str(db_path) + f'.pre-v04-{stamp}.sqlite')
+        saved = backup(connection, str(db_path) + f'.pre-v05-{stamp}.sqlite')
     # DDL is transactional; a failed migration leaves the original schema usable.
     with connection:
         connection.execute('BEGIN IMMEDIATE')
@@ -93,7 +94,10 @@ def migrate(connection, db_path):
         connection.execute("UPDATE memory_records SET responsible_department=CASE WHEN namespace='research' THEN 'agent-development' ELSE namespace END WHERE responsible_department IS NULL")
         for statement in SCHEMA.split(';'):
             if statement.strip(): connection.execute(statement)
-        if version == 3:
+        from .expansion_schema import SCHEMA as EXPANSION_SCHEMA
+        for statement in EXPANSION_SCHEMA.split(';'):
+            if statement.strip():connection.execute(statement)
+        if version in {3,4}:
             connection.execute("UPDATE tasks SET migration_hold=1 WHERE phase NOT IN ('COMPLETED','CANCELLED')")
         connection.execute('CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT, backup_path TEXT)')
         connection.execute('INSERT OR IGNORE INTO schema_migrations VALUES(?,?,?)',

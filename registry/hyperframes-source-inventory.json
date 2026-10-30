@@ -1,0 +1,161 @@
+{
+  "commit": "b93c01c75a06f45d5eaca90bb22a56f4507581d0",
+  "skill_entries": [
+    {
+      "path": ".agents/skills/captions-overlay/SKILL.md",
+      "git_blob": "81ac373e90cb6b17e277569a6d38b5ddb02aa72e",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": ".agents/skills/changelog-video/SKILL.md",
+      "git_blob": "6eb6bb73fbf404d5dbc0e378e4a8bbe50144012a",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": ".agents/skills/cut-the-curve/SKILL.md",
+      "git_blob": "c69e03b3f45a4d009c1fdbf543a3f17b1c08edd8",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": ".agents/skills/motion-doctrine/SKILL.md",
+      "git_blob": "660f0f68fd6bb713b12ce7da2cd8894cc502c98c",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": ".agents/skills/oversized-cursor/SKILL.md",
+      "git_blob": "d1018c5072de2342dd31a5c0dbf933968b480216",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": ".agents/skills/seam-craft/SKILL.md",
+      "git_blob": "a1890d62ab732ba89caa0573c397ca4d4c5d01ca",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": ".claude/skills/captions-overlay/SKILL.md",
+      "git_blob": "81ac373e90cb6b17e277569a6d38b5ddb02aa72e",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": ".claude/skills/changelog-video/SKILL.md",
+      "git_blob": "6eb6bb73fbf404d5dbc0e378e4a8bbe50144012a",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": ".claude/skills/cut-the-curve/SKILL.md",
+      "git_blob": "c69e03b3f45a4d009c1fdbf543a3f17b1c08edd8",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": ".claude/skills/motion-doctrine/SKILL.md",
+      "git_blob": "660f0f68fd6bb713b12ce7da2cd8894cc502c98c",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": ".claude/skills/oversized-cursor/SKILL.md",
+      "git_blob": "d1018c5072de2342dd31a5c0dbf933968b480216",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": ".claude/skills/seam-craft/SKILL.md",
+      "git_blob": "a1890d62ab732ba89caa0573c397ca4d4c5d01ca",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": "registry/blocks/canopy-part-title/SKILL.md",
+      "git_blob": "e592aa0b94fbaa4f7afda71815c673ef1bf11fa0",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": "registry/blocks/code-slice-hero/SKILL.md",
+      "git_blob": "b80ca0bbfa685025fe6e66cba3c7aa380f2a654c",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": "registry/blocks/cuboid-carousel/SKILL.md",
+      "git_blob": "f6b88d97e6ffde78c1b379995ebfac28271648fb",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": "registry/blocks/frost-sequence-camera-orbit/SKILL.md",
+      "git_blob": "a994b3660931d3faa9310a215d6e6958c18125b4",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": "registry/blocks/glass-shard-title/SKILL.md",
+      "git_blob": "4086a6336a0611fc9c011e0b2f5c055ec5142edc",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": "registry/blocks/orbit-card/SKILL.md",
+      "git_blob": "b3f861639810421e1695d8e56371a87de78dd215",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": "registry/blocks/wireframe-portal-title/SKILL.md",
+      "git_blob": "76047a55a507238e6976f5184133fc1781c80645",
+      "mode": "100644",
+      "disposition": "INTERNAL_OR_BLOCK_REFERENCE_NOT_INSTALLED"
+    },
+    {
+      "path": "skills/figma/SKILL.md",
+      "git_blob": "2a33e19bee8715a5225f6743d91a828aa8b66ea2",
+      "mode": "100644",
+      "disposition": "PUBLISHED_SKILL_SCOPED_WRAPPER"
+    },
+    {
+      "path": "skills/hyperframes-cli/SKILL.md",
+      "git_blob": "7f51bc528abc5bb4f3e9659de97332dfea9047ca",
+      "mode": "100644",
+      "disposition": "PUBLISHED_SKILL_SCOPED_WRAPPER"
+    },
+    {
+      "path": "skills/hyperframes-registry/SKILL.md",
+      "git_blob": "7b1bc6a6c95c02ee03319cc8adaba7e54b020cba",
+      "mode": "100644",
+      "disposition": "PUBLISHED_SKILL_SCOPED_WRAPPER"
+    },
+    {
+      "path": "skills/hyperframes/SKILL.md",
+      "git_blob": "6f4166472b0f0c6f26e4b3db6829ecf385686701",
+      "mode": "100644",
+      "disposition": "PUBLISHED_SKILL_SCOPED_WRAPPER"
+    },
+    {
+      "path": "skills/media-use/SKILL.md",
+      "git_blob": "562649280a3e22d52c420bee3874ccd9a20f2524",
+      "mode": "100644",
+      "disposition": "PUBLISHED_SKILL_SCOPED_WRAPPER"
+    },
+    {
+      "path": "skills/remotion-to-hyperframes/SKILL.md",
+      "git_blob": "283b03619d8ab26480faeb0884e10faac85fbc4b",
+      "mode": "100644",
+      "disposition": "PUBLISHED_SKILL_SCOPED_WRAPPER"
+    },
+    {
+      "path": "skills/slideshow/SKILL.md",
+      "git_blob": "3a53c1e211e1a016949bcddc87b4bb09eef2d53f",
+      "mode": "100644",
+      "disposition": "PUBLISHED_SKILL_SCOPED_WRAPPER"
+    }
+  ]
+}

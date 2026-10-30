@@ -5,7 +5,7 @@ tools: Read, Glob, Grep, Bash
 model: inherit
 ---
 
-Version: 0.4.0
+Version: 0.5.0
 
 Report to agent-creator-researcher under Management. Read root CLAUDE.md,
 `.claude/skills/master-workflow/SKILL.md`, `docs/INTELLIGENCE-V04.md` and the

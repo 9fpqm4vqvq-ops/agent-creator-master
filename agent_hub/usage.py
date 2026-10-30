@@ -110,9 +110,11 @@ class UsageLedger:
                 self.db.execute("UPDATE usage_reservations SET state='RECONCILED' WHERE execution_key=?",(key,))
         return dict(self.db.execute('SELECT * FROM usage_events WHERE id=?',(record_id,)).fetchone())
 
-    def summary(self,task_id=None,agent=None,department=None):
+    def summary(self,task_id=None,agent=None,department=None,project_id=None):
+        project_tasks={r[0] for r in self.db.execute('SELECT id FROM tasks WHERE project_id=?',(project_id,))} if project_id else None
         rows=[dict(r) for r in self.db.execute('SELECT * FROM usage_events')
-              if (task_id is None or r['task_id']==task_id) and (agent is None or r['agent']==agent)
+              if (project_tasks is None or r['task_id'] in project_tasks)
+              and (task_id is None or r['task_id']==task_id) and (agent is None or r['agent']==agent)
               and (department is None or r['department']==department)]
         def total(field,kind=None):
             values=[r[field] for r in rows if r[field] is not None and (kind is None or r['token_kind']==kind)]
@@ -132,8 +134,9 @@ class BudgetService:
     def __init__(self,db,clock=None):self.db=db;self.clock=clock or (lambda:datetime.now(timezone.utc))
 
     def configure(self,scope,key,limit_usd,alert_ratio='0.8'):
-        if scope not in {'TASK','AGENT','DEPARTMENT','DAILY','MONTHLY'}:raise ValueError('Unknown AI budget scope')
+        if scope not in {'TASK','PROJECT','AGENT','DEPARTMENT','DAILY','MONTHLY'}:raise ValueError('Unknown AI budget scope')
         if scope=='TASK' and not self.db.execute('SELECT 1 FROM tasks WHERE id=?',(key,)).fetchone():raise ValueError('Unknown task budget')
+        if scope=='PROJECT' and not self.db.execute('SELECT 1 FROM projects WHERE id=?',(key,)).fetchone():raise ValueError('Unknown project budget')
         if scope=='AGENT' and key not in ROLES:raise ValueError('Unknown agent budget')
         if scope=='DEPARTMENT' and key not in DOMAINS:raise ValueError('Unknown department budget')
         if scope in {'DAILY','MONTHLY'} and key!='global':raise ValueError('Calendar budgets use global scope key')
@@ -149,10 +152,15 @@ class BudgetService:
     def _matches(self,row,budget):
         scope,key=budget['scope'],budget['scope_key']
         if scope=='TASK':return str(row['task_id'])==key
+        if scope=='PROJECT':return self._project(row['task_id'])==key
         if scope=='AGENT':return row['agent']==key
         if scope=='DEPARTMENT':return row['department']==key
         date=instant(row['collected_at']).astimezone(BAGHDAD);today=instant(self.clock()).astimezone(BAGHDAD)
         return date.date()==today.date() if scope=='DAILY' else (date.year,date.month)==(today.year,today.month)
+
+    def _project(self,task_id):
+        row=self.db.execute('SELECT project_id FROM tasks WHERE id=?',(task_id,)).fetchone()
+        return row[0] if row else None
 
     def evaluate(self,task_id,agent,projected_cost=None):
         if agent not in ROLES:raise ValueError('Unknown budget principal')
@@ -163,12 +171,14 @@ class BudgetService:
         for row in self.db.execute('SELECT * FROM ai_budgets WHERE enabled=1 ORDER BY scope,scope_key'):
             budget=dict(row)
             if budget['scope']=='TASK' and budget['scope_key']!=str(task_id):continue
+            if budget['scope']=='PROJECT' and budget['scope_key']!=self._project(task_id):continue
             if budget['scope']=='AGENT' and budget['scope_key']!=agent:continue
             if budget['scope']=='DEPARTMENT' and budget['scope_key']!=ROLES[agent][0]:continue
             selected=[u for u in usage if self._matches(u,budget)]
             # Unsettled reservations carry forward across calendar periods conservatively.
             reserved=[u for u in holds if budget['scope'] in {'DAILY','MONTHLY'} or
                       budget['scope']=='TASK' and str(u['task_id'])==budget['scope_key'] or
+                      budget['scope']=='PROJECT' and self._project(u['task_id'])==budget['scope_key'] or
                       budget['scope']=='AGENT' and u['agent']==budget['scope_key'] or
                       budget['scope']=='DEPARTMENT' and u['department']==budget['scope_key']]
             spent=sum((Decimal(u['actual_cost'] if u['actual_cost'] is not None else u['estimated_cost'])

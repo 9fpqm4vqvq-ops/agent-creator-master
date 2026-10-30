@@ -1,4 +1,4 @@
-"""Supervised v0.4 CLI. Handoffs and attestations never invoke a model."""
+"""Supervised v0.5 CLI. Handoffs and attestations never invoke a model."""
 import argparse
 import json
 import sqlite3
@@ -13,7 +13,7 @@ def read_json(path):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description='Master Agent System v0.4 — supervised control plane')
+    parser = argparse.ArgumentParser(description='Master Agent System v0.5 — supervised control plane')
     parser.add_argument('--db', default=str(ROOT/'data/hub.sqlite'))
     sub = parser.add_subparsers(dest='command', required=True)
     sub.add_parser('agents'); sub.add_parser('migrate')
@@ -21,7 +21,7 @@ def main(argv=None):
     new = sub.add_parser('new'); new.add_argument('request'); new.add_argument('--criteria', required=True)
     new.add_argument('--department', choices=DOMAINS, default='management'); new.add_argument('--agent', choices=ROLES)
     new.add_argument('--parent', type=int); new.add_argument('--mode', choices=['research','paper'], default='research')
-    new.add_argument('--cycle-limit', type=int, default=3);new.add_argument('--idempotency-key')
+    new.add_argument('--cycle-limit', type=int, default=3);new.add_argument('--idempotency-key');new.add_argument('--project')
     for name in ['management-review','plan','assign','dispatch','recall','preflight','start','show','submit','review',
                  'resume','capability-gap','record','history','cancel']:
         command = sub.add_parser(name); command.add_argument('task_id', type=int)
@@ -59,6 +59,8 @@ def main(argv=None):
     p.add_argument('--actor', choices=['agent-creator-researcher'], required=True)
     p = actions.add_parser('activate'); p.add_argument('skill_id'); p.add_argument('--review', type=Path, required=True)
     p = actions.add_parser('finder'); p.add_argument('query')
+    actions.add_parser('baseline-diff')
+    p=actions.add_parser('reconcile-baseline');p.add_argument('--review',type=Path,required=True)
     memory = sub.add_parser('memory'); actions = memory.add_subparsers(dest='memory_action', required=True)
     for name in ['put','get','search','export','import','enqueue','sync','queue','retry','markdown-import','resolve']:
         p = actions.add_parser(name); p.add_argument('--actor', choices=ROLES, required=True)
@@ -80,7 +82,11 @@ def main(argv=None):
         'health':['audit','get','approve'], 'freshness':['scan','verify','supersede','queue','history'],
         'scheduler':['list','configure','tick','recover','history','run'],
         'improvements':['propose','get','stage','test','qa','activate','rollback','recover'],
-        'research-cache':['record','lookup'], 'scorecards':['list']}
+        'research-cache':['record','lookup'], 'scorecards':['list'],
+        'projects':['create','get','list','update','decompose','accept_handoff','scaffold','approve','deployment_payload'],
+        'social':['create','get','list','update','internal_review','approve','archive','export','graphic','analytics','publication_payload'],
+        'connectors':['candidates','discover','discover_tools','get','list','plan','disable','authorize'],
+        'route':['suggest'], 'design-search':['search']}
     for name,actions in operations.items():
         p=sub.add_parser(name);p.add_argument('action',choices=actions);p.add_argument('--data',type=Path,help='JSON keyword arguments; see docs/INTELLIGENCE-V04.md')
     args = parser.parse_args(argv)
@@ -98,7 +104,7 @@ def main(argv=None):
             if args.command == 'agents':
                 result = [{'name':k,'department':v[0],'reports_to':v[1],
                     'profile':f'.claude/agents/{k}.md','instruction_fingerprint':hub.manifest(k)['fingerprint']} for k,v in ROLES.items()]
-            elif args.command == 'new': result = hub.create(args.request,args.criteria,args.department,args.agent,args.mode,args.parent,args.cycle_limit,args.idempotency_key)
+            elif args.command == 'new': result = hub.create(args.request,args.criteria,args.department,args.agent,args.mode,args.parent,args.cycle_limit,args.idempotency_key,args.project)
             elif args.command=='replan':result=hub.replan_migrated(args.task_id,args.evidence)
             elif args.command in operations:
                 from .intelligence_cli import execute
@@ -128,6 +134,8 @@ def main(argv=None):
                 elif action == 'usage': result = hub.skills.usage(args.skill_id)
                 elif action == 'register': result = hub.skills.register_candidate(read_json(args.record),args.actor)
                 elif action == 'activate': result = hub.skills.activate(args.skill_id,**read_json(args.review))
+                elif action=='baseline-diff':result=hub.skills.baseline_diff()
+                elif action=='reconcile-baseline':result=hub.skills.reconcile_baseline(**read_json(args.review))
                 else:
                     from .skill_finder import SkillFinderAdapter
                     result = SkillFinderAdapter().search(args.query)

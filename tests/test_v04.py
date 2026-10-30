@@ -227,7 +227,7 @@ class Monitoring(Evidence,unittest.TestCase):
         parent=self.hub.create('Parent','Criteria');self.hub.create('Child','Criteria',agent='trading-director',parent=parent['id'])
         result=snapshot(self.hub.db)
         self.assertEqual(sum(result['phase_counts'].values()),result['task_total']);self.assertEqual(result['task_total'],2)
-        self.assertEqual(len(result['departments']),7);self.assertEqual(sum(d['tasks'] for d in result['departments']),2)
+        self.assertEqual(len(result['departments']),len(__import__('agent_hub.roles',fromlist=['DOMAINS']).DOMAINS));self.assertEqual(sum(d['tasks'] for d in result['departments']),2)
     def test_qa_failed_criteria_and_scorecards_have_evidence(self):
         i=self.ready();self.review(i,'qa-auditor','REWORK','SIMULATED precise correction')
         state=snapshot(self.hub.db);self.assertEqual(state['rework_cycles'],1)

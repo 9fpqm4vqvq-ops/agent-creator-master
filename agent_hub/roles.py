@@ -48,3 +48,13 @@ DEPARTMENT_NAMESPACE = {'agent-development': 'research'}
 
 ROLES['department-health-auditor'] = ('agent-development', 'agent-creator-researcher', 'maos')
 ROLES['knowledge-freshness-auditor'] = ('agent-development', 'agent-creator-researcher', 'maos')
+
+# v0.5 operational departments are independent peers of Income under Management.
+from .departments import WEB_ROLES, SOCIAL_ROLES, NAMESPACE_OWNERS
+for name in WEB_ROLES:
+    ROLES[name]=('web-development', 'management-director' if name=='web-application-director' else 'web-application-director','maos')
+for name in SOCIAL_ROLES:
+    ROLES[name]=('social-media', 'management-director' if name=='social-media-director' else 'social-media-director','maos')
+DOMAINS.update({'web-development':'web-application-director','social-media':'social-media-director'})
+NAMESPACES.update(NAMESPACE_OWNERS)
+NAMESPACES.add('connector-capabilities')

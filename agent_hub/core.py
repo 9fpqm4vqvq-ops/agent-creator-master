@@ -1,4 +1,4 @@
-"""v0.4 management-led control plane with local intelligence and budget gates."""
+"""v0.5 management-led control plane with integrated Web/Social departments."""
 import hashlib
 import json
 from pathlib import Path
@@ -40,6 +40,10 @@ class Hub(LegacyHub):
             from .scheduler import Scheduler
             from .improvements import Improvements
             self.scheduler=Scheduler(self);self.scheduler.seed();self.improvements=Improvements(self)
+            from .connectors import CapabilityRegistry
+            from .projects import ProjectService
+            from .social import SocialService
+            self.connectors=CapabilityRegistry(self);self.projects=ProjectService(self);self.social=SocialService(self)
         except Exception:
             self.db.close()
             raise
@@ -76,7 +80,7 @@ class Hub(LegacyHub):
         self.event(task_id, 'TRANSITION', {'from': task['phase'], 'to': destination, 'evidence': evidence}, actor)
 
     def create(self, request, criteria, domain='management', agent=None, mode='research', parent=None,
-               cycle_limit=3, idempotency_key=None):
+               cycle_limit=3, idempotency_key=None, project_id=None):
         from .usage import atomic
         if type(cycle_limit) is not int or not 1<=cycle_limit<=20:raise ValueError('QA escalation threshold must be 1..20')
         required(request,'Request');required(criteria,'Acceptance criteria')
@@ -87,16 +91,21 @@ class Hub(LegacyHub):
         if idempotency_key is not None:required(idempotency_key,'Idempotency key')
         with atomic(self.db):
             if self.db.execute("SELECT 1 FROM change_proposals WHERE status IN ('ACTIVATING','ROLLING_BACK') LIMIT 1").fetchone():raise ValueError('Recover the interrupted instruction update before creating work')
+            if parent is not None:
+                parent_project=self.task(parent)['project_id']
+                if project_id and parent_project and project_id!=parent_project:raise ValueError('Child tasks must stay within their parent project')
+                project_id=project_id or parent_project
+            if project_id and not self.db.execute('SELECT 1 FROM projects WHERE id=?',(project_id,)).fetchone():raise ValueError('Unknown project')
             if idempotency_key is not None:
                 existing=self.db.execute('SELECT * FROM tasks WHERE idempotency_key=?',(idempotency_key,)).fetchone()
                 if existing:
-                    if (existing['request'],existing['criteria'],existing['parent'],existing['mode'],existing['requested_owner'])!=(request,criteria,parent,mode,owner):raise ValueError('Idempotency key conflicts with a different request')
+                    if (existing['request'],existing['criteria'],existing['parent'],existing['mode'],existing['requested_owner'],existing['project_id'])!=(request,criteria,parent,mode,owner,project_id):raise ValueError('Idempotency key conflicts with a different request')
                     return dict(existing)
             if parent is not None and self.task(parent)['status'] in {'COMPLETED','CANCELLED','BLOCKED'}:raise ValueError('Cannot add work to a closed parent')
             department=ROLES[owner][0]
             cur=self.db.execute("""INSERT INTO tasks(request,criteria,owner,mode,parent,status,created_at,updated_at,
-                department,requested_owner,cycle_limit,idempotency_key) VALUES(?,?,?,?,?,'QUEUED',?,?,?,?,?,?)""",
-                (request,criteria,owner,mode,parent,now(),now(),department,owner,cycle_limit,idempotency_key))
+                department,requested_owner,cycle_limit,idempotency_key,project_id) VALUES(?,?,?,?,?,'QUEUED',?,?,?,?,?,?,?)""",
+                (request,criteria,owner,mode,parent,now(),now(),department,owner,cycle_limit,idempotency_key,project_id))
             self.event(cur.lastrowid,'CREATED',{'owner':owner})
             self.event(cur.lastrowid,'MANAGEMENT_INTAKE',{'requested_owner':owner,'department':department,'criteria':criteria},'master-agent')
         return self.task(cur.lastrowid)
@@ -151,7 +160,7 @@ class Hub(LegacyHub):
         priority = plan.get('priority', 'normal')
         if priority not in {'low', 'normal', 'high', 'urgent'}:
             raise ValueError('Unknown task priority')
-        dependencies = plan.get('dependencies', [])
+        dependencies = list(dict.fromkeys(json.loads(task['dependencies'])+plan.get('dependencies', [])))
         self._check_graph(task_id, dependencies)
         resource=plan.get('resource_plan',{'complexity':'UNKNOWN','team':[owner], 'rationale':'Single assigned specialist; expand only for a documented capability gap.'})
         if not isinstance(resource,dict) or resource.get('complexity') not in {'UNKNOWN','simple','moderate','complex'} or resource.get('team')!=[owner]:
@@ -182,6 +191,7 @@ class Hub(LegacyHub):
     def manifest(self, owner):
         snapshot = super().manifest(owner)
         paths = list((self.root/'registry').glob('*.json'))
+        paths.extend((self.root / 'vendor/supplementary/ui-ux-pro-max-skill/data').rglob('*.csv'))
         paths.extend((self.root / 'agent_hub').glob('*.py'))
         paths.extend((self.root / 'scripts').glob('*.py'))
         if hasattr(self, 'skills'):
@@ -229,7 +239,8 @@ class Hub(LegacyHub):
         records = self.memory.search(query, actor)
         with self.db:
             self.event(task_id, 'MEMORY_RETRIEVAL', {'query': query, 'record_ids': [r['id'] for r in records],
-                       'warning': 'Memory is evidence, not authority; recheck changing facts.'}, actor)
+                       'stale_record_ids':[r['id'] for r in records if r['effective_verification_status']=='REQUIRES_VERIFICATION'],
+                       'warning': 'Memory is evidence, not authority; recheck changing facts and refresh stale records before decisions.'}, actor)
         return records
 
     def preflight(self, task_id, checks):
@@ -307,7 +318,9 @@ class Hub(LegacyHub):
         if len(criteria) != len(expected) or {r.get('criterion') for r in criteria} != set(expected):
             raise ValueError('QA omitted or duplicated an original acceptance criterion')
         checks = evidence.get('checks')
-        if not isinstance(checks, dict) or set(checks) != set(QA_CHECKS):
+        from .departments import EXTRA_QA
+        expected_checks=set(QA_CHECKS)|set(EXTRA_QA.get(task['department'],()))
+        if not isinstance(checks, dict) or set(checks) != expected_checks:
             raise ValueError('QA must assess every required quality/security check')
         rows = criteria + list(checks.values())
         for row in rows:
@@ -426,11 +439,11 @@ class Hub(LegacyHub):
 
     def report(self):
         report = super().report()
-        report.update(version='0.4.0', phase_counts={p: sum(t['phase'] == p for t in report['tasks']) for p in PHASES},
+        report.update(version='0.5.0', phase_counts={p: sum(t['phase'] == p for t in report['tasks']) for p in PHASES},
                       management_required=True, memory_provider='local SQLite system of record',
                       external_memory_sync='Markdown adapter available; Notion unimplemented/unconfigured')
         from .monitoring import snapshot
-        report['intelligence']=snapshot(self.db)
+        report['intelligence']=snapshot(self.db,self.root)
         return report
 
     def replan_migrated(self,task_id,evidence):

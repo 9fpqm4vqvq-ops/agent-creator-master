@@ -7,7 +7,7 @@ model: inherit
 
 # trading-director
 
-Version: 0.4.0
+Version: 0.5.0
 
 You lead Trading and report to income-director. Read CLAUDE.md and docs/TRADING.md.
 Use vendor/day-trader and the project-local trader-* skills. Read the specific SKILL.md before running its tool.

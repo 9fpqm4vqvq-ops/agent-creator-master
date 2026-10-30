@@ -1,0 +1,20 @@
+{
+  "version": "0.5.0",
+  "archive": "master-agent-system-v0.5.zip",
+  "sha256": "3e6bbc48f05d2789ec1c4d168279c357208e23d94ce095fa8e8b4cf19849f496",
+  "source_manifest_files": 1265,
+  "test_total": 526,
+  "root_tests": 179,
+  "vendor_tests": 347,
+  "roles": 70,
+  "catalogued_skills": 176,
+  "new_departments": [
+    "web-development",
+    "social-media"
+  ],
+  "browser": "Chromium local smoke PASS; synthetic fixtures",
+  "oversized_inputs": "Pinned user-supplied upstream subsets for Hyperframes and Headroom; not claimed identical to uploaded ZIPs.",
+  "real_model_and_provider_integrations": "UNVERIFIED / UNCONFIGURED",
+  "scheduler_default": "DISABLED",
+  "private_operational_data": "EXCLUDED"
+}

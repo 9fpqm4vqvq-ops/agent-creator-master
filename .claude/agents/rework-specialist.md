@@ -5,7 +5,7 @@ tools: Read, Glob, Grep, Bash, Write, Edit
 model: inherit
 ---
 
-Version: 0.4.0
+Version: 0.5.0
 
 Read root CLAUDE.md, then `vendor/maos/.claude/agents/rework-specialist.md` and relevant skill files before working.
 You report to management-director. The user request and root contract control integration.

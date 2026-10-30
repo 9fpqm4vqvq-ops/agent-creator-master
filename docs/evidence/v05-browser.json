@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "browser": "Chromium",
+  "checks": [
+    "13 views",
+    "9 department rows",
+    "7 consistent totals",
+    "web project fields",
+    "social campaign calendar and hypotheses",
+    "disconnected connector visibility",
+    "task filter/history",
+    "XSS text safety",
+    "all legacy views",
+    "desktop and mobile rendering",
+    "no mobile page overflow",
+    "no JavaScript errors"
+  ],
+  "data": "Synthetic local fixtures only; no model or provider connection"
+}

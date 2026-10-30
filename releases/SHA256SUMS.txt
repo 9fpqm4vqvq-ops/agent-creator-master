@@ -1,2 +1,3 @@
 0d458982b33ae114e3c563909bbc373c6759bc60e4bfc29e5b2fe1be55e665f4  master-agent-system-v0.3.zip
 8c6cd709f520c3f9aef883f877d2edb2bc6f633c9a418cc46f1933bba7ac1cff  master-agent-system-v0.4.zip
+3e6bbc48f05d2789ec1c4d168279c357208e23d94ce095fa8e8b4cf19849f496  master-agent-system-v0.5.zip

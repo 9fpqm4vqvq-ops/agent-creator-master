@@ -1,6 +1,6 @@
 # Repository development
 
-This repository extends the supervised Claude Code master-agent system to v0.4.
+This repository extends the supervised Claude Code master-agent system to v0.5.
 Read README.md and CLAUDE.md. Preserve vendor sources; prefer root integration
 changes and document any necessary vendor patch. Do not remove established agents,
 skills or regression scenarios. Use Python 3.10+ standard library for the hub.

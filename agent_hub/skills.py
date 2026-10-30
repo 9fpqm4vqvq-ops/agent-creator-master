@@ -146,3 +146,40 @@ class SkillRegistry:
     def usage(self, skill_id):
         self.get(skill_id)
         return [dict(r) for r in self.db.execute('SELECT * FROM skill_usage WHERE skill_id=? ORDER BY task_id,handoff_id', (skill_id,))]
+
+
+    def baseline_diff(self):
+        document=json.loads((self.root/'registry/skills.json').read_text())
+        changes=[]
+        for seed in document['skills']:
+            self._validate_shape(seed)
+            if seed['path'].startswith('work/') or skill_fingerprint(self.root,seed['path'])!=seed['fingerprint']:raise ValueError('Reviewed baseline source is missing, changed or outside native baseline scope')
+            row=self.db.execute('SELECT * FROM skill_registry WHERE id=?',(seed['id'],)).fetchone()
+            if row is None:continue
+            old=json.loads(row['record'])
+            if old!=seed or row['fingerprint']!=seed['fingerprint'] or row['security_status']!=seed['security_status']:
+                changes.append({'id':seed['id'],'old_record':old,'new_record':seed,
+                    'old_fingerprint':row['fingerprint'],'new_fingerprint':seed['fingerprint'],
+                    'capability_expansion':any(old.get(k)!=seed.get(k) for k in ['supported_agents','supported_departments','permissions','dependencies'])})
+        return {'changes':changes,'diff_hash':hashlib.sha256(canonical(changes).encode()).hexdigest(),
+            'source':'Current reviewed registry seed and matching on-disk bytes; raw/user candidates excluded.'}
+
+    def reconcile_baseline(self,reviewer,author,review_reference,authorization_reference,tests,expected_diff_hash,allow_capability_expansion=False):
+        import uuid
+        from .usage import atomic
+        if reviewer!='qa-auditor' or author!='agent-creator-researcher' or reviewer==author:raise ValueError('A separate Research author and independent QA reviewer are required')
+        required(review_reference,'Actual independent baseline review reference');required(authorization_reference,'Actual scoped baseline authorization')
+        if not isinstance(tests,list) or not tests or any(not isinstance(t,dict) or t.get('result')!='PASS' or not t.get('reference') for t in tests):raise ValueError('Actual passing compatibility/security test references are required')
+        with atomic(self.db):
+            if self.db.execute("SELECT 1 FROM tasks WHERE phase NOT IN ('COMPLETED','CANCELLED') AND migration_hold=0 LIMIT 1").fetchone():raise ValueError('Finish/cancel current work; only migration-held tasks may remain during baseline reconciliation')
+            if self.db.execute("SELECT 1 FROM maintenance_runs WHERE status='RUNNING' LIMIT 1").fetchone():raise ValueError('Stop active maintenance first')
+            diff=self.baseline_diff()
+            if expected_diff_hash!=diff['diff_hash']:raise ValueError('Baseline diff changed after review; inspect it again')
+            if any(c['capability_expansion'] for c in diff['changes']) and allow_capability_expansion is not True:raise PermissionError('Explicit scoped capability/dependency expansion authorization is required')
+            for change in diff['changes']:
+                seed=change['new_record']
+                self.db.execute('INSERT INTO skill_baseline_revisions VALUES(?,?,?,?,?,?,?,?)',
+                    (str(uuid.uuid4()),seed['id'],canonical(change['old_record']),canonical(seed),redact(review_reference),redact(authorization_reference),diff['diff_hash'],now()))
+                self.db.execute('UPDATE skill_registry SET record=?,fingerprint=?,security_status=?,validated_at=? WHERE id=?',
+                    (canonical(seed),seed['fingerprint'],seed['security_status'],now(),seed['id']))
+        return {'updated':[c['id'] for c in diff['changes']],'diff_hash':diff['diff_hash'],'identity_authenticated':False,'candidate_activation':False}

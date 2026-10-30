@@ -1,4 +1,4 @@
-"""Small JSON-argument interface for the v0.4 services; no runtime model adapter."""
+"""Small JSON-argument interface for the v0.4/v0.5 services; no runtime model adapter."""
 import json
 import time
 from .security import redact
@@ -6,6 +6,15 @@ from .security import redact
 
 def execute(hub,command,action,data):
     if not isinstance(data,dict):raise ValueError('Command data must be a JSON object')
+    if command=='projects':return getattr(hub.projects,action)(**data)
+    if command=='social':return getattr(hub.social,action)(**data)
+    if command=='connectors':return getattr(hub.connectors,action)(**data)
+    if command=='route':
+        from .departments import routing_suggestion
+        return routing_suggestion(**data)
+    if command=='design-search':
+        from .design import search
+        return search(hub.root,**data)
     if command=='usage':
         if action=='estimate':
             from .usage import estimate_cost

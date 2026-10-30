@@ -24,12 +24,15 @@ def make_server(db_path,root,port=8765):
     class Handler(BaseHTTPRequestHandler):
         def log_message(self,*args):pass
         def send(self,status,body,content_type='application/json; charset=utf-8'):
-            self.send_response(status)
-            for key,value in {'Content-Type':content_type,'Content-Length':str(len(body)),
-                'Cache-Control':'no-store','X-Content-Type-Options':'nosniff',
-                'Content-Security-Policy':"default-src 'self'; connect-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'",
-                'Referrer-Policy':'no-referrer'}.items():self.send_header(key,value)
-            self.end_headers();self.wfile.write(body)
+            try:
+                self.send_response(status)
+                for key,value in {'Content-Type':content_type,'Content-Length':str(len(body)),
+                    'Cache-Control':'no-store','X-Content-Type-Options':'nosniff',
+                    'Content-Security-Policy':"default-src 'self'; connect-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'",
+                    'Referrer-Policy':'no-referrer'}.items():self.send_header(key,value)
+                self.end_headers();self.wfile.write(body)
+            except (BrokenPipeError,ConnectionResetError):
+                return # Client navigated away; no second response or server failure.
         def do_GET(self):
             allowed={'127.0.0.1:'+str(self.server.server_port),'localhost:'+str(self.server.server_port)}
             host=self.headers.get('Host','')
@@ -42,7 +45,7 @@ def make_server(db_path,root,port=8765):
                     db=connect_readonly(db_path)
                     try:
                         db.execute('BEGIN') # all panels reflect one SQLite read transaction
-                        if route=='/api/snapshot':result=snapshot(db)
+                        if route=='/api/snapshot':result=snapshot(db,root)
                         elif route.startswith('/api/tasks/') and route[11:].isdigit():
                             identity=int(route[11:]);task=db.execute('SELECT * FROM tasks WHERE id=?',(identity,)).fetchone()
                             if task is None:self.send(404,b'{"error":"Unknown task"}');return

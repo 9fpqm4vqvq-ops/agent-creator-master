@@ -1,5 +1,21 @@
 # Change log
 
+## 0.5.0
+
+- Added two independent Management-led departments with 26 specific profiles, routing
+  suggestions and persistent scoped project/campaign handoffs, preserving Income ownership.
+- Added 111 scoped skill entries, individual supplied-source audit/provenance, pinned
+  oversized-package substitutions and real read-only UI/UX data search; no raw auto-install.
+- Added project/campaign/content/calendar histories, local software/SVG/calendar outputs,
+  supplied-data analytics, source freshness and specialized independent QA checks.
+- Added current-runtime connector observations/tests, permission distinctions, exact
+  action authority, immutable receipt evidence, duplicate protection and read reconciliation.
+- Extended the same Vault, Health Registry, usage ledger, scheduler and read-only dashboard;
+  added project budgets, new namespace families and thirteen dashboard views.
+- Added additive schema 5, conservative v0.4 replan holds, reviewed baseline metadata
+  reconciliation, regression evidence, migration/rollback and operational limits.
+- Preserved existing vendor sources, workflow safeguards and original regression scenarios.
+
 ## 0.4.0
 
 - Added a loopback-only read-only interactive dashboard and comprehensive intelligence snapshots.
