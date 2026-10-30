@@ -111,7 +111,7 @@ def snapshot(db,root=None):
         task_id=int(row['scope_key']) if row['scope']=='TASK' else next((t['id'] for t in tasks if t['project_id']==row['scope_key']),None) if row['scope']=='PROJECT' else tasks[0]['id'] if tasks else None
         agent=row['scope_key'] if row['scope']=='AGENT' else DOMAINS[row['scope_key']] if row['scope']=='DEPARTMENT' else 'management-director'
         budget_rows.extend(b for b in BudgetService(db).evaluate(task_id,agent,'0')['budgets'] if b['id']==row['id'])
-    return {'version':'0.6.0','collected_at':now(),'task_total':len(tasks),'phase_counts':counts,
+    return {'version':'0.7.0','collected_at':now(),'task_total':len(tasks),'phase_counts':counts,
         'active':sum(t['phase'] not in {'COMPLETED','CANCELLED','BLOCKED','ESCALATION'} for t in tasks),
         'completed':counts.get('COMPLETED',0),'blocked':counts.get('BLOCKED',0)+counts.get('ESCALATION',0),
         'rework_cycles':sum(t['reworks'] for t in tasks),'tasks':tasks[:500],'tasks_display_limit':500,
@@ -132,10 +132,14 @@ def snapshot(db,root=None):
             'runs':[dict(r) for r in db.execute('SELECT * FROM maintenance_runs ORDER BY started_at DESC LIMIT 100')],
             'runtime':'Explicit local tick/loop required; no daemon installed. AI work is queued for authenticated Claude Code.'},
         'scorecards':scorecards(db),'changes':[dict(r) for r in db.execute('SELECT * FROM change_proposals ORDER BY created_at DESC LIMIT 100')],
-        'execution':{'runs':[dict(r) for r in db.execute('SELECT * FROM agent_runs ORDER BY created_at DESC LIMIT 100')],
-            'invocations':[dict(r) for r in db.execute('SELECT id,run_id,task_id,agent,department,stage,cycle,status,provider,model,reference,evidence_kind,error,started_at,finished_at,duration_seconds FROM agent_invocations ORDER BY created_at DESC LIMIT 200')],
+        'execution':{'evidence_legend':['SIMULATED','LOCAL_TESTED','LIVE_TESTED','BLOCKED','UNVERIFIED'],
+            'cost_reservations':[dict(r) for r in db.execute("SELECT * FROM usage_reservations WHERE state IN ('ACTIVE','AWAITING_TELEMETRY')")],
+            'reconciliations':[dict(r) for r in db.execute('SELECT * FROM execution_reconciliations ORDER BY created_at DESC LIMIT 100')],
+            'capacity':dict(db.execute("SELECT value AS concurrency_limit,updated_at FROM runtime_policies WHERE id='concurrency_limit'").fetchone()),
+            'runs':[dict(r) for r in db.execute('SELECT * FROM agent_runs ORDER BY created_at DESC LIMIT 100')],
+            'invocations':[dict(r,evidence_status='SIMULATED' if r['evidence_kind']=='SIMULATED' else 'LIVE_TESTED' if r['status']=='COMPLETED' and r['reference'] else 'BLOCKED' if r['status'] in {'FAILED','INTERRUPTED'} else 'UNVERIFIED') for r in db.execute('SELECT id,run_id,task_id,agent,department,stage,cycle,status,provider,model,reference,evidence_kind,error,started_at,finished_at,duration_seconds FROM agent_invocations ORDER BY created_at DESC LIMIT 200')],
             'tools':[dict(r) for r in db.execute('SELECT * FROM runtime_tool_calls ORDER BY started_at DESC LIMIT 100')],
-            'checks':[dict(r) for r in db.execute('SELECT * FROM workspace_checks ORDER BY started_at DESC LIMIT 100')]},
+            'checks':[dict(r,evidence_status='LOCAL_TESTED' if r['status'] in {'PASS','FAIL'} else 'BLOCKED') for r in db.execute('SELECT * FROM workspace_checks ORDER BY started_at DESC LIMIT 100')]},
         'expansion':expansion_snapshot(db,root),
         'limitations':['Periodic local snapshot, not a live provider feed.','Operator attestations do not authenticate model identity.',
             'Unrecorded provider charges are UNKNOWN. Provider billing limits must also be configured externally.']}

@@ -457,7 +457,7 @@ class Hub(LegacyHub):
 
     def report(self):
         report = super().report()
-        report.update(version='0.6.0', phase_counts={p: sum(t['phase'] == p for t in report['tasks']) for p in PHASES},
+        report.update(version='0.7.0', phase_counts={p: sum(t['phase'] == p for t in report['tasks']) for p in PHASES},
                       management_required=True, memory_provider='local SQLite system of record',
                       external_memory_sync='Markdown adapter available; Notion unimplemented/unconfigured')
         from .monitoring import snapshot

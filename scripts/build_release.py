@@ -28,16 +28,17 @@ def main():
     args = parser.parse_args()
     if args.destination.resolve().is_relative_to(ROOT):
         raise ValueError('Build the release archive outside the source tree')
+    if args.destination.exists():raise ValueError('Never overwrite an existing release archive; choose a new build path')
     args.destination.parent.mkdir(parents=True, exist_ok=True)
     manifest = {}
     with ZipFile(args.destination, 'w', compression=ZIP_DEFLATED) as archive:
         for path in walk(ROOT):
             relative = path.relative_to(ROOT).as_posix()
             content = path.read_bytes()
-            archive.writestr(f'master-agent-system-v0.6/{relative}', content)
+            archive.writestr(f'master-agent-system-v0.7/{relative}', content)
             manifest[relative] = hashlib.sha256(content).hexdigest()
-        archive.writestr('master-agent-system-v0.6/RELEASE-MANIFEST.json', json.dumps({
-            'version': '0.6.0', 'sha256': manifest,
+        archive.writestr('master-agent-system-v0.7/RELEASE-MANIFEST.json', json.dumps({
+            'version': '0.7.0', 'sha256': manifest,
             'skill_links': 'Materialized as ordinary files for portable ZIP extraction',
             'excluded': 'Credentials, databases, operational outputs, dependencies and Git history',
         }, indent=2) + '\n')

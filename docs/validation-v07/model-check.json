@@ -1,0 +1,67 @@
+{
+  "test_id": "5ca8e15c-cf86-480b-8275-fe07d548b664",
+  "started_at": "2026-10-30T16:52:56.165284+00:00",
+  "classification": "LIVE_ATTEMPT_NO_MOCKS",
+  "providers": [
+    {
+      "provider": "claude-code",
+      "started_at": "2026-10-30T16:52:56.165297+00:00",
+      "probe": {
+        "provider": "claude-code",
+        "available": false,
+        "configured": false,
+        "authenticated": false,
+        "reason": "EXECUTION UNAVAILABLE \u2014 MODEL RUNTIME NOT CONFIGURED"
+      },
+      "status": "BLOCKED",
+      "error": "Executable, authentication or explicit API model/credential configuration unavailable",
+      "finished_at": "2026-10-30T16:52:56.165376+00:00"
+    },
+    {
+      "provider": "codex-cli",
+      "started_at": "2026-10-30T16:52:56.165378+00:00",
+      "probe": {
+        "provider": "codex-cli",
+        "available": true,
+        "configured": true,
+        "authenticated": true,
+        "version": "0.163.0",
+        "execution_tested": false,
+        "reason": "Authenticated CLI status observed; a real inference is still required"
+      },
+      "status": "BLOCKED",
+      "mcp_check": {
+        "exit_code": 0,
+        "parseable": true,
+        "server_count": 0
+      },
+      "error_type": "ModelProtocolError",
+      "error": "Model CLI exited unsuccessfully (1): Error: failed to initialize in-process app-server client: Read-only file system (os error 30)",
+      "events": [
+        {
+          "kind": "PROVIDER_ERROR",
+          "provider": "codex-cli",
+          "code": "EXIT_1",
+          "message": "Error: failed to initialize in-process app-server client: Read-only file system (os error 30)"
+        }
+      ],
+      "finished_at": "2026-10-30T16:52:56.304210+00:00"
+    },
+    {
+      "provider": "openai-responses",
+      "started_at": "2026-10-30T16:52:56.304251+00:00",
+      "probe": {
+        "provider": "openai-responses",
+        "available": false,
+        "configured": false,
+        "authenticated": false,
+        "execution_tested": false,
+        "reason": "EXECUTION UNAVAILABLE \u2014 MODEL RUNTIME NOT CONFIGURED"
+      },
+      "status": "BLOCKED",
+      "error": "Executable, authentication or explicit API model/credential configuration unavailable",
+      "finished_at": "2026-10-30T16:52:56.304257+00:00"
+    }
+  ],
+  "finished_at": "2026-10-30T16:52:56.304259+00:00"
+}

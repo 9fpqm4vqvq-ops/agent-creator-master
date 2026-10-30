@@ -97,7 +97,7 @@ class GitHubReadAdapter(_ReadHTTP):
     provider='GitHub'
     base='https://api.github.com'
     operations=[{'name':name,'kind':'read'} for name in
-                ['github.user','github.repository','github.contents','github.search_repositories']]
+                ['github.user','github.repository','github.contents','github.search_repositories','github.commits','github.issues','github.pull_requests']]
     def __init__(self,token_env='GITHUB_TOKEN',timeout=20,transport=None):
         super().__init__(token_env,timeout,transport)
 
@@ -136,6 +136,19 @@ class GitHubReadAdapter(_ReadHTTP):
                     if not isinstance(ref,str) or not ref.strip() or len(ref)>200:raise ValueError('Invalid repository ref')
                     path+='?'+urllib.parse.urlencode({'ref':ref})
             return self._get(path)
+        if operation in {'github.commits','github.issues','github.pull_requests'}:
+            if set(arguments)-{'owner','repo','limit','state'}:raise ValueError('Unsupported GitHub history/read fields')
+            limit=arguments.get('limit',10)
+            if type(limit) is not int or not 1<=limit<=30:raise ValueError('Read limit must be 1..30')
+            path='/repos/'+self._segment(arguments.get('owner'),'owner')+'/'+self._segment(arguments.get('repo'),'repo')
+            suffix={'github.commits':'commits','github.issues':'issues','github.pull_requests':'pulls'}[operation]
+            params={'per_page':limit}
+            if operation!='github.commits':
+                state=arguments.get('state','open')
+                if state not in {'open','closed','all'}:raise ValueError('Invalid issue/PR state')
+                params['state']=state
+            elif 'state' in arguments:raise ValueError('Commit reads have no issue state')
+            return self._get(path+'/'+suffix+'?'+urllib.parse.urlencode(params))
         if operation=='github.search_repositories':
             if set(arguments)-{'query','limit'}:raise ValueError('Unsupported GitHub repository-search fields')
             query=arguments.get('query');limit=arguments.get('limit',5)

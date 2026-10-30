@@ -50,6 +50,8 @@ class AgentRuntime:
         self.adapter=adapter if adapter is not None else from_config(self.config.get('model',{}))
         self.workspaces=WorkspaceManager(hub,self.config.get('workspace',{}))
         self.research=ResearchEngine(hub,self.config.get('research',{}))
+        from .runtime_control import RuntimeControl
+        self.control=RuntimeControl(self)
         self.worker_id=str(uuid.uuid4())
         self.timeout=self.config.get('timeout_seconds',120)
         self.max_attempts=self.config.get('max_attempts',3)
@@ -111,8 +113,14 @@ class AgentRuntime:
     def _claim(self, run):
         with atomic(self.db):
             row=self.db.execute('SELECT * FROM agent_runs WHERE id=?',(run,)).fetchone()
+            if row['status']=='REPLACED':raise ValueError('Run was replaced; use the linked replacement task')
             if row['worker_id'] and row['worker_id']!=self.worker_id:
                 raise ValueError('Run is owned by another worker; recover a verified dead worker first')
+            capacity=self.control.capacity()
+            if not row['worker_id'] and capacity['claimed']>=capacity['limit']:
+                from .runtime_control import CapacityPause
+                self._event(run,'CAPACITY_WAIT',capacity)
+                raise CapacityPause('Shared runtime capacity is full')
             self.db.execute('UPDATE agent_runs SET worker_id=?,worker_pid=?,worker_host=?,lease_until=?,started_at=COALESCE(started_at,?) WHERE id=?',
                 (self.worker_id,os.getpid(),socket.gethostname(),(instant(now())+timedelta(seconds=60)).isoformat(),now(),run))
             self._event(run,'WORKER_CLAIM',{'pid_fingerprint':_process_fingerprint(os.getpid())})
@@ -149,12 +157,13 @@ class AgentRuntime:
         memory=self.retrieve_memory(task_id,agent)
         trusted={'role':role,'contracts':[(self.hub.root/p).read_text() for p in ['CLAUDE.md','AGENTS.md']],
                  'skills':skills}
-        payload={'task':task,'memory_untrusted':memory,'research_untrusted':self.research.report(task_id,agent),'stage_input':extra}
+        payload={'task':task,'acceptance_contract':self.config.get('acceptance',{}),'memory_untrusted':memory,'research_untrusted':self.research.report(task_id,agent),'stage_input':extra}
         if len(canonical(payload))>300000:raise ValueError('Context too large; scope the task before execution')
         context_hash=sha({'trusted':trusted,'payload':payload})
         prior=self.db.execute('SELECT * FROM agent_invocations WHERE run_id=? AND stage=? AND cycle=? ORDER BY created_at DESC LIMIT 1',(run,stage,cycle)).fetchone()
         if prior:
             if prior['status']=='COMPLETED':
+                if prior['provider']!=self.adapter.provider:raise ValueError('Provider changed; reconcile before applying prior output')
                 if prior['instruction_hash']!=sha(trusted):raise ValueError('Instructions changed after invocation; replan before applying saved output')
                 return json.loads(prior['output']),dict(prior)
             if prior['status'] not in {'WAITING_FOR_APPROVAL','PREPARED','RECONCILED'}:raise ValueError('Interrupted/failed invocation requires explicit recovery; never replay blindly')
@@ -173,6 +182,10 @@ class AgentRuntime:
                     VALUES(?,?,?,?,?,?,?,'PREPARED',?,?,?,?,?,?,?)''',
                     (identity,run,task_id,agent,role['department'],stage,cycle,key,context_hash,sha(trusted),
                      self.adapter.provider,getattr(self.adapter,'model',None),getattr(self.adapter,'evidence_kind','LIVE'),now()))
+        run_gate=self.control.run_budget(run,self.config.get('projected_cost_usd'))
+        if not run_gate['allowed']:
+            self._state(run,'WAITING_FOR_APPROVAL',stage=stage,last_step='Run budget requires operator review: '+run_gate['status'])
+            raise BudgetPause('Run budget blocked; inspect and set an authorized ceiling')
         approval=self.config.get('approval_ids',{}).get(identity)
         if stage=='SPECIALIST':
             try:self.hub.start(task_id,'Actual provider invocation prepared: '+identity,key,self.config.get('projected_cost_usd'),approval)
@@ -200,18 +213,22 @@ class AgentRuntime:
         try:
             result=self.adapter.invoke(request,on_event=lambda e:self._provider_event(run,identity,agent,e),
                 cancel_check=lambda:self._cancelled(run),tool_gateway=BoundGateway())
-            if self._cancelled(run):raise ExecutionCancelled('Cancellation requested; response not applied')
             if not result.reference or not result.invocation_id:raise ValueError('Provider omitted execution receipt')
             data=_public(result.data)
             with atomic(self.db):
                 self.db.execute("UPDATE agent_invocations SET status='COMPLETED',output=?,provider_invocation_id=?,reference=?,evidence_kind=?,model=?,duration_seconds=?,finished_at=? WHERE id=?",
                     (canonical(data),result.invocation_id,result.reference,result.evidence_kind,result.model,str(result.duration_seconds),now(),identity))
                 self._event(run,'INVOCATION_COMPLETED',{'reference':result.reference,'evidence_kind':result.evidence_kind},agent,identity)
-                self.record_usage(task_id,agent,key,result)
+            try:self.record_usage(task_id,agent,key,result)
+            except Exception as exc:
+                with atomic(self.db):self._event(run,'TELEMETRY_UNRESOLVED',{'error':str(exc),'provider_receipt_retained':True},agent,identity)
         except Exception as exc:
             with atomic(self.db):self.db.execute("UPDATE agent_invocations SET status=?,error=?,finished_at=? WHERE id=?",
                 ('CANCELLED' if isinstance(exc,ExecutionCancelled) else 'FAILED',str(redact(str(exc)))[:2000],now(),identity))
             raise
+        if self._cancelled(run):
+            with atomic(self.db):self._event(run,'CANCELLED_AFTER_RECEIPT',{'receipt_retained':True,'artifacts_applied':False},agent,identity)
+            raise ExecutionCancelled('Cancellation requested after provider receipt; result/usage retained, artifacts not applied')
         return data,dict(self.db.execute('SELECT * FROM agent_invocations WHERE id=?',(identity,)).fetchone())
 
     def _provider_event(self,run,invocation,agent,event):
@@ -229,14 +246,18 @@ class AgentRuntime:
                 self.db.execute('''INSERT INTO agent_runs(id,task_id,status,provider,model,stage,input_hash,config,created_at,updated_at,max_attempts)
                     VALUES(?,?,'QUEUED',?,?,'MANAGEMENT',?,?,?,?,?)''',
                     (run_id,task_id,self.adapter.provider,getattr(self.adapter,'model',None),sha({'request':task['request'],'criteria':task['criteria']}),
-                     canonical({'timeout_seconds':self.timeout,'max_attempts':self.max_attempts}),now(),now(),self.max_attempts))
+                     canonical({'timeout_seconds':self.timeout,'max_attempts':self.max_attempts,'run_budget_usd':self.config.get('run_budget_usd')}),now(),now(),self.max_attempts))
             workspace=self.workspaces.create(run_id)
             with atomic(self.db):self.db.execute('UPDATE agent_runs SET workspace=? WHERE id=?',(str(workspace.relative_to(self.hub.root)),run_id))
         else:
             run=self.get(run_id)
             if run['task_id']!=task_id:raise ValueError('Run belongs to another task')
             if run['status'] not in ACTIVE:raise ValueError('Explicit resume is required for a stopped run')
-        self._claim(run_id)
+        from .runtime_control import CapacityPause
+        try:self._claim(run_id)
+        except CapacityPause:
+            self._state(run_id,'QUEUED',last_step='WAITING_FOR_CAPACITY: no model call started')
+            return self.get(run_id)
         try:
             probe=self.adapter.probe()
             if not probe.get('available') or not probe.get('authenticated'):
@@ -252,14 +273,14 @@ class AgentRuntime:
                     self.hub.assign(task_id,receipt['reference'])
             for _ in range(task['cycle_limit']+1):
                 task=self.hub.task(task_id)
-                if task['phase'] in {'ASSIGNED','PREFLIGHT'}:
+                if task['phase'] in {'ASSIGNED','PREFLIGHT','IN_PROGRESS'}:
                     if task['phase']=='ASSIGNED':
                         packet=self.hub.dispatch(task_id) if task['status']!='DISPATCHED' else {'instructions':self.hub.manifest(task['owner'])}
                         skills=self.load_skills(task_id);self.retrieve_memory(task_id,task['owner'])
                         self.hub.preflight(task_id,{'instruction_fingerprint':packet['instructions']['fingerprint'],
                             'skills_read':[s['path'] for s in skills],'runtime_check':canonical(probe),
                             'freshness_status':'UNVERIFIED','freshness_notes':'External currency requires actual research; no automatic live claim.','sources':[]})
-                    prior_files=self.workspaces.list_files(run_id)
+                    prior_files={'manifest':self.workspaces.list_files(run_id),'contents':[self.workspaces.read(run_id,p) for p in list(self.workspaces.list_files(run_id)['files'])[:40]]}
                     output,receipt=self.invoke_agent(run_id,task['owner'],'SPECIALIST',WORKER,
                         {'files':prior_files,'corrections':[e for e in self.hub.history(task_id) if e['kind']=='QA_RECORD'],
                          'instruction':'Produce actual files. READY means ready for QA, never approved. Use BLOCKED if required capabilities or information are unavailable.'})
@@ -303,13 +324,22 @@ class AgentRuntime:
                     recorded={r['id']:dict(r) for r in self.db.execute('SELECT * FROM workspace_checks WHERE run_id=?',(run_id,))}
                     for test in evidence.get('tests',[]):
                         check=recorded.get(test.get('reference','').removeprefix('check://'))
-                        if not check or check['status']!=test['result']:
+                        if not check or check['status']!=test['result'] or check['input_hash']!=snapshot['sha256']:
                             raise ValueError('QA test claim lacks a matching actual workspace check')
                     current_checks=[r for r in recorded.values() if r['input_hash']==snapshot['sha256']]
                     if qa['verdict']=='PASS' and any(r['status']!='PASS' for r in current_checks):
                         raise ValueError('QA cannot PASS failed, interrupted or uncertain current-byte checks')
                     if qa['verdict']=='PASS' and task['department']=='web-development' and not any(r['status']=='PASS' for r in current_checks):
                         raise ValueError('Web QA requires executed functional checks; configure approved checks')
+                    if qa['verdict']=='PASS' and task['department']=='web-development':
+                        if not evidence.get('tests'):raise ValueError('Web QA must cite actual current-byte functional test references')
+                        from .acceptance import validate_web
+                        acceptance=validate_web(self,run_id,current_checks,snapshot)
+                        with atomic(self.db):self._event(run_id,'FUNCTIONAL_ACCEPTANCE',acceptance,'qa-auditor',receipt['id'])
+                    if qa['verdict']=='PASS' and task['department']=='social-media':
+                        from .acceptance import validate_social
+                        social_acceptance=validate_social(self,run_id,result)
+                        with atomic(self.db):self._event(run_id,'SOCIAL_ACCEPTANCE',social_acceptance,'qa-auditor',receipt['id'])
                     self.hub.review(task_id,'qa-auditor',qa['verdict'],qa['notes'],evidence,self.duplicate_limit)
                 task=self.hub.task(task_id)
                 if task['phase']=='COMPLETED':
@@ -320,6 +350,9 @@ class AgentRuntime:
             raise RuntimeUnavailable('Review cycle limit reached')
         except BudgetPause:
             return self.get(run_id)
+        except (KeyboardInterrupt,SystemExit):
+            self._state(run_id,'BLOCKED',error='Operator interrupted execution; saved provider receipts and cost holds retained',finished_at=now())
+            raise
         except Exception as exc:
             cancelled=isinstance(exc,ExecutionCancelled) or self.hub.task(task_id)['phase']=='CANCELLED'
             self._state(run_id,'CANCELLED' if cancelled else 'BLOCKED',error=str(redact(str(exc)))[:2000],finished_at=now())
@@ -346,13 +379,14 @@ class AgentRuntime:
 
     def resume_execution(self, run_id, authorization_reference):
         required(authorization_reference,'Explicit recovery authorization reference')
-        run=self.get(run_id)
-        if run['worker_id']:raise ValueError('A live or unreconciled worker owns this run')
-        if run['status'] not in {'BLOCKED','WAITING_FOR_APPROVAL'}:raise ValueError('Expected a blocked or approval-waiting run')
-        if any(i['status'] in {'FAILED','INTERRUPTED','RUNNING','WAITING_FOR_TOOL'} for i in run['invocations']):
-            raise ValueError('Provider outcome uncertain/failed: retain run and holds; create a scoped replacement task after reconciliation')
-        if run['task']['phase'] not in {'CREATED','ASSIGNED','PREFLIGHT','QA_REVIEW'}:raise ValueError('Phase needs explicit Management replan; no blind replay')
         with atomic(self.db):
-            self._event(run_id,'RESUME_AUTHORIZED',{'reference':authorization_reference})
-            self.db.execute("UPDATE agent_runs SET status='QUEUED',error=NULL,finished_at=NULL WHERE id=?",(run_id,))
+            run=self.get(run_id)
+            if run['worker_id']:raise ValueError('A live or unreconciled worker owns this run')
+            if run['status'] not in {'BLOCKED','WAITING_FOR_APPROVAL'}:raise ValueError('Expected a blocked or approval-waiting run')
+            if any(i['status'] in {'FAILED','INTERRUPTED','RUNNING','WAITING_FOR_TOOL'} for i in run['invocations']):
+                raise ValueError('Provider outcome uncertain/failed: retain run and holds; create a scoped replacement task after reconciliation')
+            if run['task']['phase'] not in {'CREATED','ASSIGNED','PREFLIGHT','IN_PROGRESS','QA_REVIEW'}:raise ValueError('Phase needs explicit Management replan; no blind replay')
+            with atomic(self.db):
+                self._event(run_id,'RESUME_AUTHORIZED',{'reference':authorization_reference})
+                self.db.execute("UPDATE agent_runs SET status='QUEUED',error=NULL,finished_at=NULL WHERE id=?",(run_id,))
         return self.execute_task(run['task_id'],run_id)

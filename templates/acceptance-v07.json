@@ -1,0 +1,152 @@
+{
+  "web": {
+    "static-website": {
+      "required_assertions": [
+        "content",
+        "responsive",
+        "accessibility",
+        "security"
+      ],
+      "requires": "Reviewed verifier hash, executed command, exact workspace bytes and structured assertion results"
+    },
+    "frontend-application": {
+      "required_assertions": [
+        "functionality",
+        "input_handling",
+        "error_handling",
+        "persistence",
+        "responsive",
+        "accessibility",
+        "security"
+      ],
+      "requires": "Reviewed verifier hash, executed command, exact workspace bytes and structured assertion results"
+    },
+    "backend-api": {
+      "required_assertions": [
+        "functionality",
+        "input_handling",
+        "error_handling",
+        "persistence",
+        "security"
+      ],
+      "requires": "Reviewed verifier hash, executed command, exact workspace bytes and structured assertion results"
+    },
+    "full-stack": {
+      "required_assertions": [
+        "functionality",
+        "input_handling",
+        "error_handling",
+        "persistence",
+        "responsive",
+        "accessibility",
+        "security"
+      ],
+      "requires": "Reviewed verifier hash, executed command, exact workspace bytes and structured assertion results"
+    },
+    "ecommerce": {
+      "required_assertions": [
+        "catalogue",
+        "cart",
+        "checkout_validation",
+        "payment_sandbox",
+        "persistence",
+        "security",
+        "accessibility"
+      ],
+      "requires": "Reviewed verifier hash, executed command, exact workspace bytes and structured assertion results"
+    },
+    "dashboard": {
+      "required_assertions": [
+        "data_accuracy",
+        "filters",
+        "empty_error_states",
+        "responsive",
+        "accessibility",
+        "security"
+      ],
+      "requires": "Reviewed verifier hash, executed command, exact workspace bytes and structured assertion results"
+    }
+  },
+  "social": {
+    "post": {
+      "required_checks": [
+        "accuracy",
+        "brand",
+        "originality",
+        "readability",
+        "platform",
+        "authorization"
+      ],
+      "rule": "Scripts are briefs, scheduling plans are drafts, publishing requires independent explicit authorization; absent rendering is BLOCKED"
+    },
+    "campaign": {
+      "required_checks": [
+        "strategy",
+        "accuracy",
+        "brand",
+        "sources",
+        "originality",
+        "calendar",
+        "authorization"
+      ],
+      "rule": "Scripts are briefs, scheduling plans are drafts, publishing requires independent explicit authorization; absent rendering is BLOCKED"
+    },
+    "calendar": {
+      "required_checks": [
+        "dates_timezone",
+        "audience",
+        "brand",
+        "sources",
+        "authorization"
+      ],
+      "rule": "Scripts are briefs, scheduling plans are drafts, publishing requires independent explicit authorization; absent rendering is BLOCKED"
+    },
+    "carousel": {
+      "required_checks": [
+        "asset_exists",
+        "dimensions",
+        "readability",
+        "brand",
+        "licensing",
+        "platform",
+        "authorization"
+      ],
+      "rule": "Scripts are briefs, scheduling plans are drafts, publishing requires independent explicit authorization; absent rendering is BLOCKED"
+    },
+    "short-video": {
+      "required_checks": [
+        "rendered_video",
+        "duration",
+        "dimensions",
+        "audio_licensing",
+        "sources",
+        "brand",
+        "platform",
+        "authorization"
+      ],
+      "rule": "Scripts are briefs, scheduling plans are drafts, publishing requires independent explicit authorization; absent rendering is BLOCKED"
+    },
+    "analytics": {
+      "required_checks": [
+        "actual_dataset",
+        "metric_definitions",
+        "period",
+        "calculations",
+        "limitations",
+        "sources"
+      ],
+      "rule": "Scripts are briefs, scheduling plans are drafts, publishing requires independent explicit authorization; absent rendering is BLOCKED"
+    },
+    "brand-identity": {
+      "required_checks": [
+        "assets_exist",
+        "brand",
+        "originality",
+        "licensing",
+        "readability",
+        "usage_guidelines"
+      ],
+      "rule": "Scripts are briefs, scheduling plans are drafts, publishing requires independent explicit authorization; absent rendering is BLOCKED"
+    }
+  }
+}

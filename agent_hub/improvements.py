@@ -130,7 +130,7 @@ class Improvements:
         # Runtime tables are additive and may not exist in older Vaults or test
         # fixtures. Do not infer idleness from a cancelled task while its provider
         # or tool process still has a live lifecycle record.
-        terminal={'COMPLETED','FAILED','BLOCKED','CANCELLED','SUCCEEDED','DONE','INTERRUPTED','EXPIRED','REJECTED','TIMED_OUT','OUTPUT_LIMIT'}
+        terminal={'COMPLETED','FAILED','BLOCKED','CANCELLED','SUCCEEDED','DONE','INTERRUPTED','EXPIRED','REJECTED','TIMED_OUT','OUTPUT_LIMIT','REPLACED'}
         tables={row[0] for row in self.db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
         for table in ('agent_runs','agent_invocations','tool_processes','runtime_tool_processes','workspace_processes'):
             if table not in tables:

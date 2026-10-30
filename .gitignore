@@ -13,3 +13,7 @@ memory/
 *.pre-v03-*
 
 *.pre-v06-*
+
+*.pre-v07-*
+/core
+/core.[0-9]*

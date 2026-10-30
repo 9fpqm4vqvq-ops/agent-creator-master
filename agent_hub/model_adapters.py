@@ -279,10 +279,10 @@ def _process(request,args,prompt,consume,cancel_check,max_output_bytes):
         writer.join(timeout=.2)
 
 
-def _probe_command(args):
+def _probe_command(args, json_stdout_only=False):
     try:
         result=subprocess.run(args,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=10,text=True,errors='replace')
-        return result.returncode,(result.stdout+'\n'+result.stderr)[:20000]
+        return result.returncode,(result.stdout if json_stdout_only else result.stdout+'\n'+result.stderr)[:20000]
     except (OSError,subprocess.TimeoutExpired):return None,''
 
 
@@ -311,7 +311,7 @@ class CodexCLIAdapter:
         if not executable or not self.probe()['available']:raise RuntimeUnavailable(UNAVAILABLE)
         # Filesystem read-only does not constrain connected account tools.
         # Require the supported discovery command to prove no enabled MCP tools.
-        mcp_code,mcp_text=_probe_command([executable,'mcp','list','--json'])
+        mcp_code,mcp_text=_probe_command([executable,'mcp','list','--json'],json_stdout_only=True)
         try:mcp=json.loads(mcp_text)
         except (ValueError,TypeError):raise RuntimeUnavailable('Codex MCP isolation could not be verified; use a dedicated profile with no connected MCP tools') from None
         if mcp_code!=0 or not isinstance(mcp,list) or any(not isinstance(item,dict) or item.get('enabled',True) for item in mcp):

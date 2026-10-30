@@ -78,7 +78,7 @@ def main(argv=None):
     p = sub.add_parser('ecommerce-finance'); p.add_argument('--assumptions', type=Path, required=True)
     p=sub.add_parser('dashboard');p.add_argument('--port',type=int,default=8765)
     p=sub.add_parser('replan');p.add_argument('task_id',type=int);p.add_argument('--evidence',required=True)
-    p=sub.add_parser('runtime');p.add_argument('action',choices=['intake','execute','get','recover','resume','cancel','probe']);p.add_argument('--data',type=Path);p.add_argument('--config',type=Path)
+    p=sub.add_parser('runtime');p.add_argument('action',choices=['intake','execute','get','recover','resume','cancel','probe','inspect','capacity','reconcile','replacement','set-run-budget','templates']);p.add_argument('--data',type=Path);p.add_argument('--config',type=Path)
     operations={'usage':['record','summary','estimate'], 'budget':['configure','evaluate','approve'],
         'health':['audit','get','approve'], 'freshness':['scan','verify','supersede','queue','history'],
         'scheduler':['list','configure','tick','recover','history','run'],
@@ -86,7 +86,7 @@ def main(argv=None):
         'research-cache':['record','lookup'], 'scorecards':['list'],
         'projects':['create','get','list','update','decompose','accept_handoff','scaffold','approve','deployment_payload'],
         'social':['create','get','list','update','internal_review','approve','archive','export','graphic','analytics','publication_payload'],
-        'connectors':['candidates','discover','discover_tools','get','list','plan','disable','authorize'],
+        'connectors':['candidates','discover','discover_tools','get','list','plan','disable','authorize','operational_status'],
         'route':['suggest'], 'design-search':['search']}
     for name,actions in operations.items():
         p=sub.add_parser(name);p.add_argument('action',choices=actions);p.add_argument('--data',type=Path,help='JSON keyword arguments; see docs/INTELLIGENCE-V04.md')
@@ -113,7 +113,9 @@ def main(argv=None):
                 data=read_json(args.data) if args.data else {}
                 methods={'intake':runtime.intake,'execute':runtime.execute_task,'get':runtime.get,
                     'recover':runtime.recover,'resume':runtime.resume_execution,'cancel':runtime.cancel_execution,
-                    'probe':runtime.adapter.probe}
+                    'probe':runtime.adapter.probe,'inspect':runtime.control.inspect,'capacity':runtime.control.capacity,
+                    'reconcile':runtime.control.reconcile,'replacement':runtime.control.replacement,
+                    'set-run-budget':runtime.control.set_run_budget,'templates':__import__('agent_hub.acceptance',fromlist=['templates']).templates}
                 result=methods[args.action](**data)
             elif args.command in operations:
                 from .intelligence_cli import execute
