@@ -1,0 +1,52 @@
+{
+  "classification": "LOCAL_TESTED; REVIEWED FIXTURE; NO MODEL INFERENCE OR MODEL QA",
+  "isolation": {
+    "available": true,
+    "backend": "docker",
+    "reason": "Actual isolated /bin/true succeeded",
+    "checked_at": "2026-10-30T16:58:14.459404+00:00",
+    "network": "none",
+    "image": "node:22-alpine"
+  },
+  "deliberate_defect": {
+    "id": "56065281-4231-4c64-89f9-b23b42685c91",
+    "status": "FAIL",
+    "executed": true,
+    "exit_code": 1,
+    "output": "/project/test-app.js:7\ncheck('functionality','FUNCTIONAL',()=>{first=store.add('Plan today');store.add('Review tomorrow');assert.equal(store.visible('active').length,2);store.toggle(first.id);assert.equal(store.visible('completed')[0].title,'Plan today');assert.equal(store.visible('active').length,1);assert.equal(store.visible('all').length,2);},'Actual add, toggle and active/completed/all state operations');\n                                                                                                                                                                                                                   ^\n\nTypeError: Cannot read properties of undefined (reading 'title')\n    at /project/test-app.js:7:212\n    at check (/project/test-app.js:4:57)\n    at Object.<anonymous> (/project/test-app.js:7:1)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)\n    at node:internal/main/run_main_module:36:49\n\nNode.js v22.23.4\n",
+    "error": null,
+    "argv": [
+      "node",
+      "test-app.js"
+    ],
+    "input_hash": "81614bb2ca5846dd2c7b1142f078c877c240dd77c5375338ee40dc9adb04f3a1",
+    "isolation": "docker",
+    "network": "none",
+    "started_at": "2026-10-30T16:58:14.490923+00:00",
+    "finished_at": "2026-10-30T16:58:15.045377+00:00"
+  },
+  "corrected": {
+    "id": "d631fff8-2f7e-4b44-821e-e1b99b614d97",
+    "status": "PASS",
+    "executed": true,
+    "exit_code": 0,
+    "output": "{\"assertions\":[{\"evidence\":\"Actual add, toggle and active/completed/all state operations\",\"id\":\"functionality\",\"kind\":\"FUNCTIONAL\",\"status\":\"PASS\"},{\"evidence\":\"Empty/oversized tasks and missing IDs rejected\",\"id\":\"input_handling\",\"kind\":\"FUNCTIONAL\",\"status\":\"PASS\"},{\"evidence\":\"Reload from persisted JSON preserves completion and titles\",\"id\":\"persistence\",\"kind\":\"PERSISTENCE\",\"status\":\"PASS\"},{\"evidence\":\"Corrupt storage and unavailable writes degrade to session-only state\",\"id\":\"error_handling\",\"kind\":\"FUNCTIONAL\",\"status\":\"PASS\"},{\"evidence\":\"User text is retained literally and rendered with textContent; static sink audit\",\"id\":\"security\",\"kind\":\"SECURITY\",\"status\":\"PASS\"},{\"evidence\":\"Actual app event handlers execute against a labeled DOM fixture; not browser evidence\",\"id\":\"dom_integration\",\"kind\":\"FUNCTIONAL\",\"status\":\"PASS\"}],\"limits\":[\"Responsive layout/accessibility/browser behavior require the separate real-browser verifier.\"],\"status\":\"PASS\"}",
+    "error": null,
+    "argv": [
+      "node",
+      "test-app.js"
+    ],
+    "input_hash": "7ea081cab0c8c3ac294cd0ecdda515ceb62cee55a82bfd98443c17e193c1c288",
+    "isolation": "docker",
+    "network": "none",
+    "started_at": "2026-10-30T16:58:15.049691+00:00",
+    "finished_at": "2026-10-30T16:58:15.943925+00:00"
+  },
+  "verifier_sha256": "9cedc1fa10a131506c967d57bdf95b14c7c6bc945d947e46207ea809fe9a4559",
+  "browser": {
+    "status": "BLOCKED",
+    "exit_code": -6,
+    "error": "[33908:33908:1030/165816.020017:ERROR:third_party/crashpad/crashpad/util/file/filesystem_posix.cc:63] mkdir : No such file or directory (2)\nchrome_crashpad_handler: --database is required\nTry 'chrome_crashpad_handler --help' for more information.\n[33908:33908:1030/165816.022680:FATAL:sandbox/linux/suid/client/setuid_sandbox_host.cc:172] The SUID sandbox helper binary was found, but is not configured correctly. Rather than run without sandboxing I'm aborting now. You need to make sure that /usr/lib/chromium/chrome-sandbox is owned by root and has mode 4755.\n[33926:33926:0100/000000.058004:ERROR:content/zygote/zygote_linux.cc:662] write: Broken pipe (32)\n",
+    "sandbox_disabled": false
+  }
+}

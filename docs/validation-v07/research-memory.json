@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "classification": "ACTUAL_HOST_CONNECTOR_READ_AND_LOCAL_MEMORY; NO MODEL INFERENCE",
+  "framework": "Vue",
+  "version": "v3.5.44",
+  "official_stable_release_metadata": true,
+  "source_url": "https://api.github.com/repos/vuejs/core/releases/latest",
+  "release_url": "https://github.com/vuejs/core/releases/tag/v3.5.44",
+  "retrieved_at": "2026-10-30T16:56:29.849872+00:00",
+  "publication_date": "2026-10-13T07:43:25Z",
+  "content_sha256": "bd7cdd5997964ffe059bf53bb0101ed85c11d066524b7c32f0307c6202d5fad4",
+  "verification_status": "PARTIALLY_VERIFIED",
+  "source_evidence": "LIVE_NATIVE_TOOL",
+  "compatibility": {
+    "repository_build_node": {
+      "node": ">=20.0.0"
+    },
+    "source": "https://github.com/vuejs/core/blob/v3.5.44/package.json",
+    "limit": "Repository build engine is not a universal consumer browser/runtime compatibility promise."
+  },
+  "cache_reused": true,
+  "followup": {
+    "retrieved_record_ids": [
+      "d0784677-c099-4d9f-b43e-da649cba9a79",
+      "93e0cf63-61d5-4995-9815-b9f853185898",
+      "cf08c71c-3130-4bf3-9e86-b43461da8358"
+    ],
+    "source_freshness_status": "PARTIALLY_VERIFIED",
+    "effective_memory_status": [
+      "UNVERIFIED",
+      "UNVERIFIED",
+      "UNVERIFIED"
+    ],
+    "limitation": "No independent live model verification; require fresh official check before consequential decisions."
+  }
+}

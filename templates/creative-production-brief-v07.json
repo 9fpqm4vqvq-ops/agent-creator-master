@@ -1,0 +1,12 @@
+{
+  "delivery_state": "PRODUCTION_BRIEF_ONLY",
+  "brand": "USER_MUST_SUPPLY_APPROVED_BRAND",
+  "audience": "TO_BE_CONFIRMED",
+  "platform": "TO_BE_CONFIRMED",
+  "dimensions": "VERIFY_CURRENT_PLATFORM_REQUIREMENTS",
+  "message": "ORIGINAL_DRAFT_REQUIRED",
+  "sources_and_licenses": [],
+  "rendering": {"status": "BLOCKED", "required": "Connected supported tool, verified permissions, reviewed costs and actual rendered asset"},
+  "qa": {"profile": "short-video", "checks": ["rendered_video", "duration", "dimensions", "audio_licensing", "brand", "sources", "platform", "authorization"]},
+  "publication": {"status": "NOT_AUTHORIZED", "required": "Separate explicit content/account/destination authorization and confirmed external operation"}
+}

@@ -32,6 +32,18 @@ class CapabilityRegistry:
         return result
     def list(self,runtime_id=None):
         return [self.get(r['runtime_id'],r['provider']) for r in self.db.execute('SELECT runtime_id,provider FROM connector_capabilities ORDER BY runtime_id,provider') if runtime_id is None or r['runtime_id']==runtime_id]
+    def operational_status(self,runtime_id,provider):
+        """v0.7 vocabulary projected from existing tested capability evidence."""
+        try:record=self.get(runtime_id,provider)
+        except ValueError:return {'provider':provider,'status':'UNAVAILABLE','verified_operations':[],'evidence_kind':'UNVERIFIED'}
+        status=record['status']
+        mapped={'READ_ONLY':'TESTED_READ','TESTED_READ':'TESTED_READ','TESTED_WRITE':'TESTED_WRITE',
+            'AVAILABLE_NOT_CONNECTED':'AVAILABLE','NOT_DISCOVERED':'UNAVAILABLE','DISABLED':'DISABLED','FAILED':'FAILED'}.get(status,'CONNECTED')
+        if record['evidence_kind']=='SIMULATED' and mapped in {'TESTED_READ','TESTED_WRITE'}:mapped='AVAILABLE'
+        return {'provider':provider,'status':mapped,'authentication_status':record['authentication_status'],
+            'verified_operations':[o['name'] for o in record['operations'] if o['permission']=='GRANTED' and record['evidence_kind']!='SIMULATED'],
+            'evidence_kind':record['evidence_kind'],'last_successful_test':record['last_successful_test'],'limitations':record['limitations']}
+
     def discover(self,runtime_id,provider,connector_type,operations,evidence_reference,rate_limits=None,cost_limits=None,limitations=None,evidence_kind='RUNTIME_OBSERVATION'):
         for value,label in [(runtime_id,'Current runtime identity'),(provider,'Provider'),(connector_type,'Connector type'),(evidence_reference,'Actual runtime tool discovery reference')]:required(value,label)
         if evidence_kind not in {'RUNTIME_OBSERVATION','SIMULATED'}:raise ValueError('Unknown connector evidence kind')

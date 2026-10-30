@@ -1,0 +1,35 @@
+{
+  "task_id": 6,
+  "actual_retrieved_record_ids": [
+    "d0784677-c099-4d9f-b43e-da649cba9a79",
+    "93e0cf63-61d5-4995-9815-b9f853185898",
+    "cf08c71c-3130-4bf3-9e86-b43461da8358"
+  ],
+  "research_document_id": "63251566-e195-4575-ae6b-7465fa820990",
+  "saved_version": "v3.5.44",
+  "saved_source": "https://api.github.com/repos/vuejs/core/releases/latest",
+  "saved_publication_date": "2026-10-13T07:43:25Z",
+  "source_content_sha256": "bd7cdd5997964ffe059bf53bb0101ed85c11d066524b7c32f0307c6202d5fad4",
+  "freshness_decision": {
+    "checked_at": "2026-10-30T17:14:18.131414+00:00",
+    "source_retrieved_at": "2026-10-30T16:56:29.849872+00:00",
+    "source_expires_at": "2026-10-30T17:56:29.849872+00:00",
+    "expired": false,
+    "stored_source_status": "PARTIALLY_VERIFIED",
+    "effective_source_status": "PARTIALLY_VERIFIED",
+    "effective_memory_statuses": {
+      "d0784677-c099-4d9f-b43e-da649cba9a79": "UNVERIFIED",
+      "93e0cf63-61d5-4995-9815-b9f853185898": "UNVERIFIED",
+      "cf08c71c-3130-4bf3-9e86-b43461da8358": "UNVERIFIED"
+    },
+    "reuse": "REUSE_AS_RECENT_CAPTURED_SOURCE_WITH_UNVERIFIED_CLAIMS",
+    "independent_factual_verification": false
+  },
+  "limitations": [
+    "This follow-up used existing local memory and persisted source evidence only; no network request or latest-release recheck occurred.",
+    "PARTIALLY_VERIFIED source retrieval and UNVERIFIED memory do not establish independent factual verification.",
+    "The saved release version must be rechecked against an official current source before consequential use.",
+    "This is actual supervised host-agent memory validation, not a successful Claude Code CLI, Codex CLI, or API inference."
+  ],
+  "reference": "host-agent-tool:///root/v07_live_management/research-followup"
+}

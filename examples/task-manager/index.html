@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Task desk</title><link rel="stylesheet" href="style.css"></head>
+<body><main><header><p>YOUR DAILY WORKSPACE</p><h1>Make room for focus.</h1><p>Add a task, finish it, and see what remains.</p></header>
+<form id="add-form"><label for="task-title">New task</label><div class="entry"><input id="task-title" name="task" maxlength="200" autocomplete="off" required placeholder="What needs your attention?"><button>Add task</button></div></form>
+<p id="message" role="status" aria-live="polite"></p><nav aria-label="Filter tasks"><button type="button" data-filter="all" aria-pressed="true">All</button><button type="button" data-filter="active" aria-pressed="false">Active</button><button type="button" data-filter="completed" aria-pressed="false">Completed</button></nav>
+<ul id="tasks" aria-label="Task list"></ul><p id="empty">Your desk is clear. Add your first task above.</p><p id="counts"></p></main><script src="app.js" defer></script></body></html>

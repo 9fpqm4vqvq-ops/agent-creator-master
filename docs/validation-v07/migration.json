@@ -1,0 +1,16 @@
+{
+  "schema": 7,
+  "integrity": "ok",
+  "task_preserved": true,
+  "migration": {
+    "version": 7,
+    "backup": "/workspace/work/v07-migration-smoke.sqlite.pre-v07-20261030T171815049335Z.sqlite",
+    "legacy_tasks": 0
+  },
+  "capacity": {
+    "id": "concurrency_limit",
+    "value": "1",
+    "updated_at": "2026-10-30 17:18:15"
+  },
+  "backup_schema": 6
+}

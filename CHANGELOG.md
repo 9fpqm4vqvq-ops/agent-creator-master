@@ -1,3 +1,25 @@
+# v0.7.0 — 2026-10-30
+
+- Demonstrate five actual supervised-host agent turns: Management, specialist,
+  independent QA rejection, specialist correction and independent QA recheck.
+  Corrected current-byte functional checks pass; final task remains BLOCKED for
+  unavailable real-browser verification. CLI/API inference remains separately blocked.
+- Preserve provider receipts when telemetry validation fails or late cancellation arrives; parse JSON probes from
+  stdout separately from stderr warnings; retain unknown cost holds.
+- Add shared atomic concurrency/backpressure, per-run ceilings, operator inspection,
+  evidence reconciliation, safe completed-receipt resume and idempotent replacements.
+- Strengthen web acceptance with reviewed verifier hashes, structured current-byte
+  functional assertions and test references. Add six web/seven social profiles;
+  reject script-only video delivery and analytics without supplied data.
+- Add explicit supervised host bridge and native public-source/general-search
+  callback interfaces. Keep direct HTTP DNS/proxy guards and distinguish host access
+  from downloaded credentials. Preserve original publication metadata and receipts.
+- Extend documented GitHub GETs to commits/issues/PRs; retain consequential-action
+  authorization. Add honest connector status projection and discovery inventory.
+- Add task-page source/real functional rejection-correction evidence, research/memory
+  receipts, evidence labels, held costs, migration/rollback and coherent v0.7 setup.
+- Preserve v0.6 history/archives; release only on dedicated upgrade branch and PR.
+
 # v0.6.0 — 2026-10-30
 
 - Add supported model adapters, durable run/invocation records, real Management →

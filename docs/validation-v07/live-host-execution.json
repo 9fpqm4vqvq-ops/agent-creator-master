@@ -1,0 +1,709 @@
+{
+  "id": "2940f9aa-edf5-452f-a0ce-8affe0576c94",
+  "task_id": 1,
+  "status": "BLOCKED",
+  "stage": "QA",
+  "last_step": "QA corrections sent to responsible specialist",
+  "error": "QA blocked or escalated the task",
+  "created_at": "2026-10-30T17:06:21.951760+00:00",
+  "started_at": "2026-10-30T17:06:21.954653+00:00",
+  "finished_at": "2026-10-30T17:11:11.026431+00:00",
+  "classification": "ACTUAL_SUPERVISED_HOST_AGENT_TOOL; NOT CLI/API INFERENCE",
+  "task_phase": "ESCALATION",
+  "original_request": "Create a responsive task-management webpage with add, completion and active/completed filters. Return actual files and a functional verifier. No deployment.",
+  "original_criteria": "Responsive task page with add, complete, active/completed filtering, actual functional tests and separate QA; no deployment.",
+  "model": "UNKNOWN",
+  "token_usage": "UNKNOWN",
+  "actual_cost_usd": "UNKNOWN",
+  "invocations": [
+    {
+      "id": "6c17e492-b568-42e2-b8c9-1c84e65e66da",
+      "agent": "management-director",
+      "department": "management",
+      "stage": "MANAGEMENT",
+      "cycle": 0,
+      "status": "COMPLETED",
+      "provider": "supervised-host-agent-tool",
+      "model": null,
+      "reference": "host-agent-tool:///root/v07_live_management/current-management-stage",
+      "evidence_kind": "LIVE_HOST_MEDIATED",
+      "started_at": "2026-10-30T17:06:22.038293+00:00",
+      "finished_at": "2026-10-30T17:07:03.055531+00:00",
+      "duration_seconds": "41.01102721299685",
+      "output_sha256": "2dcfd631255caf7f1194b760e178f61dcf31eff9ad70588fb4a598e4377554ea",
+      "management_result": {
+        "acceptance_criteria": [
+          "Responsive task page with add, complete, active/completed filtering, actual functional tests and separate QA; no deployment.",
+          "Adding a nonempty task creates a visible active task; blank and oversized input is rejected.",
+          "Marking a task completed changes its state and produces correct all, active, and completed filter results.",
+          "Reloading restores saved tasks and completion states; unavailable or corrupt storage produces an explicit limitation.",
+          "User-entered task titles render as text without executable HTML.",
+          "A reviewed functional verifier executes the task operations and records results bound to the exact delivered application and verifier bytes.",
+          "A real sandboxed browser verifies responsive behavior; absent actual browser evidence blocks responsive acceptance and the overall PASS.",
+          "A separately invoked qa-auditor assesses the original criteria, actual artifacts, and actual test receipts, returns precise corrections for defects, and never permits producing-agent self-approval.",
+          "All deliverables remain local; no deployment, publication, or external account action occurs."
+        ],
+        "analysis": "Produce a small local frontend application with real task creation, completion toggling, all/active/completed filters, and persistent state. Use one accountable Web Development specialist and separately invoked qa-auditor. Functional tests must exercise actual application behavior against the delivered bytes. Real sandboxed browser verification is necessary for responsive acceptance; if unavailable, that requirement and final acceptance remain BLOCKED. This stage is actual supervised host Agent-tool execution, not successful Claude Code CLI, Codex CLI, or API inference.",
+        "owner": "web-application-director",
+        "rationale": "The original request explicitly selects Web Development. web-application-director is the minimum accountable specialist for this small frontend task. master-workflow is registered for Web Development and preserves Management handoff, memory, preflight, evidence, and independent QA controls. Additional agents are unnecessary unless an actual capability gap is diagnosed.",
+        "selected_skills": [
+          "master-workflow"
+        ]
+      }
+    },
+    {
+      "id": "238ab7cd-9cc9-42aa-b7e7-188036801a1f",
+      "agent": "web-application-director",
+      "department": "web-development",
+      "stage": "SPECIALIST",
+      "cycle": 0,
+      "status": "COMPLETED",
+      "provider": "supervised-host-agent-tool",
+      "model": null,
+      "reference": "host-agent-tool:///root/v07_live_specialist/initial-stage",
+      "evidence_kind": "LIVE_HOST_MEDIATED",
+      "started_at": "2026-10-30T17:07:03.875131+00:00",
+      "finished_at": "2026-10-30T17:07:46.005331+00:00",
+      "duration_seconds": "42.12366382500477",
+      "output_sha256": "beb25ecc35016d7a12b34c79dc62340f48b8db299aa694ce33f69af35f332862",
+      "summary": "Produced identifiable Task desk HTML/CSS/JavaScript and the unchanged reviewed functional verifier. Controlled initial defect: completed filtering deliberately returns no tasks so independent QA can reject it and request correction. READY means ready for QA, not approved or functionally complete.",
+      "limitations": [
+        "CONTROLLED QA ACCEPTANCE DEFECT: completed filter intentionally returns an empty result; the unchanged verifier must fail this criterion.",
+        "No application or verifier code was executed by this specialist. Runtime-owned Docker checks must determine actual behavior.",
+        "Responsive CSS and accessible markup are implemented, but no real sandboxed-browser verification is available from this invocation; responsive acceptance remains BLOCKED until tested.",
+        "Real supervised host Agent-tool stage only; no claim of successful Claude Code CLI, Codex CLI or OpenAI API execution.",
+        "No deployment or publication; provider model, tokens and billing are UNKNOWN."
+      ]
+    },
+    {
+      "id": "9a1008c9-c88f-4c00-af79-792e133db4cd",
+      "agent": "qa-auditor",
+      "department": "quality",
+      "stage": "QA",
+      "cycle": 0,
+      "status": "COMPLETED",
+      "provider": "supervised-host-agent-tool",
+      "model": null,
+      "reference": "host-agent-tool:///root/v07_live_qa/initial-review",
+      "evidence_kind": "LIVE_HOST_MEDIATED",
+      "started_at": "2026-10-30T17:07:47.288061+00:00",
+      "finished_at": "2026-10-30T17:09:23.812701+00:00",
+      "duration_seconds": "96.51888993699686",
+      "output_sha256": "72a984e7269cabfa650a3b20073ab99873c097b5ad688de8b8f4fa13858c54ed",
+      "qa_result": {
+        "evidence": {
+          "checks": {
+            "accessibility": {
+              "correction": "Obtain actual responsive/accessibility evidence in a correctly configured sandboxed browser; do not disable sandboxing or infer responsive success from CSS.",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/index.html",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/style.css",
+                "Markup has input labels, a live status and named filter navigation; no real-browser accessibility verification is present."
+              ],
+              "reason": "",
+              "verdict": "BLOCKED"
+            },
+            "accuracy_evidence": {
+              "correction": "",
+              "evidence": [
+                "check://342aafb1-fad1-4858-b7e5-442436f5f98d",
+                "Specialist explicitly disclosed the controlled defect; this review reports the actual failing process and unexecuted checks honestly."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "artifact_integrity": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js sha256:e6adb6e3e03b597e48a4ab1628bbf5bd0a06bd4444fa05a5d04454c0566fea54",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/index.html sha256:80fbd407f17cd3c2d4c9127c7734f5982c1793c98f208839d1f03b3523dbdfa9",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/style.css sha256:24435eae555416303b703898aff3a4d9236590a68c517cbec1b59ae582cc0cfa",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/test-app.js sha256:9cedc1fa10a131506c967d57bdf95b14c7c6bc945d947e46207ea809fe9a4559",
+                "Independently recomputed all four exported artifact SHA-256 values; all match the request manifest."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "completeness": {
+              "correction": "Restore TaskStore.visible completed filtering to use each task's completed state instead of literal false; preserve the reviewed verifier and rerun node test-app.js against the corrected bytes.",
+              "evidence": [
+                "check://342aafb1-fad1-4858-b7e5-442436f5f98d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js"
+              ],
+              "reason": "",
+              "verdict": "FAIL"
+            },
+            "dependency_compatibility": {
+              "correction": "After fixing the filter failure, run the unchanged Node verifier completely and perform supported browser compatibility checks; current fail-fast process does not establish those results.",
+              "evidence": [
+                "check://342aafb1-fad1-4858-b7e5-442436f5f98d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/index.html"
+              ],
+              "reason": "",
+              "verdict": "BLOCKED"
+            },
+            "deployment_readiness": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/index.html"
+              ],
+              "reason": "User explicitly requires local-only delivery and no deployment; no readiness or deployment claim is made.",
+              "verdict": "NOT_APPLICABLE"
+            },
+            "documentation": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/test-app.js",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/index.html",
+                "Verifier comments explicitly distinguish DOM fixture checks from real-browser acceptance; visible form/filter labels explain prototype use, and the retained command identifies the local verification entry point."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "functional_correctness": {
+              "correction": "Restore TaskStore.visible completed filtering to use each task's completed state instead of literal false; preserve the reviewed verifier and rerun node test-app.js against the corrected bytes.",
+              "evidence": [
+                "check://342aafb1-fad1-4858-b7e5-442436f5f98d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js"
+              ],
+              "reason": "",
+              "verdict": "FAIL"
+            },
+            "maintainability": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/test-app.js",
+                "Reviewed standalone TaskStore methods are separated from DOM mounting; no third-party dependencies; controlled defect has a precise one-line correction."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "missing_requirements": {
+              "correction": "Restore TaskStore.visible completed filtering to use each task's completed state instead of literal false; preserve the reviewed verifier and rerun node test-app.js against the corrected bytes. Real responsive-browser acceptance is separately BLOCKED.",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js",
+                "check://342aafb1-fad1-4858-b7e5-442436f5f98d"
+              ],
+              "reason": "",
+              "verdict": "FAIL"
+            },
+            "output_quality": {
+              "correction": "Restore TaskStore.visible completed filtering to use each task's completed state instead of literal false; preserve the reviewed verifier and rerun node test-app.js against the corrected bytes.",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js",
+                "check://342aafb1-fad1-4858-b7e5-442436f5f98d"
+              ],
+              "reason": "",
+              "verdict": "FAIL"
+            },
+            "performance": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js"
+              ],
+              "reason": "No measurable performance target was supplied for this bounded local prototype; no performance benchmark or browser timing is claimed.",
+              "verdict": "NOT_APPLICABLE"
+            },
+            "reproducibility": {
+              "correction": "",
+              "evidence": [
+                "check://342aafb1-fad1-4858-b7e5-442436f5f98d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/test-app.js",
+                "Exact argv [node,test-app.js], verifier hash 9cedc1fa10a131506c967d57bdf95b14c7c6bc945d947e46207ea809fe9a4559 and current workspace input hash are retained."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "responsive_behavior": {
+              "correction": "Obtain actual responsive/accessibility evidence in a correctly configured sandboxed browser; do not disable sandboxing or infer responsive success from CSS.",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/style.css",
+                "Responsive media rule exists but no actual sandboxed browser/layout check has succeeded."
+              ],
+              "reason": "",
+              "verdict": "BLOCKED"
+            },
+            "security_permissions": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/index.html",
+                "Inspected local source uses textContent and has no external account or publication actions."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "skill_use": {
+              "correction": "",
+              "evidence": [
+                ".claude/skills/master-workflow/SKILL.md",
+                "Task selected_skills and result skills_used both contain master-workflow; actual request supplied its full instructions."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "source_freshness": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/index.html"
+              ],
+              "reason": "This local dependency-free application makes no changing external factual claims; no live source freshness is claimed.",
+              "verdict": "NOT_APPLICABLE"
+            },
+            "user_instructions": {
+              "correction": "Restore TaskStore.visible completed filtering to use each task's completed state instead of literal false; preserve the reviewed verifier and rerun node test-app.js against the corrected bytes. Obtain actual responsive/accessibility evidence in a correctly configured sandboxed browser; do not disable sandboxing or infer responsive success from CSS.",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js",
+                "check://342aafb1-fad1-4858-b7e5-442436f5f98d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/style.css"
+              ],
+              "reason": "",
+              "verdict": "FAIL"
+            }
+          },
+          "criteria": [
+            {
+              "correction": "Restore TaskStore.visible completed filtering to use each task's completed state instead of literal false; preserve the reviewed verifier and rerun node test-app.js against the corrected bytes. Responsive acceptance also remains blocked without real browser evidence.",
+              "criterion": "Responsive task page with add, complete, active/completed filtering, actual functional tests and separate QA; no deployment.",
+              "evidence": [
+                "check://342aafb1-fad1-4858-b7e5-442436f5f98d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js"
+              ],
+              "reason": "",
+              "verdict": "FAIL"
+            },
+            {
+              "correction": "Fix completed filtering and rerun the unchanged verifier so the DOM-add/input assertions, currently unreached by the fail-fast run, actually execute.",
+              "criterion": "Adding a nonempty task creates a visible active task; blank and oversized input is rejected.",
+              "evidence": [
+                "check://342aafb1-fad1-4858-b7e5-442436f5f98d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/test-app.js"
+              ],
+              "reason": "",
+              "verdict": "BLOCKED"
+            },
+            {
+              "correction": "Restore TaskStore.visible completed filtering to use each task's completed state instead of literal false; preserve the reviewed verifier and rerun node test-app.js against the corrected bytes.",
+              "criterion": "Marking a task completed changes its state and produces correct all, active, and completed filter results.",
+              "evidence": [
+                "check://342aafb1-fad1-4858-b7e5-442436f5f98d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js"
+              ],
+              "reason": "",
+              "verdict": "FAIL"
+            },
+            {
+              "correction": "Fix the earlier filter failure and rerun the unchanged verifier; persistence/error tests were not reached in the actual failing run.",
+              "criterion": "Reloading restores saved tasks and completion states; unavailable or corrupt storage produces an explicit limitation.",
+              "evidence": [
+                "check://342aafb1-fad1-4858-b7e5-442436f5f98d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/test-app.js"
+              ],
+              "reason": "",
+              "verdict": "BLOCKED"
+            },
+            {
+              "correction": "",
+              "criterion": "User-entered task titles render as text without executable HTML.",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js",
+                "Inspected source: label.textContent=task.title; no innerHTML sink; user values never become HTML."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            {
+              "correction": "Restore TaskStore.visible completed filtering to use each task's completed state instead of literal false; preserve the reviewed verifier and rerun node test-app.js against the corrected bytes.",
+              "criterion": "A reviewed functional verifier executes the task operations and records results bound to the exact delivered application and verifier bytes.",
+              "evidence": [
+                "check://342aafb1-fad1-4858-b7e5-442436f5f98d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/test-app.js",
+                "Actual Node exit code 1; TypeError at completed-filter result[0].title; input hash 470c50b0439206a6ba5c7df7ad28b592685c567aaa0a6b6461844aa38a6cfca6"
+              ],
+              "reason": "",
+              "verdict": "FAIL"
+            },
+            {
+              "correction": "Obtain actual responsive/accessibility evidence in a correctly configured sandboxed browser; do not disable sandboxing or infer responsive success from CSS.",
+              "criterion": "A real sandboxed browser verifies responsive behavior; absent actual browser evidence blocks responsive acceptance and the overall PASS.",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/style.css",
+                "Actual request contains no successful sandboxed-browser responsive result."
+              ],
+              "reason": "",
+              "verdict": "BLOCKED"
+            },
+            {
+              "correction": "",
+              "criterion": "A separately invoked qa-auditor assesses the original criteria, actual artifacts, and actual test receipts, returns precise corrections for defects, and never permits producing-agent self-approval.",
+              "evidence": [
+                "host-agent-tool:///root/v07_live_qa/initial-review",
+                "Producing author is web-application-director; this is a distinct qa-auditor invocation inspecting exact artifacts and actual checks."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            {
+              "correction": "",
+              "criterion": "All deliverables remain local; no deployment, publication, or external account action occurs.",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/index.html",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/470c50b0439206a6ba5c/app.js",
+                "All references are local; reviewed application code has no deployment/publication/account-action calls."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            }
+          ],
+          "test_rationale": "",
+          "tests": [
+            {
+              "command": "node test-app.js",
+              "reference": "check://342aafb1-fad1-4858-b7e5-442436f5f98d",
+              "result": "FAIL"
+            }
+          ]
+        },
+        "notes": "Independent initial QA rejected the controlled completed-filter defect. Actual check check://342aafb1-fad1-4858-b7e5-442436f5f98d exited 1 because completed results are empty. Return only the necessary correction to web-application-director and rerun the unchanged verifier. Responsive/browser acceptance remains BLOCKED; no overall PASS, successful CLI/API inference, browser success, tokens or cost is claimed.",
+        "verdict": "REWORK"
+      }
+    },
+    {
+      "id": "37a20397-a155-4205-86b8-09746b3e4a61",
+      "agent": "web-application-director",
+      "department": "web-development",
+      "stage": "SPECIALIST",
+      "cycle": 1,
+      "status": "COMPLETED",
+      "provider": "supervised-host-agent-tool",
+      "model": null,
+      "reference": "host-agent-tool:///root/v07_live_specialist/correction-stage",
+      "evidence_kind": "LIVE_HOST_MEDIATED",
+      "started_at": "2026-10-30T17:09:24.477606+00:00",
+      "finished_at": "2026-10-30T17:10:07.748082+00:00",
+      "duration_seconds": "43.2660268940017",
+      "output_sha256": "2ac70f9472811fdb78fa2f19b405f21c50cbd04de8d849464896635a9b85a141",
+      "summary": "Corrected the exact QA-rejected completed-filter predicate in app.js: completed filtering now selects tasks whose completed state is true. Preserved every other application byte and left the reviewed verifier unchanged. This is a correction ready for actual runtime retesting, not a test-pass or QA-approval claim.",
+      "limitations": [
+        "The previous actual Node check failed before later assertions were reached; the runtime must rerun the unchanged verifier against these corrected bytes.",
+        "Real sandboxed-browser verification remains unavailable; responsive and browser accessibility acceptance remain BLOCKED and overall PASS is not claimed.",
+        "No application or verifier code was executed by this specialist. No direct artifact/source edits, deployment, publication or external actions occurred.",
+        "This is an actual supervised host Agent-tool correction turn, not a successful Claude/Codex CLI or API test; model, tokens and billed cost are UNKNOWN."
+      ]
+    },
+    {
+      "id": "d0c9cf76-7c5f-4c7d-89ff-4ea139a019a2",
+      "agent": "qa-auditor",
+      "department": "quality",
+      "stage": "QA",
+      "cycle": 1,
+      "status": "COMPLETED",
+      "provider": "supervised-host-agent-tool",
+      "model": null,
+      "reference": "host-agent-tool:///root/v07_live_qa/corrected-review",
+      "evidence_kind": "LIVE_HOST_MEDIATED",
+      "started_at": "2026-10-30T17:10:09.044788+00:00",
+      "finished_at": "2026-10-30T17:11:11.013837+00:00",
+      "duration_seconds": "61.95977690700238",
+      "output_sha256": "b1f1ba9e1ad2c045f3948efdc0a611f161e29acce0f63547d7afddeae19285df",
+      "qa_result": {
+        "evidence": {
+          "checks": {
+            "accessibility": {
+              "correction": "Obtain actual responsive/accessibility verification from a correctly configured sandboxed browser; retain sandbox protections. No overall PASS until that evidence exists.",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/index.html",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/style.css",
+                "Labels, named navigation and live status exist in inspected markup; full real-browser accessibility verification is absent."
+              ],
+              "reason": "",
+              "verdict": "BLOCKED"
+            },
+            "accuracy_evidence": {
+              "correction": "",
+              "evidence": [
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/test-app.js",
+                "Current exit code is 0; old failed-byte check is retained only as history and is not cited as a current test."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "artifact_integrity": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/app.js sha256:312b36a0362f09d2debe90bfe7f83ce3e841c5f5bc923112b9af81dd080cb88d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/index.html sha256:80fbd407f17cd3c2d4c9127c7734f5982c1793c98f208839d1f03b3523dbdfa9",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/style.css sha256:24435eae555416303b703898aff3a4d9236590a68c517cbec1b59ae582cc0cfa",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/test-app.js sha256:9cedc1fa10a131506c967d57bdf95b14c7c6bc945d947e46207ea809fe9a4559",
+                "Independently recomputed current four exported artifact hashes; all match the new manifest."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "completeness": {
+              "correction": "Obtain actual responsive/accessibility verification from a correctly configured sandboxed browser; retain sandbox protections. No overall PASS until that evidence exists.",
+              "evidence": [
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/style.css"
+              ],
+              "reason": "",
+              "verdict": "BLOCKED"
+            },
+            "dependency_compatibility": {
+              "correction": "Obtain supported real-browser compatibility evidence without weakening sandbox controls.",
+              "evidence": [
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/index.html"
+              ],
+              "reason": "Node v22.23.4 executed the dependency-free application verifier successfully; browser compatibility remains unverified.",
+              "verdict": "BLOCKED"
+            },
+            "deployment_readiness": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/index.html"
+              ],
+              "reason": "No deployment was requested or authorized; deliverable is local-only and no deployment-readiness claim is made.",
+              "verdict": "NOT_APPLICABLE"
+            },
+            "documentation": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/index.html",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/test-app.js",
+                "Visible labels describe task operations; reviewed verifier comments identify local state/DOM-fixture checks and explicitly state browser limitations; exact command is recorded."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "functional_correctness": {
+              "correction": "",
+              "evidence": [
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/app.js",
+                "Controlled completed-filter defect is corrected; six actual local verifier assertions passed, with explicit browser limits."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "maintainability": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/app.js",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/test-app.js",
+                "Small standalone TaskStore is separated from DOM mounting; precise completed-filter correction preserved the unchanged verifier."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "missing_requirements": {
+              "correction": "Obtain actual responsive/accessibility verification from a correctly configured sandboxed browser; retain sandbox protections. No overall PASS until that evidence exists.",
+              "evidence": [
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/style.css"
+              ],
+              "reason": "Controlled functional defect has been resolved; actual responsive/browser evidence remains the unmet acceptance requirement.",
+              "verdict": "BLOCKED"
+            },
+            "output_quality": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/index.html",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/style.css",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/app.js",
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "Local page/form/filter structure and tested application behavior are coherent; responsive proof remains separately BLOCKED."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "performance": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/app.js"
+              ],
+              "reason": "No measurable performance requirement or benchmark target was supplied; no browser timing/performance result is claimed.",
+              "verdict": "NOT_APPLICABLE"
+            },
+            "reproducibility": {
+              "correction": "",
+              "evidence": [
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/test-app.js",
+                "Exact [node,test-app.js] invocation, exit 0, input hash 8fc7203a7d4e23341b68178d785d043324f22b15765c96f39e446390cddd3826 and unchanged reviewed verifier hash retained."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "responsive_behavior": {
+              "correction": "Obtain actual responsive/accessibility verification from a correctly configured sandboxed browser; retain sandbox protections. No overall PASS until that evidence exists.",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/style.css",
+                "Media query and responsive CSS exist, but no actual sandboxed browser/layout result establishes responsive behavior."
+              ],
+              "reason": "",
+              "verdict": "BLOCKED"
+            },
+            "security_permissions": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/app.js",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/index.html",
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "Literal title/textContent handling passed; application is local-only with no external publication/account actions."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "skill_use": {
+              "correction": "",
+              "evidence": [
+                ".claude/skills/master-workflow/SKILL.md",
+                "Current request supplies selected skill instructions; task/result record master-workflow and a separate correction/QA cycle."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            "source_freshness": {
+              "correction": "",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/app.js",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/index.html"
+              ],
+              "reason": "This dependency-free local application makes no changing external factual claims; external-source verification is not claimed.",
+              "verdict": "NOT_APPLICABLE"
+            },
+            "user_instructions": {
+              "correction": "Obtain actual responsive/accessibility verification from a correctly configured sandboxed browser; retain sandbox protections. No overall PASS until that evidence exists.",
+              "evidence": [
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/style.css"
+              ],
+              "reason": "Task operations and local-only scope are satisfied, but required browser-responsive acceptance remains unavailable.",
+              "verdict": "BLOCKED"
+            }
+          },
+          "criteria": [
+            {
+              "correction": "Obtain actual responsive/accessibility verification from a correctly configured sandboxed browser; retain sandbox protections. No overall PASS until that evidence exists.",
+              "criterion": "Responsive task page with add, complete, active/completed filtering, actual functional tests and separate QA; no deployment.",
+              "evidence": [
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/app.js",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/style.css"
+              ],
+              "reason": "Add/completion/filter behavior is corrected and locally verified; responsive/browser acceptance is still unverified.",
+              "verdict": "BLOCKED"
+            },
+            {
+              "correction": "",
+              "criterion": "Adding a nonempty task creates a visible active task; blank and oversized input is rejected.",
+              "evidence": [
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/test-app.js",
+                "Current-byte Node verifier passed task add/input handling plus actual app event handlers against an explicitly labeled DOM fixture."
+              ],
+              "reason": "This establishes local logic/DOM-fixture behavior, not browser layout.",
+              "verdict": "PASS"
+            },
+            {
+              "correction": "",
+              "criterion": "Marking a task completed changes its state and produces correct all, active, and completed filter results.",
+              "evidence": [
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/app.js",
+                "Corrected expression uses task.completed for completed filter; current-byte verifier passed add/toggle/all/active/completed operations."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            {
+              "correction": "",
+              "criterion": "Reloading restores saved tasks and completion states; unavailable or corrupt storage produces an explicit limitation.",
+              "evidence": [
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/test-app.js",
+                "Current-byte persistence assertion reloaded stored JSON/completion state; corrupt reads and denied writes were exercised."
+              ],
+              "reason": "Storage fixture verifies actual application persistence/error logic; real-browser localStorage behavior is not separately claimed.",
+              "verdict": "PASS"
+            },
+            {
+              "correction": "",
+              "criterion": "User-entered task titles render as text without executable HTML.",
+              "evidence": [
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/app.js",
+                "Current-byte security assertion passed literal user text; inspected render uses label.textContent and no innerHTML sink."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            {
+              "correction": "",
+              "criterion": "A reviewed functional verifier executes the task operations and records results bound to the exact delivered application and verifier bytes.",
+              "evidence": [
+                "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/test-app.js",
+                "Current workspace input hash 8fc7203a7d4e23341b68178d785d043324f22b15765c96f39e446390cddd3826; unchanged verifier SHA-256 9cedc1fa10a131506c967d57bdf95b14c7c6bc945d947e46207ea809fe9a4559; actual exit 0 and six passing assertions."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            {
+              "correction": "Obtain actual responsive/accessibility verification from a correctly configured sandboxed browser; retain sandbox protections. No overall PASS until that evidence exists.",
+              "criterion": "A real sandboxed browser verifies responsive behavior; absent actual browser evidence blocks responsive acceptance and the overall PASS.",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/style.css",
+                "No successful sandboxed real-browser responsive check is present; verifier explicitly limits DOM fixture evidence."
+              ],
+              "reason": "",
+              "verdict": "BLOCKED"
+            },
+            {
+              "correction": "",
+              "criterion": "A separately invoked qa-auditor assesses the original criteria, actual artifacts, and actual test receipts, returns precise corrections for defects, and never permits producing-agent self-approval.",
+              "evidence": [
+                "host-agent-tool:///root/v07_live_qa/corrected-review",
+                "Distinct qa-auditor context reviewed corrected producer artifacts and new check; previous REWORK requested the precise filter correction."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            },
+            {
+              "correction": "",
+              "criterion": "All deliverables remain local; no deployment, publication, or external account action occurs.",
+              "evidence": [
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/index.html",
+                "outputs/executions/2940f9aa-edf5-452f-a0ce-8affe0576c94/8fc7203a7d4e23341b68/app.js",
+                "Current artifacts remain local; inspected application code contains no deployment/publication/account-action mechanism."
+              ],
+              "reason": "",
+              "verdict": "PASS"
+            }
+          ],
+          "test_rationale": "",
+          "tests": [
+            {
+              "command": "node test-app.js",
+              "reference": "check://f522d9c9-087d-4b6d-a2f5-b84293ef410d",
+              "result": "PASS"
+            }
+          ]
+        },
+        "notes": "Independent corrected QA confirms the controlled completed-filter defect was fixed in actual app.js bytes and the unchanged verifier now passes (current check check://f522d9c9-087d-4b6d-a2f5-b84293ef410d, exit 0, six assertions). The overall task is NOT approved: actual sandboxed-browser responsive/accessibility/compatibility evidence is missing. This is a genuine separate supervised host Agent-tool review, not a successful Claude/Codex/API or browser test. Tokens, model identity and cost remain UNKNOWN.",
+        "verdict": "BLOCKED"
+      }
+    }
+  ],
+  "artifact_hashes": {
+    "examples/live-host-task-manager/app.js": "312b36a0362f09d2debe90bfe7f83ce3e841c5f5bc923112b9af81dd080cb88d",
+    "examples/live-host-task-manager/index.html": "80fbd407f17cd3c2d4c9127c7734f5982c1793c98f208839d1f03b3523dbdfa9",
+    "examples/live-host-task-manager/style.css": "24435eae555416303b703898aff3a4d9236590a68c517cbec1b59ae582cc0cfa",
+    "examples/live-host-task-manager/test-app.js": "9cedc1fa10a131506c967d57bdf95b14c7c6bc945d947e46207ea809fe9a4559"
+  }
+}
